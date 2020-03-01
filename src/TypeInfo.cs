@@ -53,9 +53,17 @@ namespace SharpChecker {
 		/// </summary>
 		public string fullDeclaration;
 		/// <summary>
+		/// The base type that the type is derived from
+		/// </summary>
+		public string baseType;
+		/// <summary>
 		/// The list of generic parameters in their full name as found in the code
 		/// </summary>
 		public string[] genericParameters;
+		/// <summary>
+		/// The list of information of the interfaces the type is implementing
+		/// </summary>
+		public InterfaceInfo[] interfaces;
 		
 		#endregion // Field Variables
 		
@@ -97,6 +105,7 @@ namespace SharpChecker {
 			// Variables
 			TypeInfo info = new TypeInfo();
 			string[] generics = GetGenericParametersString(type.GenericParameters.ToArray());
+			int i;
 			
 			info.unlocalizedName = type.FullName;
 			info.name = LocalizeName(type.Name, generics);
@@ -111,7 +120,7 @@ namespace SharpChecker {
 			else { info.objectType = "class"; }
 			// Modifier
 			if(type.IsValueType || type.IsInterface) { info.modifier = ""; }
-			else if(type.IsAnsiClass) { info.modifier = "static"; }
+			else if(type.IsSealed && type.IsAbstract) { info.modifier = "static"; }
 			else {
 				info.modifier = (type.IsSealed ?
 					"sealed" :
@@ -124,7 +133,12 @@ namespace SharpChecker {
 				$"{ info.objectType } " +
 				info.name
 			);
+			info.baseType = type.BaseType.FullName;
+			switch(info.baseType) {
+				case "System.Object": info.baseType = ""; break;
+			}
 			info.genericParameters = generics;
+			info.interfaces = InterfaceInfo.GenerateInterfaceInfoArray(type.Interfaces);
 			
 			return info;
 		}

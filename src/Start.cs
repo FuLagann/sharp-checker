@@ -2,7 +2,10 @@
 using System.IO;
 
 namespace SharpChecker {
-	public class Start {
+	/// <summary>
+	/// A static class used as the entry point for the program
+	/// </summary>
+	public static class Start {
 		#region Public Static Methods
 		
 		/// <summary>
