@@ -166,7 +166,7 @@ namespace SharpChecker {
 			}
 			info.genericParameters = generics;
 			info.interfaces = InterfaceInfo.GenerateInterfaceInfoArray(type.Interfaces);
-			info.methods = MethodInfo.GenerateMethodInfoArray(type.Methods);
+			info.methods = MethodInfo.GenerateMethodInfoArray(type);
 			
 			return info;
 		}
