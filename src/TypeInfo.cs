@@ -3,6 +3,10 @@ using Mono.Cecil;
 
 using Newtonsoft.Json;
 
+using System.IO;
+
+using Reflection = System.Reflection;
+
 namespace SharpChecker {
 	/// <summary>
 	/// All the important information pertaining to a type
@@ -64,6 +68,10 @@ namespace SharpChecker {
 		/// The list of information of the interfaces the type is implementing
 		/// </summary>
 		public InterfaceInfo[] interfaces;
+		/// <summary>
+		/// The list of information of the methods the type holds
+		/// </summary>
+		public MethodInfo[] methods;
 		
 		#endregion // Field Variables
 		
@@ -91,6 +99,26 @@ namespace SharpChecker {
 					}
 				}
 			}
+			try {
+				// Variables
+				System.Type sysType = System.Type.GetType(typePath, true);
+				AssemblyDefinition _asm = AssemblyDefinition.ReadAssembly(
+					sysType.Assembly.CodeBase.Replace("file:///", "")
+				);
+				
+				foreach(ModuleDefinition _module in _asm.Modules) {
+					// Variables
+					TypeDefinition _type = _module.GetType(typePath);
+					
+					if(_type != null) {
+						info = CreateTypeInfo(_asm, _type);
+						return true;
+					}
+				}
+			} catch(System.Exception e) {
+				System.Console.WriteLine(e);
+			}
+			
 			info = null;
 			return false;
 		}
@@ -105,7 +133,6 @@ namespace SharpChecker {
 			// Variables
 			TypeInfo info = new TypeInfo();
 			string[] generics = GetGenericParametersString(type.GenericParameters.ToArray());
-			int i;
 			
 			info.unlocalizedName = type.FullName;
 			info.name = LocalizeName(type.Name, generics);
@@ -133,12 +160,13 @@ namespace SharpChecker {
 				$"{ info.objectType } " +
 				info.name
 			);
-			info.baseType = type.BaseType.FullName;
+			info.baseType = type.BaseType != null ? type.BaseType.FullName : "";
 			switch(info.baseType) {
-				case "System.Object": info.baseType = ""; break;
+				case "System.Object": { info.baseType = ""; } break;
 			}
 			info.genericParameters = generics;
 			info.interfaces = InterfaceInfo.GenerateInterfaceInfoArray(type.Interfaces);
+			info.methods = MethodInfo.GenerateMethodInfoArray(type.Methods);
 			
 			return info;
 		}

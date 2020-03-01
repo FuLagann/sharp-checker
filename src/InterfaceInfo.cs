@@ -34,15 +34,15 @@ namespace SharpChecker {
 		/// <returns>Returns an array of interface infos</returns>
 		public static InterfaceInfo[] GenerateInterfaceInfoArray(Collection<InterfaceImplementation> interfaces) {
 			// Variables
-			InterfaceInfo[] infos = new InterfaceInfo[interfaces.Count];
+			InterfaceInfo[] results = new InterfaceInfo[interfaces.Count];
 			int i = 0;
 			
 			foreach(InterfaceImplementation iface in interfaces) {
-				infos[i] = GenerateInterfaceInfo(iface);
+				results[i] = GenerateInterfaceInfo(iface);
 				i++;
 			}
 			
-			return infos;
+			return results;
 		}
 		
 		/// <summary>

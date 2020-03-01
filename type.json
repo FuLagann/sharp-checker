@@ -1,0 +1,53 @@
+{
+  "unlocalizedName": "System.Object",
+  "name": "Object",
+  "fullName": "System.Object",
+  "namespaceName": "System",
+  "assemblyName": "System.Private.CoreLib",
+  "accessor": "public",
+  "modifier": "",
+  "objectType": "class",
+  "declaration": "public class Object",
+  "fullDeclaration": null,
+  "baseType": "",
+  "genericParameters": [],
+  "interfaces": [],
+  "methods": [
+    {
+      "name": "GetType",
+      "fullName": "System.Type System.Object::GetType()"
+    },
+    {
+      "name": "MemberwiseClone",
+      "fullName": "System.Object System.Object::MemberwiseClone()"
+    },
+    {
+      "name": ".ctor",
+      "fullName": "System.Void System.Object::.ctor()"
+    },
+    {
+      "name": "Finalize",
+      "fullName": "System.Void System.Object::Finalize()"
+    },
+    {
+      "name": "ToString",
+      "fullName": "System.String System.Object::ToString()"
+    },
+    {
+      "name": "Equals",
+      "fullName": "System.Boolean System.Object::Equals(System.Object)"
+    },
+    {
+      "name": "Equals",
+      "fullName": "System.Boolean System.Object::Equals(System.Object,System.Object)"
+    },
+    {
+      "name": "ReferenceEquals",
+      "fullName": "System.Boolean System.Object::ReferenceEquals(System.Object,System.Object)"
+    },
+    {
+      "name": "GetHashCode",
+      "fullName": "System.Int32 System.Object::GetHashCode()"
+    }
+  ]
+}
