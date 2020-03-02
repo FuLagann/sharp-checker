@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <Target Name="CopyDllToTest" AfterTargets="Build">
+	<Copy
+		SourceFiles="./bin/Debug/netstandard2.0/Dummy.Library3.dll"
+		DestinationFolder="../SharpChecker.Test/bin/Debug/netcoreapp3.0"
+	/>
+	<Message Text=" " Importance="high"/>
+	<Message
+		Text="Dummy Libary3 -> SharpChecker.Test bin\n"
+		Importance="high"
+	/>
+	<Message Text=" " Importance="high"/>
+  </Target>
+
+</Project>
