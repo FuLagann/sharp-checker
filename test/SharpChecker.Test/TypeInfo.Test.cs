@@ -1,4 +1,6 @@
 
+using System.IO;
+
 using Xunit;
 
 namespace SharpChecker.Testing {
@@ -27,6 +29,21 @@ namespace SharpChecker.Testing {
 					out info2
 				);
 			}));
+		}
+		
+		[Fact]
+		public void GenerateJson() {
+			// Variables
+			TypeInfo info;
+			string[] assemblies = new string[] {
+				"Dummy.Library1.dll",
+				"Dummy.Library2.dll",
+				"Dummy.Library3.dll"
+			};
+			
+			if(TypeInfo.GenerateTypeInfo(assemblies, "Dummy.Dummy1", out info)) {
+				File.WriteAllText("type.json", info.GetJson());
+			}
 		}
 	}
 }

@@ -6,12 +6,12 @@
   
   <Target Name="CopyDllToTest" AfterTargets="Build">
 	<Copy
-		SourceFiles="./bin/Debug/netstandard2.0/Dummy.Library1.dll"
+		SourceFiles="./$(OutputPath)/Dummy.Library1.dll"
 		DestinationFolder="../SharpChecker.Test/bin/Debug/netcoreapp3.0"
 	/>
 	<Message Text=" " Importance="high"/>
 	<Message
-		Text="Dummy Libary1 -> SharpChecker.Test bin"
+		Text="./$(OutputPath)/Dummy.Libary1.dll -> SharpChecker.Test bin"
 		Importance="high"
 	/>
 	<Message Text=" " Importance="high"/>

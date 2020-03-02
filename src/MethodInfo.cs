@@ -36,6 +36,10 @@ namespace SharpChecker {
 		/// The full name of the return type
 		/// </summary>
 		public string returnTypeFullName;
+		/// <summary>
+		/// All the parameters that the method contains
+		/// </summary>
+		public ParameterInfo[] parameters;
 		private bool isProperty;
 		
 		#endregion // Field Variables
@@ -148,7 +152,7 @@ namespace SharpChecker {
 				info.returnTypeFullName = "";
 				info.returnTypeName = "";
 			}
-			// TODO: Get Parameter info
+			info.parameters = ParameterInfo.GenerateParameterInfoArray(method.Parameters);
 			
 			return info;
 		}
