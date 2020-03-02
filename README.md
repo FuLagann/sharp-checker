@@ -42,7 +42,13 @@ SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
 
 The returning `type.json` returns a json of the following formats:
 
-`TypeInfo`:
+`TypeInfo`: TODO: Add formatting
+
+`InterfaceInfo`: TODO: Add formatting
+
+`MethodInfo`: TODO: Add formatting
+
+`ParameterInfo`: TODO: Add formatting
 
 Example:
 
