@@ -44,35 +44,23 @@ The returning `type.json` returns a json of the following formats:
 
 `TypeInfo`:
 
+Example:
+
 ```json
 {
-	// The unlocalized name that is used to find the type within the .NET library / application
 	"unlocalizeName": "Dummy.DummyClass`1",
-	// The name of the type in a more readable way
 	"name": "DummyClass<T>",
-	// The full name of the type (namespace + name)
 	"fullName": "Dummy.DummyClass<T>",
-	// The namespace of the type
 	"namespaceName": "Dummy",
-	// The name of the library / application
 	"assemblyName": "DummyLibrary",
-	// The access of the type (public or private)
 	"accessor": "public",
-	// The modifiers of the type (static, abstract, sealed, etc)
 	"modifier": "abstract",
-	// The object type of the type (class, struct, enum, or interface)
 	"objectType": "class",
-	// The declaration of the type as if found in the code
 	"declaration": "public class DummyClass<T>",
-	// The full declaration of the type as if found in the code
 	"fullDeclaration": "public class DummyClass<T> : IDummy",
-	// The base type of the type
 	"baseType": "",
-	// The list of names of the generic parameters
 	"genericParameters": ["T"],
-	// The list of interfaces found from the type
-	"interfaces": [/* InterfaceInfo */],
-	// The list of methods found from the type
-	"methods": [/* MethodInfo */]
+	"interfaces": [],
+	"methods": []
 }
 ```
