@@ -36,8 +36,7 @@ namespace SharpChecker {
 			int i = 0;
 			
 			foreach(ParameterDefinition parameter in parameters) {
-				results[i] = GenerateInfo(method, parameter);
-				i++;
+				results[i++] = GenerateInfo(method, parameter);
 			}
 			
 			return results;

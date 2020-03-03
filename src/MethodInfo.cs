@@ -36,6 +36,7 @@ namespace SharpChecker {
 		/// All the parameters that the method contains
 		/// </summary>
 		public ParameterInfo[] parameters;
+		public AttributeInfo[] attributes;
 		public bool isStatic;
 		private bool isProperty;
 		
@@ -123,8 +124,7 @@ namespace SharpChecker {
 			int i = 0;
 			
 			foreach(MethodDefinition method in methods) {
-				results[i] = GenerateInfo(method);
-				i++;
+				results[i++] = GenerateInfo(method);
 			}
 			
 			return results;
@@ -155,6 +155,7 @@ namespace SharpChecker {
 			}
 			info.parameters = ParameterInfo.GenerateInfoArray(method, method.Parameters);
 			info.isStatic = method.IsStatic;
+			info.attributes = AttributeInfo.GenerateInfoArray(method.CustomAttributes);
 			
 			return info;
 		}

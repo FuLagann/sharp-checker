@@ -27,8 +27,7 @@ namespace SharpChecker {
 			int i = 0;
 			
 			foreach(InterfaceImplementation iface in interfaces) {
-				results[i] = GenerateInfo(iface);
-				i++;
+				results[i++] = GenerateInfo(iface);
 			}
 			
 			return results;
