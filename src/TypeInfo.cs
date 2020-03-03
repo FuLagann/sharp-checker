@@ -15,21 +15,9 @@ namespace SharpChecker {
 		#region Field Variables
 		// Variables
 		/// <summary>
-		/// The unlocalized name that can be found in the dll or xml documentation
+		/// All the type information to identify the type
 		/// </summary>
-		public string unlocalizedName;
-		/// <summary>
-		/// A human readable name of the type
-		/// </summary>
-		public string name;
-		/// <summary>
-		/// A human readable name of the type including it's namespace
-		/// </summary>
-		public string fullName;
-		/// <summary>
-		/// The namespace where the type came from
-		/// </summary>
-		public string namespaceName;
+		public QuickTypeInfo typeInfo;
 		/// <summary>
 		/// The assembly where the type came from
 		/// </summary>
@@ -72,6 +60,7 @@ namespace SharpChecker {
 		/// The list of information of the methods the type holds
 		/// </summary>
 		public MethodInfo[] methods;
+		public MethodInfo[] staticMethods;
 		
 		#endregion // Field Variables
 		
@@ -94,7 +83,7 @@ namespace SharpChecker {
 					TypeDefinition type = module.GetType(typePath);
 					
 					if(type != null) {
-						info = CreateTypeInfo(asm, type);
+						info = GenerateInfo(asm, type);
 						return true;
 					}
 				}
@@ -111,7 +100,7 @@ namespace SharpChecker {
 					TypeDefinition _type = _module.GetType(typePath);
 					
 					if(_type != null) {
-						info = CreateTypeInfo(_asm, _type);
+						info = GenerateInfo(_asm, _type);
 						return true;
 					}
 				}
@@ -129,15 +118,12 @@ namespace SharpChecker {
 		/// <param name="asm">The assembly definition to get more information out of</param>
 		/// <param name="type">The type definition to get information from</param>
 		/// <returns>Returns the type information</returns>
-		public static TypeInfo CreateTypeInfo(AssemblyDefinition asm, TypeDefinition type) {
+		public static TypeInfo GenerateInfo(AssemblyDefinition asm, TypeDefinition type) {
 			// Variables
 			TypeInfo info = new TypeInfo();
 			string[] generics = GetGenericParametersString(type.GenericParameters.ToArray());
 			
-			info.unlocalizedName = type.FullName;
-			info.name = LocalizeName(type.Name, generics);
-			info.fullName = LocalizeName(type.FullName, generics);
-			info.namespaceName = type.Namespace;
+			info.typeInfo = QuickTypeInfo.GenerateInfo(type);
 			info.assemblyName = asm.Name.Name;
 			info.accessor = type.IsPublic ? "public" : "private";
 			// ObjectType
@@ -158,15 +144,16 @@ namespace SharpChecker {
 				$"{ info.accessor } " +
 				$"{ (info.modifier != "" ? info.modifier + " " : "") }" +
 				$"{ info.objectType } " +
-				info.name
+				info.typeInfo.name
 			);
 			info.baseType = type.BaseType != null ? type.BaseType.FullName : "";
 			switch(info.baseType) {
 				case "System.Object": { info.baseType = ""; } break;
 			}
 			info.genericParameters = generics;
-			info.interfaces = InterfaceInfo.GenerateInterfaceInfoArray(type.Interfaces);
-			info.methods = MethodInfo.GenerateMethodInfoArray(type);
+			info.interfaces = InterfaceInfo.GenerateInfoArray(type.Interfaces);
+			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
+			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
 			
 			return info;
 		}
@@ -177,6 +164,10 @@ namespace SharpChecker {
 		/// <param name="generics">The generic parameters to convert</param>
 		/// <returns>Returns an array of strings of the generic parameter names</returns>
 		public static string[] GetGenericParametersString(GenericParameter[] generics) {
+			if(generics == null) {
+				return new string[0];
+			}
+			
 			// Variables
 			string[] results = new string[generics.Length];
 			

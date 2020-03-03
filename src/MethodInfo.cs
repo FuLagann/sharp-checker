@@ -29,30 +29,29 @@ namespace SharpChecker {
 		/// </summary>
 		public string partialName;
 		/// <summary>
-		/// The name of the return type
+		/// The information of the return type
 		/// </summary>
-		public string returnTypeName;
-		/// <summary>
-		/// The full name of the return type
-		/// </summary>
-		public string returnTypeFullName;
+		public QuickTypeInfo returnType;
 		/// <summary>
 		/// All the parameters that the method contains
 		/// </summary>
 		public ParameterInfo[] parameters;
+		public bool isStatic;
 		private bool isProperty;
 		
 		#endregion // Field Variables
 		
 		#region Public Static Methods
 		
-		/// <summary>
-		/// Generates an array of method infos from the collection of method definitions with recursive inheritance checking
-		/// </summary>
-		/// <param name="methods">The collection of method definitions</param>
-		/// <param name="type">The type to check</param>
-		/// <returns>Returns an array of method infos</returns>
-		public static MethodInfo[] GenerateMethodInfoArray(TypeDefinition type) {
+		public static MethodInfo[] GenerateInfoArray(TypeDefinition type, bool rec, bool isStatic) {
+			if(!rec) {
+				MethodInfo[] results = GenerateInfoArray(type.Methods);
+				
+				RemoveUnwanted(ref results, isStatic);
+				
+				return results;
+			}
+			
 			// Variables
 			List<MethodInfo> methods = new List<MethodInfo>();
 			MethodInfo[] temp;
@@ -60,8 +59,8 @@ namespace SharpChecker {
 			TypeReference baseType;
 			
 			while(currType != null) {
-				temp = GenerateMethodInfoArray(currType.Methods);
-				RemoveProperties(ref temp);
+				temp = GenerateInfoArray(currType.Methods);
+				RemoveUnwanted(ref temp, isStatic);
 				if(currType != type) {
 					RemoveDuplicates(ref temp, methods);
 				}
@@ -76,12 +75,15 @@ namespace SharpChecker {
 			return methods.ToArray();
 		}
 		
-		public static void RemoveProperties(ref MethodInfo[] temp) {
+		public static void RemoveUnwanted(ref MethodInfo[] temp, bool isStatic) {
 			// Variables
 			List<MethodInfo> methods = new List<MethodInfo>(temp);
 			
 			for(int i = temp.Length - 1; i >= 0; i--) {
 				if(methods[i].isProperty) {
+					methods.RemoveAt(i);
+				}
+				else if(methods[i].isStatic != isStatic) {
 					methods.RemoveAt(i);
 				}
 			}
@@ -115,13 +117,13 @@ namespace SharpChecker {
 		/// </summary>
 		/// <param name="methods">The collection of method definitions</param>
 		/// <returns>Returns an array of method infos</returns>
-		public static MethodInfo[] GenerateMethodInfoArray(Collection<MethodDefinition> methods) {
+		public static MethodInfo[] GenerateInfoArray(Collection<MethodDefinition> methods) {
 			// Variables
 			MethodInfo[] results = new MethodInfo[methods.Count];
 			int i = 0;
 			
 			foreach(MethodDefinition method in methods) {
-				results[i] = GenerateMethodInfo(method);
+				results[i] = GenerateInfo(method);
 				i++;
 			}
 			
@@ -133,7 +135,7 @@ namespace SharpChecker {
 		/// </summary>
 		/// <param name="method">The method information to look into</param>
 		/// <returns>Returns a method info of the method definition provided</returns>
-		public static MethodInfo GenerateMethodInfo(MethodDefinition method) {
+		public static MethodInfo GenerateInfo(MethodDefinition method) {
 			// Variables
 			MethodInfo info = new MethodInfo();
 			
@@ -146,13 +148,13 @@ namespace SharpChecker {
 				"$1"
 			);
 			info.fullName = method.FullName;
-			info.returnTypeFullName = method.ReturnType.FullName;
-			info.returnTypeName = method.ReturnType.Name;
-			if(info.returnTypeFullName == "System.Void") {
-				info.returnTypeFullName = "";
-				info.returnTypeName = "";
+			info.returnType = QuickTypeInfo.GenerateInfo(method.ReturnType);
+			if(info.returnType.fullName == "System.Void") {
+				info.returnType.fullName = "";
+				info.returnType.name = "";
 			}
-			info.parameters = ParameterInfo.GenerateParameterInfoArray(method.Parameters);
+			info.parameters = ParameterInfo.GenerateInfoArray(method, method.Parameters);
+			info.isStatic = method.IsStatic;
 			
 			return info;
 		}

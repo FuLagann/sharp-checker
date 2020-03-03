@@ -1,6 +1,6 @@
 
 namespace Dummy {
-	public class Dummy1 {
+	public class DummyClass<T> : IDummy {
 		#region Field Variables
 		// Variables
 		public string variable1;
@@ -13,9 +13,9 @@ namespace Dummy {
 		
 		#region Public Constructors
 		
-		public Dummy1(double parameter1) {
+		public DummyClass(double parameter1, T parameter2) {
 			this.variable1 = parameter1.ToString("X2");
-			this.variable2 = parameter1;
+			this.variable2 = parameter2;
 			this.variable3 = 10;
 		}
 		

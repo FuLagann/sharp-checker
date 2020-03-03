@@ -13,7 +13,7 @@ namespace SharpChecker.Testing {
 			
 			TypeInfo.GenerateTypeInfo(
 				new string[] { "Dummy.Library1.dll" },
-				"Dummy.Dummy1",
+				"Dummy.DummyClass`1",
 				out info
 			);
 			Assert.NotNull(info);
@@ -41,12 +41,9 @@ namespace SharpChecker.Testing {
 				"Dummy.Library3.dll"
 			};
 			
-			if(TypeInfo.GenerateTypeInfo(assemblies, "Dummy.Dummy1", out info)) {
+			if(TypeInfo.GenerateTypeInfo(assemblies, "Dummy.DummyStruct", out info)) {
 				File.WriteAllText("type.json", info.GetJson());
 				Assert.True(File.Exists("type.json"));
-			}
-			else {
-				Assert.False(File.Exists("type.json"));
 			}
 		}
 	}
