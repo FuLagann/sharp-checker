@@ -8,6 +8,7 @@ namespace Dummy {
 			return true;
 		}
 		
+		[Dummy("Henlo", "Goobey", val="Hello", HasValue=true)]
 		public static void Create(ref DummyClass<DummyStruct> s, out DummyStruct b) {
 			
 		}

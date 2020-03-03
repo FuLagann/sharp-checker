@@ -6,7 +6,8 @@ namespace SharpChecker {
 	public class AttributeInfo {
 		// Variables
 		public QuickTypeInfo typeInfo;
-		public AttributeFieldInfo[] fields;
+		public AttributeFieldInfo[] constructorArgs;
+		public AttributeFieldInfo[] properties;
 		
 		public static AttributeInfo[] GenerateInfoArray(Collection<CustomAttribute> attrs) {
 			// Variables
@@ -26,12 +27,29 @@ namespace SharpChecker {
 			int i = 0;
 			
 			info.typeInfo = QuickTypeInfo.GenerateInfo(attr.AttributeType);
-			info.fields = new AttributeFieldInfo[attr.Fields.Count];
+			info.constructorArgs = new AttributeFieldInfo[attr.ConstructorArguments.Count];
+			foreach(CustomAttributeArgument arg in attr.ConstructorArguments) {
+				info.constructorArgs[i] = new AttributeFieldInfo();
+				info.constructorArgs[i].typeInfo = QuickTypeInfo.GenerateInfo(arg.Type);
+				info.constructorArgs[i].name = attr.Constructor.Parameters[i].Name;
+				info.constructorArgs[i++].value = $"{ arg.Value }";
+			}
+			i = 0;
+			info.properties = new AttributeFieldInfo[
+				attr.Fields.Count +
+				attr.Properties.Count
+			];
 			foreach(CustomAttributeNamedArgument field in attr.Fields) {
-				info.fields[i] = new AttributeFieldInfo();
-				info.fields[i].typeInfo = QuickTypeInfo.GenerateInfo(field.Argument.Type);
-				info.fields[i].name = field.Name;
-				info.fields[i++].value = $"{ field.Argument.Value }";
+				info.properties[i] = new AttributeFieldInfo();
+				info.properties[i].typeInfo = QuickTypeInfo.GenerateInfo(field.Argument.Type);
+				info.properties[i].name = field.Name;
+				info.properties[i++].value = $"{ field.Argument.Value }";
+			}
+			foreach(CustomAttributeNamedArgument property in attr.Properties) {
+				info.properties[i] = new AttributeFieldInfo();
+				info.properties[i].typeInfo = QuickTypeInfo.GenerateInfo(property.Argument.Type);
+				info.properties[i].name = property.Name;
+				info.properties[i++].value = $"{ property.Argument.Value }";
 			}
 			
 			return info;
