@@ -51,22 +51,32 @@ namespace SharpChecker {
 			info.typeInfo = QuickTypeInfo.GenerateInfo(
 				parameter.ParameterType.Resolve() ?? parameter.ParameterType
 			);
+			info.attributes = AttributeInfo.GenerateInfoArray(parameter.CustomAttributes);
 			
 			if(parameter.IsIn) { info.modifier = "in"; }
 			else if(parameter.IsOut) { info.modifier = "out"; }
 			else if(parameter.ParameterType.IsByReference) {
 				info.modifier = "ref";
 			}
-			else if(parameter.Sequence > 0) {
+			else if(HasParamsAttribute(info.attributes)) {
 				info.modifier = "params";
 			}
 			else { info.modifier = ""; }
 			info.isOptional = parameter.IsOptional;
 			info.defaultValue = $"{ parameter.Constant }";
 			info.genericParameterDeclarations = QuickTypeInfo.GetGenericParametersAsStrings(parameter.ParameterType.FullName);
-			info.attributes = AttributeInfo.GenerateInfoArray(parameter.CustomAttributes);
 			
 			return info;
+		}
+		
+		public static bool HasParamsAttribute(AttributeInfo[] attrs) {
+			foreach(AttributeInfo attr in attrs) {
+				if(attr.typeInfo.unlocalizedName == "System.ParamArrayAttribute") {
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
 		#endregion // Public Static Methods
