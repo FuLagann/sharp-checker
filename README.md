@@ -40,9 +40,13 @@ SharpChecker Dummy.DummyClass-1 DummyLibrary.dll SecondDummyLibrary.dll
 SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
 ```
 
-The returning `type.json` returns a json of the following formats:
+The returning json will be of the of the following formats (with `TypeInfo` being the main type):
 
 ### TypeInfo
+
+TODO: Add formatting
+
+### AttributeInfo
 
 TODO: Add formatting
 
