@@ -89,7 +89,14 @@ namespace SharpChecker {
 			unlocalizedName = (index == -1 ? typeFullName : typeFullName.Substring(0, index));
 			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName, generics), pattern, "");
 			namespaceName = typeNamespace;
-			name = (namespaceName == "" ? fullName : fullName.Remove(0, namespaceName.Length + 1));
+			name = DeleteNamespacesInGenerics(fullName);
+		}
+		
+		public static string DeleteNamespacesInGenerics(string name) {
+			// Variables
+			const string _pattern = @"([a-zA-Z0-9]+\.)+";
+			
+			return Regex.Replace(name, _pattern, "").Replace(",", ", ");
 		}
 		
 		public static string[] GetGenericParametersAsStrings(string fullName) {

@@ -5,8 +5,12 @@ namespace Dummy {
 		string Variable2 { get; }
 	}
 	
+	public interface IDummy2<T> {
+		
+	}
+
 }
 
-public interface IDummy2<T> {
+public interface IDummy3 : System.IDisposable {
 	
 }

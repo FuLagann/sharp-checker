@@ -48,7 +48,8 @@ namespace SharpChecker {
 		/// <summary>
 		/// The base type that the type is derived from
 		/// </summary>
-		public string baseType;
+		public QuickTypeInfo baseType;
+		public AttributeInfo[] attributes;
 		/// <summary>
 		/// The list of information of the interfaces the type is implementing
 		/// </summary>
@@ -124,8 +125,8 @@ namespace SharpChecker {
 			info.assemblyName = asm.Name.Name;
 			info.accessor = type.IsPublic ? "public" : "private";
 			// ObjectType
-			if(type.IsValueType) { info.objectType = "struct"; }
-			else if(type.IsEnum) { info.objectType = "enum"; }
+			if(type.IsEnum) { info.objectType = "enum"; }
+			else if(type.IsValueType) { info.objectType = "struct"; }
 			else if(type.IsInterface) { info.objectType = "interface"; }
 			else { info.objectType = "class"; }
 			// Modifier
@@ -143,17 +144,55 @@ namespace SharpChecker {
 				$"{ info.objectType } " +
 				info.typeInfo.name
 			);
-			info.baseType = type.BaseType != null ? type.BaseType.FullName : "";
-			switch(info.baseType) {
-				case "System.Object": { info.baseType = ""; } break;
-				case "System.ValueType": { info.baseType = ""; } break;
+			info.attributes = AttributeInfo.GenerateInfoArray(type.CustomAttributes);
+			if(type.BaseType != null) {
+				switch(type.BaseType.FullName) {
+					case "System.Enum":
+					case "System.ValueType":
+					case "System.Object": {
+						info.baseType = new QuickTypeInfo();
+						info.baseType.unlocalizedName = "";
+						info.baseType.name = "";
+						info.baseType.fullName = "";
+						info.baseType.namespaceName = "";
+						info.baseType.genericParameters = new GenericParametersInfo[0];
+					} break;
+					default: {
+						info.baseType = QuickTypeInfo.GenerateInfo(type.BaseType);
+					} break;
+				}
+			}
+			else {
+				info.baseType = new QuickTypeInfo();
+				info.baseType.unlocalizedName = "";
+				info.baseType.name = "";
+				info.baseType.fullName = "";
+				info.baseType.namespaceName = "";
+				info.baseType.genericParameters = new GenericParametersInfo[0];
 			}
 			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
-			// TODO: Complete info.fullDeclaration
+			info.fullDeclaration = GetFullDeclaration(info, type);
 			
 			return info;
+		}
+		
+		public static string GetFullDeclaration(TypeInfo info, TypeDefinition type) {
+			// Variables
+			bool hasInheritance = (info.baseType.fullName != "" || info.interfaces.Length > 0);
+			string decl = info.declaration + (hasInheritance ? " : " : "");
+			
+			if(info.baseType.fullName != "") {
+				decl += info.baseType.name + (info.interfaces.Length > 0 ? ", " : "");
+			}
+			if(info.interfaces.Length > 0) {
+				for(int i = 0; i < info.interfaces.Length; i++) {
+					decl += info.interfaces[i].name + (i != info.interfaces.Length - 1 ? ", " : "");
+				}
+			}
+			
+			return decl;
 		}
 		
 		public static QuickTypeInfo[] GenerateInteraceInfoArray(Collection<InterfaceImplementation> interfaces) {
