@@ -23,7 +23,7 @@ namespace SharpChecker {
 		public string modifier;
 		public bool isOptional;
 		public string defaultValue;
-		public string[] genericParameters;
+		public string[] genericParameterDeclarations;
 		public AttributeInfo[] attributes;
 		
 		#endregion // Field Variables
@@ -63,36 +63,10 @@ namespace SharpChecker {
 			else { info.modifier = ""; }
 			info.isOptional = parameter.IsOptional;
 			info.defaultValue = $"{ parameter.Constant }";
-			info.genericParameters = GetGenericParameters(parameter.ParameterType.FullName);
+			info.genericParameterDeclarations = QuickTypeInfo.GetGenericParametersAsStrings(parameter.ParameterType.FullName);
 			info.attributes = AttributeInfo.GenerateInfoArray(parameter.CustomAttributes);
 			
 			return info;
-		}
-		
-		public static string[] GetGenericParameters(string fullName) {
-			// Variables
-			int lt = fullName.IndexOf('<');
-			if(lt == -1) {
-				return new string[0];
-			}
-			const string pattern = @"`\d+";
-			List<string> results = new List<string>();
-			int gt = fullName.LastIndexOf('>');
-			int scope = 0;
-			int curr = lt + 1;
-			
-			for(int i = curr; i < gt; i++) {
-				if(fullName[i] == '<') { scope++; }
-				else if(fullName[i] == '>') { scope--; }
-				else if(fullName[i] == ',' && scope == 0) {
-					results.Add(Regex.Replace(fullName.Substring(curr, i - curr), pattern, ""));
-					curr = i + 1;
-				}
-			}
-			
-			results.Add(Regex.Replace(fullName.Substring(curr, gt - curr), pattern, ""));
-			
-			return results.ToArray();
 		}
 		
 		#endregion // Public Static Methods

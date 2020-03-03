@@ -1,5 +1,6 @@
 
 using Mono.Cecil;
+using Mono.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -49,13 +50,9 @@ namespace SharpChecker {
 		/// </summary>
 		public string baseType;
 		/// <summary>
-		/// The list of generic parameters in their full name as found in the code
-		/// </summary>
-		public string[] genericParameters;
-		/// <summary>
 		/// The list of information of the interfaces the type is implementing
 		/// </summary>
-		public InterfaceInfo[] interfaces;
+		public QuickTypeInfo[] interfaces;
 		/// <summary>
 		/// The list of information of the methods the type holds
 		/// </summary>
@@ -149,13 +146,26 @@ namespace SharpChecker {
 			info.baseType = type.BaseType != null ? type.BaseType.FullName : "";
 			switch(info.baseType) {
 				case "System.Object": { info.baseType = ""; } break;
+				case "System.ValueType": { info.baseType = ""; } break;
 			}
-			info.genericParameters = generics;
-			info.interfaces = InterfaceInfo.GenerateInfoArray(type.Interfaces);
+			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
+			// TODO: Complete info.fullDeclaration
 			
 			return info;
+		}
+		
+		public static QuickTypeInfo[] GenerateInteraceInfoArray(Collection<InterfaceImplementation> interfaces) {
+			// Variables
+			QuickTypeInfo[] results = new QuickTypeInfo[interfaces.Count];
+			int i = 0;
+			
+			foreach(InterfaceImplementation iface in interfaces) {
+				results[i++] = QuickTypeInfo.GenerateInfo(iface.InterfaceType);
+			}
+			
+			return results;
 		}
 		
 		/// <summary>

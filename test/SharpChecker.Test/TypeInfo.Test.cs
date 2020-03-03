@@ -41,10 +41,12 @@ namespace SharpChecker.Testing {
 				"Dummy.Library3.dll"
 			};
 			
+			if(File.Exists("type.json")) { File.Delete("type.json"); }
+			
 			if(TypeInfo.GenerateTypeInfo(assemblies, "Dummy.DummyStruct", out info)) {
 				File.WriteAllText("type.json", info.GetJson());
-				Assert.True(File.Exists("type.json"));
 			}
+			Assert.True(File.Exists("type.json"));
 		}
 	}
 }

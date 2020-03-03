@@ -3,14 +3,16 @@ using System;
 using System.Collections.Generic;
 
 namespace Dummy {
-	public struct DummyStruct : IEquatable<DummyStruct> {
+	public struct DummyStruct : IDummy, IDummer<DummyStruct>, IEquatable<DummyStruct> {
+		public string Variable2 { get; set; }
+		
 		public bool Equals(DummyStruct other) {
 			return true;
 		}
 		
 		[Dummy("Henlo", "Goobey", val="Hello", HasValue=true)]
 		public static void Create(ref DummyClass<DummyStruct> s, out DummyStruct b) {
-			
+			b = new DummyStruct();
 		}
 		
 		[System.Obsolete]
