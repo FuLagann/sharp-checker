@@ -125,6 +125,7 @@ namespace SharpChecker {
 					info = new GenericParametersInfo();
 					info.name = Regex.Replace(fullName.Substring(curr, i - curr), pattern, "");
 					info.constraints = new QuickTypeInfo[0];
+					info.unlocalizedName = GenericParametersInfo.UnlocalizeName(info.name);
 					results.Add(info);
 					curr = i + 1;
 				}
@@ -133,6 +134,7 @@ namespace SharpChecker {
 			info = new GenericParametersInfo();
 			info.name = Regex.Replace(fullName.Substring(curr, gt - curr), pattern, "");
 			info.constraints = new QuickTypeInfo[0];
+			info.unlocalizedName = GenericParametersInfo.UnlocalizeName(info.name);
 			results.Add(info);
 			
 			return results.ToArray();

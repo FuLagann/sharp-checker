@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace Dummy {
-	public struct DummyStruct : IDummy, IDummer<DummyStruct>, IEquatable<DummyStruct> {
+	public struct DummyStruct : IDummy, IDummer<List<DummyStruct>>, IEquatable<DummyStruct> {
 		public string Variable2 { get; set; }
 		
 		public bool Equals(DummyStruct other) {

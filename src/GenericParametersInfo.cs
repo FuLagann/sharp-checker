@@ -5,6 +5,7 @@ using Mono.Collections.Generic;
 namespace SharpChecker {
 	public class GenericParametersInfo {
 		// Variables
+		public string unlocalizedName;
 		public string name;
 		public QuickTypeInfo[] constraints;
 		
@@ -25,6 +26,7 @@ namespace SharpChecker {
 			GenericParametersInfo info = new GenericParametersInfo();
 			int i = 0;
 			
+			info.unlocalizedName = UnlocalizeName(generic.Name);
 			info.name = generic.Name;
 			info.constraints = new QuickTypeInfo[generic.Constraints.Count];
 			foreach(GenericParameterConstraint constraint in generic.Constraints) {
@@ -32,6 +34,25 @@ namespace SharpChecker {
 			}
 			
 			return info;
+		}
+		
+		public static string UnlocalizeName(string name) {
+			// Variables
+			int lt = name.IndexOf('<');
+			if(lt == -1) {
+				return name;
+			}
+			int gt = name.LastIndexOf('>');
+			int scope = 0;
+			int count = 1;
+			
+			for(int i = lt + 1; i < gt; i++) {
+				if(name[i] == '<') { scope++; }
+				else if(name[i] == '>') { scope--; }
+				else if(name[i] == ',' && scope == 0) { count++; }
+			}
+			
+			return $"{ name.Substring(0, lt) }`{ count }";
 		}
 	}
 }
