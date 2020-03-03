@@ -24,6 +24,7 @@ namespace SharpChecker {
 		public bool isOptional;
 		public string defaultValue;
 		public string[] genericParameters;
+		public AttributeInfo[] attributes;
 		
 		#endregion // Field Variables
 		
@@ -63,6 +64,7 @@ namespace SharpChecker {
 			info.isOptional = parameter.IsOptional;
 			info.defaultValue = $"{ parameter.Constant }";
 			info.genericParameters = GetGenericParameters(parameter.ParameterType.FullName);
+			info.attributes = AttributeInfo.GenerateInfoArray(parameter.CustomAttributes);
 			
 			return info;
 		}
