@@ -60,6 +60,7 @@ namespace SharpChecker {
 		/// </summary>
 		public MethodInfo[] methods;
 		public MethodInfo[] staticMethods;
+		internal static string assemblyUsed = "";
 		
 		#endregion // Field Variables
 		
@@ -82,6 +83,7 @@ namespace SharpChecker {
 					TypeDefinition type = module.GetType(typePath);
 					
 					if(type != null) {
+						assemblyUsed = assembly;
 						info = GenerateInfo(asm, type);
 						return true;
 					}

@@ -29,6 +29,22 @@ namespace SharpChecker {
 		public string namespaceName;
 		public GenericParametersInfo[] genericParameters;
 		private const string pattern = @"`\d+";
+		private static readonly Dictionary<string, string> changes = new Dictionary<string, string>(new KeyValuePair<string, string>[] {
+			new KeyValuePair<string, string>("System.Byte", "byte"),
+			new KeyValuePair<string, string>("System.SByte", "sbyte"),
+			new KeyValuePair<string, string>("System.UInt16", "ushort"),
+			new KeyValuePair<string, string>("System.Int16", "short"),
+			new KeyValuePair<string, string>("System.UInt32", "uint"),
+			new KeyValuePair<string, string>("System.Int32", "int"),
+			new KeyValuePair<string, string>("System.UInt64", "ulong"),
+			new KeyValuePair<string, string>("System.Int64", "long"),
+			new KeyValuePair<string, string>("System.Single", "float"),
+			new KeyValuePair<string, string>("System.Double", "double"),
+			new KeyValuePair<string, string>("System.Decimal", "decimal"),
+			new KeyValuePair<string, string>("System.String", "string"),
+			new KeyValuePair<string, string>("System.Object", "object"),
+			new KeyValuePair<string, string>("System.Void", "void")
+		});
 		
 		#endregion // Field Variables
 		
@@ -89,43 +105,25 @@ namespace SharpChecker {
 			unlocalizedName = (index == -1 ? typeFullName : typeFullName.Substring(0, index));
 			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName, generics), pattern, "");
 			namespaceName = typeNamespace;
-			name = DeleteNamespacesInGenerics(fullName);
-			name = MakeNameFriendly(fullName);
+			name = DeleteNamespacesInGenerics(MakeNameFriendly(fullName), namespaceName);
 		}
 		
 		public static string MakeNameFriendly(string name) {
 			// Variables
 			string temp = name;
-			bool endsWith = name.EndsWith("[]");
 			
-			if(endsWith) {
-				temp = temp.Substring(0, temp.Length - 2);
-			}
-			switch(temp) {
-				case "System.Byte": { temp = "byte"; } break;
-				case "System.SByte": { temp = "sbyte"; } break;
-				case "System.UInt16": { temp = "ushort"; } break;
-				case "System.Int16": { temp = "short"; } break;
-				case "System.UInt32": { temp = "uint"; } break;
-				case "System.Int32": { temp = "int"; } break;
-				case "System.UInt64": { temp = "ulong"; } break;
-				case "System.Int64": { temp = "long"; } break;
-				case "System.Single": { temp = "float"; } break;
-				case "System.Double": { temp = "double"; } break;
-				case "System.Decimal": { temp = "decimal"; } break;
-				case "System.String": { temp = "string"; } break;
-				case "System.Object": { temp = "object"; } break;
-				case "System.Void": return "void";
+			foreach(KeyValuePair<string, string> keyval in changes) {
+				temp = temp.Replace(keyval.Key, keyval.Value);
 			}
 			
-			return temp + (endsWith ? "[]" : "");
+			return temp;
 		}
 		
-		public static string DeleteNamespacesInGenerics(string name) {
-			// Variables
-			const string _pattern = @"([a-zA-Z0-9]+\.)+";
-			
-			return Regex.Replace(name, _pattern, "").Replace(",", ", ");
+		public static string DeleteNamespacesInGenerics(string name, string namespaceName) {
+			if(namespaceName == "") {
+				return name;
+			}
+			return name.Replace(namespaceName + ".", "");
 		}
 		
 		public static string[] GetGenericParametersAsStrings(string fullName) {
@@ -135,9 +133,11 @@ namespace SharpChecker {
 			int i = 0;
 			
 			foreach(GenericParametersInfo info in infos) {
-				// TODO: Make friendly replacement for generics
-				// Example: "System.Collections.Generic.List<System.Collections.Generic.Dictionary<Dummy.IDummy,System.String>>"
-				results[i++] = MakeNameFriendly(info.name);
+				results[i] = info.name.Replace(",", ", ");
+				foreach(KeyValuePair<string, string> keyval in changes) {
+					results[i] = Regex.Replace(results[i], keyval.Key, keyval.Value);
+				}
+				i++;
 			}
 			
 			return results;
@@ -162,8 +162,9 @@ namespace SharpChecker {
 					// Variables
 					info = new GenericParametersInfo();
 					info.name = Regex.Replace(fullName.Substring(curr, i - curr), pattern, "");
-					info.constraints = new QuickTypeInfo[0];
 					info.unlocalizedName = GenericParametersInfo.UnlocalizeName(info.name);
+					info.name = MakeNameFriendly(info.name);
+					info.constraints = new QuickTypeInfo[0];
 					results.Add(info);
 					curr = i + 1;
 				}
@@ -171,8 +172,9 @@ namespace SharpChecker {
 			
 			info = new GenericParametersInfo();
 			info.name = Regex.Replace(fullName.Substring(curr, gt - curr), pattern, "");
-			info.constraints = new QuickTypeInfo[0];
 			info.unlocalizedName = GenericParametersInfo.UnlocalizeName(info.name);
+			info.name = MakeNameFriendly(info.name);
+			info.constraints = new QuickTypeInfo[0];
 			results.Add(info);
 			
 			return results.ToArray();

@@ -27,7 +27,7 @@ namespace SharpChecker {
 			int i = 0;
 			
 			info.unlocalizedName = UnlocalizeName(generic.Name);
-			info.name = generic.Name;
+			info.name = QuickTypeInfo.MakeNameFriendly(generic.Name);
 			info.constraints = new QuickTypeInfo[generic.Constraints.Count];
 			foreach(GenericParameterConstraint constraint in generic.Constraints) {
 				info.constraints[i++] = QuickTypeInfo.GenerateInfo(constraint.ConstraintType);

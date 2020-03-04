@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 namespace Dummy {
 	public struct DummyStruct : IDummy, IDummer<List<DummyStruct>>, IEquatable<DummyStruct> {
+		public string Variable1;
+		public static readonly DummyStruct Empty = new DummyStruct();
+		public const int ab = 10;
+		public List<string> strings;
+		[System.Obsolete]
+		public object[][] grid;
+		
 		public string Variable2 { get; set; }
 		
 		public bool Equals(DummyStruct other) {

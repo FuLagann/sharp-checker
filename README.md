@@ -54,6 +54,10 @@ TODO: Add formatting
 
 TODO: Add formatting
 
+### FieldInfo
+
+TODO: Add formatting
+
 ### MethodInfo
 
 TODO: Add formatting
