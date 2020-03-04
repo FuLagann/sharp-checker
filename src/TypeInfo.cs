@@ -54,6 +54,7 @@ namespace SharpChecker {
 		/// The list of information of the interfaces the type is implementing
 		/// </summary>
 		public QuickTypeInfo[] interfaces;
+		public FieldInfo[] fields;
 		/// <summary>
 		/// The list of information of the methods the type holds
 		/// </summary>
@@ -171,6 +172,7 @@ namespace SharpChecker {
 				info.baseType.genericParameters = new GenericParametersInfo[0];
 			}
 			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
+			info.fields = FieldInfo.GenerateInfoArray(type.Fields);
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
 			info.fullDeclaration = GetFullDeclaration(info, type);

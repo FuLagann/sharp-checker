@@ -149,10 +149,6 @@ namespace SharpChecker {
 			);
 			info.fullName = method.FullName;
 			info.returnType = QuickTypeInfo.GenerateInfo(method.ReturnType);
-			if(info.returnType.fullName == "System.Void") {
-				info.returnType.fullName = "";
-				info.returnType.name = "";
-			}
 			info.parameters = ParameterInfo.GenerateInfoArray(method, method.Parameters);
 			info.isStatic = method.IsStatic;
 			info.attributes = AttributeInfo.GenerateInfoArray(method.CustomAttributes);

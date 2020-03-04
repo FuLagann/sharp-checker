@@ -90,6 +90,35 @@ namespace SharpChecker {
 			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName, generics), pattern, "");
 			namespaceName = typeNamespace;
 			name = DeleteNamespacesInGenerics(fullName);
+			name = MakeNameFriendly(fullName);
+		}
+		
+		public static string MakeNameFriendly(string name) {
+			// Variables
+			string temp = name;
+			bool endsWith = name.EndsWith("[]");
+			
+			if(endsWith) {
+				temp = temp.Substring(0, temp.Length - 2);
+			}
+			switch(temp) {
+				case "System.Byte": { temp = "byte"; } break;
+				case "System.SByte": { temp = "sbyte"; } break;
+				case "System.UInt16": { temp = "ushort"; } break;
+				case "System.Int16": { temp = "short"; } break;
+				case "System.UInt32": { temp = "uint"; } break;
+				case "System.Int32": { temp = "int"; } break;
+				case "System.UInt64": { temp = "ulong"; } break;
+				case "System.Int64": { temp = "long"; } break;
+				case "System.Single": { temp = "float"; } break;
+				case "System.Double": { temp = "double"; } break;
+				case "System.Decimal": { temp = "decimal"; } break;
+				case "System.String": { temp = "string"; } break;
+				case "System.Object": { temp = "object"; } break;
+				case "System.Void": return "void";
+			}
+			
+			return temp + (endsWith ? "[]" : "");
 		}
 		
 		public static string DeleteNamespacesInGenerics(string name) {
@@ -106,7 +135,9 @@ namespace SharpChecker {
 			int i = 0;
 			
 			foreach(GenericParametersInfo info in infos) {
-				results[i++] = info.name;
+				// TODO: Make friendly replacement for generics
+				// Example: "System.Collections.Generic.List<System.Collections.Generic.Dictionary<Dummy.IDummy,System.String>>"
+				results[i++] = MakeNameFriendly(info.name);
 			}
 			
 			return results;

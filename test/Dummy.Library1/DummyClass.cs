@@ -6,6 +6,21 @@ namespace Dummy {
 		public string variable1;
 		private object variable2;
 		protected int variable3;
+		internal byte variable4 = 255;
+		sbyte[] variable5;
+		byte a;
+		object b;
+		ushort c;
+		short d;
+		int e;
+		uint f;
+		long g;
+		ulong h;
+		float aa;
+		double ab;
+		decimal ac;
+		string ad;
+		public static readonly DummyClass<int> Unknown = new DummyClass<int>(10, 20);
 		
 		#endregion // Field Variables
 		
