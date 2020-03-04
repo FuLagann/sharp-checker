@@ -30,6 +30,7 @@ namespace SharpChecker {
 		public GenericParametersInfo[] genericParameters;
 		private const string pattern = @"`\d+";
 		private static readonly Dictionary<string, string> changes = new Dictionary<string, string>(new KeyValuePair<string, string>[] {
+			new KeyValuePair<string, string>("System.Boolean", "bool"),
 			new KeyValuePair<string, string>("System.Byte", "byte"),
 			new KeyValuePair<string, string>("System.SByte", "sbyte"),
 			new KeyValuePair<string, string>("System.UInt16", "ushort"),
@@ -43,7 +44,9 @@ namespace SharpChecker {
 			new KeyValuePair<string, string>("System.Decimal", "decimal"),
 			new KeyValuePair<string, string>("System.String", "string"),
 			new KeyValuePair<string, string>("System.Object", "object"),
-			new KeyValuePair<string, string>("System.Void", "void")
+			new KeyValuePair<string, string>("System.ValueType", "struct"),
+			new KeyValuePair<string, string>("System.Enum", "enum"),
+			new KeyValuePair<string, string>("System.Void", "void"),
 		});
 		
 		#endregion // Field Variables
@@ -105,7 +108,7 @@ namespace SharpChecker {
 			unlocalizedName = (index == -1 ? typeFullName : typeFullName.Substring(0, index));
 			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName, generics), pattern, "");
 			namespaceName = typeNamespace;
-			name = DeleteNamespacesInGenerics(MakeNameFriendly(fullName), namespaceName);
+			name = DeleteNamespacesInGenerics(MakeNameFriendly(fullName));
 		}
 		
 		public static string MakeNameFriendly(string name) {
@@ -119,11 +122,11 @@ namespace SharpChecker {
 			return temp;
 		}
 		
-		public static string DeleteNamespacesInGenerics(string name, string namespaceName) {
-			if(namespaceName == "") {
-				return name;
-			}
-			return name.Replace(namespaceName + ".", "");
+		public static string DeleteNamespacesInGenerics(string name) {
+			// Variables
+			const string _pattern = @"([a-zA-Z0-9]+\.)+";
+			
+			return Regex.Replace(Regex.Replace(name, _pattern, ""), @",(\w)", ", $1");
 		}
 		
 		public static string[] GetGenericParametersAsStrings(string fullName) {

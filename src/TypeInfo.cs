@@ -55,6 +55,7 @@ namespace SharpChecker {
 		/// </summary>
 		public QuickTypeInfo[] interfaces;
 		public FieldInfo[] fields;
+		public PropertyInfo[] properties;
 		/// <summary>
 		/// The list of information of the methods the type holds
 		/// </summary>
@@ -175,6 +176,7 @@ namespace SharpChecker {
 			}
 			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
 			info.fields = FieldInfo.GenerateInfoArray(type.Fields);
+			info.properties = PropertyInfo.GenerateInfoArray(type.Properties);
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
 			info.fullDeclaration = GetFullDeclaration(info, type);
@@ -193,6 +195,17 @@ namespace SharpChecker {
 			if(info.interfaces.Length > 0) {
 				for(int i = 0; i < info.interfaces.Length; i++) {
 					decl += info.interfaces[i].name + (i != info.interfaces.Length - 1 ? ", " : "");
+				}
+				if(info.typeInfo.genericParameters.Length > 0) {
+					foreach(GenericParametersInfo generic in info.typeInfo.genericParameters) {
+						if(generic.constraints.Length == 0) {
+							continue;
+						}
+						decl += $" where { generic.name } : ";
+						for(int i = 0; i < generic.constraints.Length; i++) {
+							decl += generic.constraints[i].name + (i != generic.constraints.Length - 1 ? ", " : "");
+						}
+					}
 				}
 			}
 			
