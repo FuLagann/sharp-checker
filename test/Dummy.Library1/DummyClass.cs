@@ -1,6 +1,6 @@
 
 namespace Dummy {
-	public class DummyClass<T> : IDummy {
+	public class DummyClass<T> : DummyStruct {
 		#region Field Variables
 		// Variables
 		public string variable1;
@@ -35,5 +35,11 @@ namespace Dummy {
 		}
 		
 		#endregion // Public Constructors
+		
+		public string Temp2(DummyClass<IDummy> a, DummyStruct b) { return ""; }
+		protected sealed override void Temporary() {}
+		public void Yoyoyo() {}
+		public new void Yoyo() {}
+		//public new bool Equals(DummyStruct other) { return true; }
 	}
 }

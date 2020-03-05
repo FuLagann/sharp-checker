@@ -31,19 +31,19 @@ namespace SharpChecker {
 		#region Public Static Methods
 		
 		
-		public static ParameterInfo[] GenerateInfoArray(MethodDefinition method, Collection<ParameterDefinition> parameters) {
+		public static ParameterInfo[] GenerateInfoArray(Collection<ParameterDefinition> parameters) {
 			// Variables
 			ParameterInfo[] results = new ParameterInfo[parameters.Count];
 			int i = 0;
 			
 			foreach(ParameterDefinition parameter in parameters) {
-				results[i++] = GenerateInfo(method, parameter);
+				results[i++] = GenerateInfo(parameter);
 			}
 			
 			return results;
 		}
 		
-		public static ParameterInfo GenerateInfo(MethodDefinition method, ParameterDefinition parameter) {
+		public static ParameterInfo GenerateInfo(ParameterDefinition parameter) {
 			// Variables
 			ParameterInfo info = new ParameterInfo();
 			

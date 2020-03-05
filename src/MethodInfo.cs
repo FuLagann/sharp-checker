@@ -16,18 +16,14 @@ namespace SharpChecker {
 		/// A human readable name of the method
 		/// </summary>
 		public string name;
-		/// <summary>
-		/// A full human readable name of the method
-		/// </summary>
-		public string fullName;
-		/// <summary>
-		/// A full human readable name of the method's declaration (e.g. WriteLine(System.String))
-		/// </summary>
-		public string partialFullName;
-		/// <summary>
-		/// A human readable name of the method's declaration (e.g. WriteLine(String))
-		/// </summary>
-		public string partialName;
+		public string accessor;
+		public string modifier;
+		public bool isStatic;
+		public bool isVirtual;
+		public bool isAbstract;
+		public bool isOverriden;
+		public bool isConstructor;
+		public QuickTypeInfo implementedType;
 		/// <summary>
 		/// The information of the return type
 		/// </summary>
@@ -37,8 +33,11 @@ namespace SharpChecker {
 		/// </summary>
 		public ParameterInfo[] parameters;
 		public AttributeInfo[] attributes;
-		public bool isStatic;
+		public string declaration;
+		public string parameterDeclaration;
+		public string fullDeclaration;
 		private bool isProperty;
+		private string partialFullName;
 		
 		#endregion // Field Variables
 		
@@ -142,18 +141,59 @@ namespace SharpChecker {
 			info.isProperty = method.IsGetter || method.IsSetter;
 			info.name = method.Name;
 			info.partialFullName = method.FullName.Split("::")[1].Replace(",", ", ");
-			info.partialName = Regex.Replace(
-				info.partialFullName,
-				@"(?:[a-zA-Z0-9]*\.)*([a-zA-Z0-9]+)",
-				"$1"
-			);
-			info.fullName = method.FullName;
 			info.returnType = QuickTypeInfo.GenerateInfo(method.ReturnType);
-			info.parameters = ParameterInfo.GenerateInfoArray(method, method.Parameters);
-			info.isStatic = method.IsStatic;
+			info.parameters = ParameterInfo.GenerateInfoArray(method.Parameters);
 			info.attributes = AttributeInfo.GenerateInfoArray(method.CustomAttributes);
+			info.isStatic = method.IsStatic;
+			info.isVirtual = method.IsVirtual;
+			info.isConstructor = method.IsConstructor;
+			if(method.IsAssembly) { info.accessor = "internal"; }
+			else if(method.IsFamily) { info.accessor = "protected"; }
+			else if(method.IsPublic) { info.accessor = "public"; }
+			else { info.accessor = "private"; }
+			if(method.IsStatic) { info.modifier = "static"; }
+			else if(method.IsAbstract) { info.modifier = "abstract"; }
+			else if(method.IsFinal) { info.modifier = "sealed override"; }
+			else if(method.IsVirtual && method.IsReuseSlot) { info.modifier = "override"; }
+			// TODO: Write in 'new'
+			// Go through the base types to check if the method already exists, then set the info.modier to "new"
+			else if(method.IsVirtual) { info.modifier = "virtual"; }
+			else { info.modifier = ""; }
+			info.implementedType = QuickTypeInfo.GenerateInfo(method.DeclaringType);
+			info.isAbstract = method.IsAbstract;
+			info.isOverriden = method.IsReuseSlot;
+			info.declaration = (
+				info.accessor + " " +
+				(info.modifier != "" ? info.modifier + " " : "") +
+				info.returnType.name + " " +
+				info.name
+			);
+			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
+			info.fullDeclaration = $"{ info.declaration }({ info.parameterDeclaration })";
 			
 			return info;
+		}
+		
+		public static string[] GetParameterDeclaration(MethodInfo method) {
+			// Variables
+			string[] declarations = new string[method.parameters.Length];
+			int i = 0;
+			int index;
+			
+			foreach(ParameterInfo parameter in method.parameters) {
+				declarations[i] = parameter.typeInfo.unlocalizedName;
+				index = declarations[i].LastIndexOf('`');
+				if(index != -1) {
+					declarations[i] = (
+						declarations[i].Substring(0, index) + "<" +
+						string.Join(", ", parameter.genericParameterDeclarations) + ">"
+					);
+				}
+				declarations[i] = QuickTypeInfo.DeleteNamespacesInGenerics(declarations[i]);
+				declarations[i++] += $" { parameter.name }";
+			}
+			
+			return declarations;
 		}
 		
 		#endregion // Public Static Methods
