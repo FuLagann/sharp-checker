@@ -8,6 +8,8 @@ namespace SharpChecker {
 		public QuickTypeInfo typeInfo;
 		public AttributeFieldInfo[] constructorArgs;
 		public AttributeFieldInfo[] properties;
+		public string parameterDeclaration;
+		public string fullDeclaration;
 		
 		public static AttributeInfo[] GenerateInfoArray(Collection<CustomAttribute> attrs) {
 			// Variables
@@ -32,7 +34,11 @@ namespace SharpChecker {
 				info.constructorArgs[i] = new AttributeFieldInfo();
 				info.constructorArgs[i].typeInfo = QuickTypeInfo.GenerateInfo(arg.Type);
 				info.constructorArgs[i].name = attr.Constructor.Parameters[i].Name;
-				info.constructorArgs[i++].value = $"{ arg.Value }";
+				info.constructorArgs[i].value = (info.constructorArgs[i].typeInfo.name != "bool" ?
+					$"{ arg.Value }" :
+					$"{ arg.Value }".ToLower()
+				);
+				i++;
 			}
 			i = 0;
 			info.properties = new AttributeFieldInfo[
@@ -43,16 +49,48 @@ namespace SharpChecker {
 				info.properties[i] = new AttributeFieldInfo();
 				info.properties[i].typeInfo = QuickTypeInfo.GenerateInfo(field.Argument.Type);
 				info.properties[i].name = field.Name;
-				info.properties[i++].value = $"{ field.Argument.Value }";
+				info.properties[i].value = (info.properties[i].typeInfo.name != "bool" ?
+					$"{ field.Argument.Value }" :
+					$"{ field.Argument.Value }".ToLower()
+				);
+				i++;
 			}
 			foreach(CustomAttributeNamedArgument property in attr.Properties) {
 				info.properties[i] = new AttributeFieldInfo();
 				info.properties[i].typeInfo = QuickTypeInfo.GenerateInfo(property.Argument.Type);
 				info.properties[i].name = property.Name;
-				info.properties[i++].value = $"{ property.Argument.Value }";
+				info.properties[i].value = (info.properties[i].typeInfo.name != "bool" ?
+					$"{ property.Argument.Value }" :
+					$"{ property.Argument.Value }".ToLower()
+				);
+				i++;
 			}
+			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
+			info.fullDeclaration = (
+				$"[{ info.typeInfo.fullName }" +
+				(info.parameterDeclaration != "" ? $"({ info.parameterDeclaration })" : "") +
+				"]"
+			);
 			
 			return info;
+		}
+		
+		public static string[] GetParameterDeclaration(AttributeInfo info) {
+			// Variables
+			string[] declarations = new string[
+				info.constructorArgs.Length +
+				info.properties.Length
+			];
+			int i = 0;
+			
+			foreach(AttributeFieldInfo field in info.constructorArgs) {
+				declarations[i++] = (field.typeInfo.name == "string" ? $@"""{ field.value }""" : field.value);
+			}
+			foreach(AttributeFieldInfo field in info.properties) {
+				declarations[i++] = $"{ field.name } = " + (field.typeInfo.name == "string" ? $@"""{ field.value }""" : field.value);
+			}
+			
+			return declarations;
 		}
 		
 		public class AttributeFieldInfo {

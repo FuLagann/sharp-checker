@@ -1,5 +1,11 @@
 
+public class ModAttribute : System.Attribute {
+	public ModAttribute(bool isMod) {}
+}
+
 namespace Dummy {
+	[Mod(false)]
+	[Dummy("Henlo", "Goobey", val="Hello", HasValue=true)]
 	public class DummyClass<T> : DummyStruct {
 		#region Field Variables
 		// Variables
