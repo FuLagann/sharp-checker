@@ -80,7 +80,10 @@ namespace SharpChecker {
 			List<MethodInfo> methods = new List<MethodInfo>(temp);
 			
 			for(int i = temp.Length - 1; i >= 0; i--) {
-				if(methods[i].isProperty) {
+				if(methods[i].name == ".cctor") {
+					methods.RemoveAt(i);
+				}
+				else if(methods[i].isProperty) {
 					methods.RemoveAt(i);
 				}
 				else if(methods[i].isStatic != isStatic) {

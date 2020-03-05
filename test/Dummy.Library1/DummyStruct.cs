@@ -33,9 +33,11 @@ namespace Dummy {
 		[System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Fill)]
 		public static void Display([Dummy("10", "20")]int id = 1, params object[] objs) {}
 		public static void Consume(List<List<Dictionary<IDummy, DummyStruct>>> lists, Dictionary<string, IDummy> dictionary) {}
-		public static void Kill(Dictionary<List<Dictionary<IDummy, string>>, List<DummyStruct>> lists, Dictionary<string, IDummy> dictionary) {}
+		public static Dictionary<List<Dictionary<IDummy, string>>, List<DummyStruct>> Kill(Dictionary<List<Dictionary<IDummy, string>>, List<DummyStruct>> lists, Dictionary<string, IDummy> dictionary) {
+			return lists;
+		}
 		
-		public static DummyStruct Create() {
+		public DummyClass<int> Create() {
 			return new DummyClass<int>(1, 2);
 		}
 	}
