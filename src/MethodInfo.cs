@@ -38,6 +38,7 @@ namespace SharpChecker {
 		public string fullDeclaration;
 		private bool isProperty;
 		private string partialFullName;
+		internal bool shouldDelete = false;
 		
 		#endregion // Field Variables
 		
@@ -80,7 +81,10 @@ namespace SharpChecker {
 			List<MethodInfo> methods = new List<MethodInfo>(temp);
 			
 			for(int i = temp.Length - 1; i >= 0; i--) {
-				if(methods[i].name == ".cctor") {
+				if(methods[i].shouldDelete) {
+					methods.RemoveAt(i);
+				}
+				else if(methods[i].name == ".cctor") {
 					methods.RemoveAt(i);
 				}
 				else if(methods[i].isProperty) {
@@ -141,6 +145,10 @@ namespace SharpChecker {
 			// Variables
 			MethodInfo info = new MethodInfo();
 			
+			if(method.IsAssembly) { info.accessor = "internal"; }
+			else if(method.IsFamily) { info.accessor = "protected"; }
+			else if(method.IsPublic) { info.accessor = "public"; }
+			else { info.accessor = "private"; }
 			info.isProperty = method.IsGetter || method.IsSetter;
 			info.name = method.Name;
 			info.partialFullName = method.FullName.Split("::")[1].Replace(",", ", ");
@@ -150,13 +158,8 @@ namespace SharpChecker {
 			info.isStatic = method.IsStatic;
 			info.isVirtual = method.IsVirtual;
 			info.isConstructor = method.IsConstructor;
-			if(method.IsAssembly) { info.accessor = "internal"; }
-			else if(method.IsFamily) { info.accessor = "protected"; }
-			else if(method.IsPublic) { info.accessor = "public"; }
-			else { info.accessor = "private"; }
 			if(method.IsStatic) { info.modifier = "static"; }
 			else if(method.IsAbstract) { info.modifier = "abstract"; }
-			else if(method.IsFinal) { info.modifier = "sealed override"; }
 			else if(method.IsVirtual && method.IsReuseSlot) { info.modifier = "override"; }
 			// TODO: Write in 'new'
 			// Go through the base types to check if the method already exists, then set the info.modier to "new"
@@ -173,6 +176,9 @@ namespace SharpChecker {
 			);
 			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
 			info.fullDeclaration = $"{ info.declaration }({ info.parameterDeclaration })";
+			if(TypeInfo.ignorePrivate && PropertyInfo.GetAccessorId(info.accessor) == 0) {
+				info.shouldDelete = true;
+			}
 			
 			return info;
 		}

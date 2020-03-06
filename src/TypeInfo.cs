@@ -4,6 +4,7 @@ using Mono.Collections.Generic;
 
 using Newtonsoft.Json;
 
+using System.Collections.Generic;
 using System.IO;
 
 using Reflection = System.Reflection;
@@ -56,16 +57,56 @@ namespace SharpChecker {
 		public QuickTypeInfo[] interfaces;
 		public FieldInfo[] fields;
 		public PropertyInfo[] properties;
+		public PropertyInfo[] staticProperties; // TODO: Complete
+		// TODO: Events
 		/// <summary>
 		/// The list of information of the methods the type holds
 		/// </summary>
 		public MethodInfo[] methods;
 		public MethodInfo[] staticMethods;
 		internal static string assemblyUsed = "";
+		internal static string[] assembliesUsed;
+		internal static bool ignorePrivate = true;
 		
 		#endregion // Field Variables
 		
 		#region Public Static Methods
+		
+		public static bool IsTypePublic(string typePath, string[] assemblies) {
+			foreach(string assembly in assemblies) {
+				// Variables
+				AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(assembly);
+				
+				foreach(ModuleDefinition module in asm.Modules) {
+					// Variables
+					TypeDefinition type = module.GetType(typePath);
+					
+					if(type != null) {
+						return type.IsPublic;
+					}
+				}
+			}
+			try {
+				// Variables
+				System.Type sysType = System.Type.GetType(typePath, true);
+				AssemblyDefinition _asm = AssemblyDefinition.ReadAssembly(
+					sysType.Assembly.CodeBase.Replace("file:///", "")
+				);
+				
+				foreach(ModuleDefinition _module in _asm.Modules) {
+					// Variables
+					TypeDefinition _type = _module.GetType(typePath);
+					
+					if(_type != null) {
+						return _type.IsPublic;
+					}
+				}
+			} catch(System.Exception e) {
+				System.Console.WriteLine(e);
+			}
+			
+			return false;
+		}
 		
 		/// <summary>
 		/// Generates a type information from the list of assemblies and the type path
@@ -75,6 +116,7 @@ namespace SharpChecker {
 		/// <param name="info">The resulting information of the type</param>
 		/// <returns>Returns true if the information has successfully been found</returns>
 		public static bool GenerateTypeInfo(string[] assemblies, string typePath, out TypeInfo info) {
+			assembliesUsed = assemblies;
 			foreach(string assembly in assemblies) {
 				// Variables
 				AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(assembly);
@@ -125,9 +167,9 @@ namespace SharpChecker {
 			TypeInfo info = new TypeInfo();
 			string[] generics = GetGenericParametersString(type.GenericParameters.ToArray());
 			
+			info.accessor = type.IsPublic ? "public" : "internal";
 			info.typeInfo = QuickTypeInfo.GenerateInfo(type);
 			info.assemblyName = asm.Name.Name;
-			info.accessor = type.IsPublic ? "public" : "private";
 			// ObjectType
 			if(type.IsEnum) { info.objectType = "enum"; }
 			else if(type.IsValueType) { info.objectType = "struct"; }
@@ -214,14 +256,18 @@ namespace SharpChecker {
 		
 		public static QuickTypeInfo[] GenerateInteraceInfoArray(Collection<InterfaceImplementation> interfaces) {
 			// Variables
-			QuickTypeInfo[] results = new QuickTypeInfo[interfaces.Count];
-			int i = 0;
+			List<QuickTypeInfo> results = new List<QuickTypeInfo>();
+			QuickTypeInfo info;
 			
 			foreach(InterfaceImplementation iface in interfaces) {
-				results[i++] = QuickTypeInfo.GenerateInfo(iface.InterfaceType);
+				info = QuickTypeInfo.GenerateInfo(iface.InterfaceType);
+				if(ignorePrivate && !IsTypePublic(info.unlocalizedName, assembliesUsed)) {
+					continue;
+				}
+				results.Add(QuickTypeInfo.GenerateInfo(iface.InterfaceType));
 			}
 			
-			return results;
+			return results.ToArray();
 		}
 		
 		/// <summary>

@@ -35,6 +35,10 @@ namespace SharpChecker {
 			}
 		}
 		
+		public static void DisplayHelp() {
+			
+		}
+		
 		#endregion // Public Static Methods
 	}
 }

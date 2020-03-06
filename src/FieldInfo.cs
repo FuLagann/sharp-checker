@@ -18,19 +18,25 @@ namespace SharpChecker {
 		public string declaration;
 		public QuickTypeInfo typeInfo;
 		public AttributeInfo[] attributes;
+		internal bool shouldDelete = false;
 		
 		public static FieldInfo[] GenerateInfoArray(Collection<FieldDefinition> fields) {
 			// Variables
 			List<FieldInfo> results = new List<FieldInfo>();
+			FieldInfo info;
 			
 			foreach(FieldDefinition field in fields) {
 				if(field.Name == "value__") {
 					continue;
 				}
-				if(IsCompilerGenerated(field)) {
+				else if(IsCompilerGenerated(field)) {
 					continue;
 				}
-				results.Add(GenerateInfo(field));
+				info = GenerateInfo(field);
+				if(info.shouldDelete) {
+					continue;
+				}
+				results.Add(info);
 			}
 			
 			return results.ToArray();
@@ -41,6 +47,14 @@ namespace SharpChecker {
 			FieldInfo info = new FieldInfo();
 			string val = System.Text.ASCIIEncoding.ASCII.GetString(field.InitialValue);
 			
+			if(field.IsAssembly) { info.accessor = "internal"; }
+			else if(field.IsFamily) { info.accessor = "protected"; }
+			else if(field.IsPrivate) { info.accessor = "private"; }
+			else { info.accessor = "public"; }
+			if(TypeInfo.ignorePrivate && PropertyInfo.GetAccessorId(info.accessor) == 0) {
+				info.shouldDelete = true;
+				return info;
+			}
 			info.name = field.Name;
 			info.typeInfo = QuickTypeInfo.GenerateInfo(field.FieldType);
 			info.value = $"{ field.Constant ?? val }";
@@ -48,10 +62,6 @@ namespace SharpChecker {
 			info.isStatic = field.IsStatic;
 			info.isReadonly = field.IsInitOnly;
 			info.attributes = AttributeInfo.GenerateInfoArray(field.CustomAttributes);
-			if(field.IsAssembly) { info.accessor = "internal"; }
-			else if(field.IsFamily) { info.accessor = "protected"; }
-			else if(field.IsPrivate) { info.accessor = "private"; }
-			else { info.accessor = "public"; }
 			if(field.HasConstant) { info.modifier = "const"; }
 			else if(field.IsStatic && field.IsInitOnly) { info.modifier = "static readonly"; }
 			else if(field.IsStatic) { info.modifier = "static"; }
