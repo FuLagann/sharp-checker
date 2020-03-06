@@ -42,6 +42,8 @@ namespace Dummy {
 			this.variable2 = parameter2;
 			this.variable3 = 10;
 		}
+		public DummyClass() {}
+		private DummyClass(IDummy dummy) {}
 		
 		#endregion // Public Constructors
 		

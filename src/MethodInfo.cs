@@ -44,11 +44,11 @@ namespace SharpChecker {
 		
 		#region Public Static Methods
 		
-		public static MethodInfo[] GenerateInfoArray(TypeDefinition type, bool rec, bool isStatic) {
+		public static MethodInfo[] GenerateInfoArray(TypeDefinition type, bool rec, bool isStatic, bool isConstructor = false) {
 			if(!rec) {
 				MethodInfo[] results = GenerateInfoArray(type.Methods);
 				
-				RemoveUnwanted(ref results, isStatic);
+				RemoveUnwanted(ref results, isStatic, isConstructor);
 				
 				return results;
 			}
@@ -61,7 +61,7 @@ namespace SharpChecker {
 			
 			while(currType != null) {
 				temp = GenerateInfoArray(currType.Methods);
-				RemoveUnwanted(ref temp, isStatic);
+				RemoveUnwanted(ref temp, isStatic, isConstructor);
 				if(currType != type) {
 					RemoveDuplicates(ref temp, methods);
 				}
@@ -76,7 +76,7 @@ namespace SharpChecker {
 			return methods.ToArray();
 		}
 		
-		public static void RemoveUnwanted(ref MethodInfo[] temp, bool isStatic) {
+		public static void RemoveUnwanted(ref MethodInfo[] temp, bool isStatic, bool isConstructor) {
 			// Variables
 			List<MethodInfo> methods = new List<MethodInfo>(temp);
 			
@@ -91,6 +91,9 @@ namespace SharpChecker {
 					methods.RemoveAt(i);
 				}
 				else if(methods[i].isStatic != isStatic) {
+					methods.RemoveAt(i);
+				}
+				else if(methods[i].isConstructor != isConstructor) {
 					methods.RemoveAt(i);
 				}
 			}
@@ -143,20 +146,31 @@ namespace SharpChecker {
 		public static MethodInfo GenerateInfo(MethodDefinition method) {
 			// Variables
 			MethodInfo info = new MethodInfo();
+			int index;
 			
+			info.isStatic = method.IsStatic;
+			info.isVirtual = method.IsVirtual;
+			info.isConstructor = method.IsConstructor;
 			if(method.IsAssembly) { info.accessor = "internal"; }
 			else if(method.IsFamily) { info.accessor = "protected"; }
 			else if(method.IsPublic) { info.accessor = "public"; }
 			else { info.accessor = "private"; }
 			info.isProperty = method.IsGetter || method.IsSetter;
-			info.name = method.Name;
+			info.implementedType = QuickTypeInfo.GenerateInfo(method.DeclaringType);
+			if(info.isConstructor) {
+				info.name = info.implementedType.name;
+				index = info.name.IndexOf('<');
+				if(index != -1) {
+					info.name = info.name.Substring(0, index);
+				}
+			}
+			else {
+				info.name = method.Name;
+			}
 			info.partialFullName = method.FullName.Split("::")[1].Replace(",", ", ");
 			info.returnType = QuickTypeInfo.GenerateInfo(method.ReturnType);
 			info.parameters = ParameterInfo.GenerateInfoArray(method.Parameters);
 			info.attributes = AttributeInfo.GenerateInfoArray(method.CustomAttributes);
-			info.isStatic = method.IsStatic;
-			info.isVirtual = method.IsVirtual;
-			info.isConstructor = method.IsConstructor;
 			if(method.IsStatic) { info.modifier = "static"; }
 			else if(method.IsAbstract) { info.modifier = "abstract"; }
 			else if(method.IsVirtual && method.IsReuseSlot) { info.modifier = "override"; }
@@ -164,13 +178,12 @@ namespace SharpChecker {
 			// Go through the base types to check if the method already exists, then set the info.modier to "new"
 			else if(method.IsVirtual) { info.modifier = "virtual"; }
 			else { info.modifier = ""; }
-			info.implementedType = QuickTypeInfo.GenerateInfo(method.DeclaringType);
 			info.isAbstract = method.IsAbstract;
 			info.isOverriden = method.IsReuseSlot;
 			info.declaration = (
 				info.accessor + " " +
 				(info.modifier != "" ? info.modifier + " " : "") +
-				info.returnType.name + " " +
+				(!info.isConstructor ? info.returnType.name + " " : "") +
 				info.name
 			);
 			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
@@ -197,7 +210,9 @@ namespace SharpChecker {
 						string.Join(", ", parameter.genericParameterDeclarations) + ">"
 					);
 				}
-				declarations[i] = QuickTypeInfo.DeleteNamespacesInGenerics(declarations[i]);
+				declarations[i] = QuickTypeInfo.DeleteNamespacesInGenerics(
+					QuickTypeInfo.MakeNameFriendly(declarations[i])
+				);
 				declarations[i++] += $" { parameter.name }";
 			}
 			

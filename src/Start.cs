@@ -13,7 +13,10 @@ namespace SharpChecker {
 		/// </summary>
 		/// <param name="args">The arguments to start with</param>
 		public static void Main(string[] args) {
-			if(args.Length < 2) {
+			// Variables
+			InputArguments input = InputArguments.Create(args);
+			
+			if(input.isHelp) {
 				DisplayHelp();
 			}
 			
