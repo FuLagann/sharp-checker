@@ -13,6 +13,8 @@ namespace Dummy {
 		public string Variable2 { get; }
 		public string Variable3 { get; set; }
 		public string Variable4 { set {} }
+		public virtual string V1 { get {return "";} set {} }
+		public static string Grab { get; }
 		
 		public override string ToString() { return ""; }
 		public new int GetHashCode() { return 1; }

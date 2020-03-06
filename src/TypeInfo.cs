@@ -218,7 +218,8 @@ namespace SharpChecker {
 			}
 			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
 			info.fields = FieldInfo.GenerateInfoArray(type.Fields);
-			info.properties = PropertyInfo.GenerateInfoArray(type.Properties);
+			info.properties = PropertyInfo.GenerateInfoArray(type, true, false);
+			info.staticProperties = PropertyInfo.GenerateInfoArray(type, false, true);
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
 			info.fullDeclaration = GetFullDeclaration(info, type);

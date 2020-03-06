@@ -33,6 +33,7 @@ namespace Dummy {
 		protected virtual string Nope { get; private set; }
 		public static string Nope2 { get; internal set; }
 		internal string Nope3 { private get; set; }
+		//public override string V1 { get { return "1"; } set {}}
 		
 		#region Public Constructors
 		

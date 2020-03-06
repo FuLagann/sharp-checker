@@ -14,9 +14,7 @@ namespace SharpChecker {
 		/// <param name="args">The arguments to start with</param>
 		public static void Main(string[] args) {
 			if(args.Length < 2) {
-				System.Console.WriteLine("Use: SharpChecker <type-path> <list-of-assemblies>");
-				System.Console.WriteLine("Note: Instead of using ` you can use -.");
-				System.Environment.Exit(0);
+				DisplayHelp();
 			}
 			
 			// Variables
@@ -36,7 +34,12 @@ namespace SharpChecker {
 		}
 		
 		public static void DisplayHelp() {
-			
+			System.Console.WriteLine("Use: SharpChecker [options] <type-path> <list-of-assemblies>");
+			System.Console.WriteLine("Note: Instead of using ` you can use -.");
+			System.Console.WriteLine("Options:");
+			System.Console.WriteLine("--include-private\t\tInclude private members");
+			System.Console.WriteLine("--out:<output-file>\t\tThe file to be outputted");
+			System.Environment.Exit(0);
 		}
 		
 		#endregion // Public Static Methods

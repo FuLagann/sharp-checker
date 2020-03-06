@@ -8,9 +8,12 @@ namespace SharpChecker {
 	public class PropertyInfo {
 		// Variables
 		public string name;
+		public string partialFullName;
 		public string accessor;
 		public string modifier;
+		public bool isStatic;
 		public QuickTypeInfo typeInfo;
+		public QuickTypeInfo implementedType;
 		public AttributeInfo[] attributes;
 		public bool hasGetter;
 		public bool hasSetter;
@@ -21,6 +24,70 @@ namespace SharpChecker {
 		public string fullDeclaration;
 		public ParameterInfo[] parameters;
 		internal bool shouldDelete = false;
+		
+		public static PropertyInfo[] GenerateInfoArray(TypeDefinition type, bool rec, bool isStatic) {
+			if(!rec) {
+				PropertyInfo[] results = GenerateInfoArray(type.Properties);
+				
+				RemoveUnwanted(ref results, isStatic);
+				
+				return results;
+			}
+			
+			// Variables
+			List<PropertyInfo> properties = new List<PropertyInfo>();
+			PropertyInfo[] temp;
+			TypeDefinition currType = type;
+			TypeReference baseType;
+			
+			while(currType != null) {
+				temp = GenerateInfoArray(currType.Properties);
+				RemoveUnwanted(ref temp, isStatic);
+				if(currType != type) {
+					RemoveDuplicates(ref temp, properties);
+				}
+				properties.AddRange(temp);
+				baseType = currType.BaseType;
+				if(baseType == null) {
+					break;
+				}
+				currType = baseType.Resolve();
+			}
+			
+			return properties.ToArray();
+		}
+		
+		public static void RemoveUnwanted(ref PropertyInfo[] temp, bool isStatic) {
+			// Variables
+			List<PropertyInfo> properties = new List<PropertyInfo>(temp);
+			
+			for(int i = temp.Length - 1; i >= 0; i--) {
+				if(properties[i].shouldDelete) {
+					properties.RemoveAt(i);
+				}
+				else if(properties[i].isStatic != isStatic) {
+					properties.RemoveAt(i);
+				}
+			}
+			
+			temp = properties.ToArray();
+		}
+		
+		public static void RemoveDuplicates(ref PropertyInfo[] temp, List<PropertyInfo> listProperties) {
+			// Variables
+			List<PropertyInfo> properties = new List<PropertyInfo>(temp);
+			
+			for(int i = temp.Length - 1; i >= 0; i--) {
+				foreach(PropertyInfo property in listProperties) {
+					if(properties[i].partialFullName == property.partialFullName) {
+						properties.RemoveAt(i);
+						break;
+					}
+				}
+			}
+			
+			temp = properties.ToArray();
+		}
 		
 		public static PropertyInfo[] GenerateInfoArray(Collection<PropertyDefinition> properties) {
 			// Variables
@@ -64,13 +131,15 @@ namespace SharpChecker {
 				return info;
 			}
 			info.name = property.Name;
+			info.partialFullName = property.FullName.Split("::")[1].Replace(",", ", ");
+			info.isStatic = !property.HasThis;
 			info.typeInfo = QuickTypeInfo.GenerateInfo(property.PropertyType);
 			info.attributes = AttributeInfo.GenerateInfoArray(property.CustomAttributes);
 			info.parameters = ParameterInfo.GenerateInfoArray(property.Parameters);
 			info.accessor = GetAccessor(info.getter, info.setter);
 			if(!property.HasThis) { info.modifier = "static"; }
 			else { info.modifier = GetModifier(info.getter, info.setter); }
-			
+			info.implementedType = QuickTypeInfo.GenerateInfo(property.DeclaringType);
 			info.getSetDeclaration = GetGetSetDeclaration(info.getter, info.setter, info.accessor);
 			info.declaration = (
 				info.accessor + " " +

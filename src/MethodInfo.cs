@@ -98,11 +98,6 @@ namespace SharpChecker {
 			temp = methods.ToArray();
 		}
 		
-		/// <summary>
-		/// Removes the duplicates from the given array
-		/// </summary>
-		/// <param name="temp">The array to remove the duplicates from</param>
-		/// <param name="type">The type to check if theres any duplicates</param>
 		public static void RemoveDuplicates(ref MethodInfo[] temp, List<MethodInfo> listMethods) {
 			// Variables
 			List<MethodInfo> methods = new List<MethodInfo>(temp);
@@ -126,14 +121,18 @@ namespace SharpChecker {
 		/// <returns>Returns an array of method infos</returns>
 		public static MethodInfo[] GenerateInfoArray(Collection<MethodDefinition> methods) {
 			// Variables
-			MethodInfo[] results = new MethodInfo[methods.Count];
-			int i = 0;
+			List<MethodInfo> results = new List<MethodInfo>();
+			MethodInfo info;
 			
 			foreach(MethodDefinition method in methods) {
-				results[i++] = GenerateInfo(method);
+				info = GenerateInfo(method);
+				if(info.shouldDelete) {
+					continue;
+				}
+				results.Add(info);
 			}
 			
-			return results;
+			return results.ToArray();
 		}
 		
 		/// <summary>
