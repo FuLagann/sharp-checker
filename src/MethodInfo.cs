@@ -215,6 +215,9 @@ namespace SharpChecker {
 				(!info.isConversionOperator ? info.name : info.returnType.name)
 			);
 			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
+			if(info.isExtension) {
+				info.parameterDeclaration = $"this { info.parameterDeclaration }";
+			}
 			info.fullDeclaration = $"{ info.declaration }({ info.parameterDeclaration })";
 			if(TypeInfo.ignorePrivate && PropertyInfo.GetAccessorId(info.accessor) == 0) {
 				info.shouldDelete = true;
