@@ -22,6 +22,9 @@ namespace SharpChecker {
 		public bool isVirtual;
 		public bool isAbstract;
 		public bool isOverriden;
+		public bool isOperator;
+		public bool isExtension;
+		public bool isConversionOperator;
 		public bool isConstructor;
 		public QuickTypeInfo implementedType;
 		/// <summary>
@@ -37,6 +40,7 @@ namespace SharpChecker {
 		public string parameterDeclaration;
 		public string fullDeclaration;
 		private bool isProperty;
+		private bool isEvent;
 		private string partialFullName;
 		internal bool shouldDelete = false;
 		
@@ -44,11 +48,14 @@ namespace SharpChecker {
 		
 		#region Public Static Methods
 		
-		public static MethodInfo[] GenerateInfoArray(TypeDefinition type, bool rec, bool isStatic, bool isConstructor = false) {
+		public static MethodInfo[] GenerateInfoArray(
+			TypeDefinition type, bool rec, bool isStatic,
+			bool isConstructor = false, bool isOperator = false
+		) {
 			if(!rec) {
 				MethodInfo[] results = GenerateInfoArray(type.Methods);
 				
-				RemoveUnwanted(ref results, isStatic, isConstructor);
+				RemoveUnwanted(ref results, isStatic, isConstructor, isOperator);
 				
 				return results;
 			}
@@ -61,7 +68,7 @@ namespace SharpChecker {
 			
 			while(currType != null) {
 				temp = GenerateInfoArray(currType.Methods);
-				RemoveUnwanted(ref temp, isStatic, isConstructor);
+				RemoveUnwanted(ref temp, isStatic, isConstructor, isOperator);
 				if(currType != type) {
 					RemoveDuplicates(ref temp, methods);
 				}
@@ -76,7 +83,9 @@ namespace SharpChecker {
 			return methods.ToArray();
 		}
 		
-		public static void RemoveUnwanted(ref MethodInfo[] temp, bool isStatic, bool isConstructor) {
+		public static void RemoveUnwanted(
+			ref MethodInfo[] temp, bool isStatic, bool isConstructor, bool isOperator
+		) {
 			// Variables
 			List<MethodInfo> methods = new List<MethodInfo>(temp);
 			
@@ -87,13 +96,16 @@ namespace SharpChecker {
 				else if(methods[i].name == ".cctor") {
 					methods.RemoveAt(i);
 				}
-				else if(methods[i].isProperty) {
+				else if(methods[i].isProperty || methods[i].isEvent) {
 					methods.RemoveAt(i);
 				}
 				else if(methods[i].isStatic != isStatic) {
 					methods.RemoveAt(i);
 				}
 				else if(methods[i].isConstructor != isConstructor) {
+					methods.RemoveAt(i);
+				}
+				else if(methods[i].isOperator != isOperator) {
 					methods.RemoveAt(i);
 				}
 			}
@@ -156,7 +168,14 @@ namespace SharpChecker {
 			else if(method.IsPublic) { info.accessor = "public"; }
 			else { info.accessor = "private"; }
 			info.isProperty = method.IsGetter || method.IsSetter;
+			info.isEvent = method.IsAddOn || method.IsRemoveOn;
+			info.isOperator = method.Name.StartsWith("op_");
+			info.isConversionOperator = (
+				method.Name == "op_Explicit" ||
+				method.Name == "op_Implicit"
+			);
 			info.implementedType = QuickTypeInfo.GenerateInfo(method.DeclaringType);
+			info.returnType = QuickTypeInfo.GenerateInfo(method.ReturnType);
 			if(info.isConstructor) {
 				info.name = info.implementedType.name;
 				index = info.name.IndexOf('<');
@@ -164,27 +183,36 @@ namespace SharpChecker {
 					info.name = info.name.Substring(0, index);
 				}
 			}
+			else if(info.isConversionOperator) {
+				info.name = method.Name + "__" + info.returnType.name;
+			}
+			else if(info.isOperator) {
+				info.name = method.Name.Substring(3);
+			}
 			else {
 				info.name = method.Name;
 			}
 			info.partialFullName = method.FullName.Split("::")[1].Replace(",", ", ");
-			info.returnType = QuickTypeInfo.GenerateInfo(method.ReturnType);
+			if(info.isOperator) {
+				info.partialFullName = info.name;
+			}
 			info.parameters = ParameterInfo.GenerateInfoArray(method.Parameters);
 			info.attributes = AttributeInfo.GenerateInfoArray(method.CustomAttributes);
-			if(method.IsStatic) { info.modifier = "static"; }
+			if(info.isConversionOperator) { info.modifier = $"static { method.Name.Substring(3).ToLower() } operator"; }
+			else if(info.isOperator) { info.modifier = "static operator"; }
+			else if(method.IsStatic) { info.modifier = "static"; }
 			else if(method.IsAbstract) { info.modifier = "abstract"; }
 			else if(method.IsVirtual && method.IsReuseSlot) { info.modifier = "override"; }
-			// TODO: Write in 'new'
-			// Go through the base types to check if the method already exists, then set the info.modier to "new"
 			else if(method.IsVirtual) { info.modifier = "virtual"; }
 			else { info.modifier = ""; }
+			info.isExtension = HasExtensionAttribute(info);
 			info.isAbstract = method.IsAbstract;
 			info.isOverriden = method.IsReuseSlot;
 			info.declaration = (
 				info.accessor + " " +
 				(info.modifier != "" ? info.modifier + " " : "") +
-				(!info.isConstructor ? info.returnType.name + " " : "") +
-				info.name
+				(!info.isConstructor && !info.isConversionOperator ? info.returnType.name + " " : "") +
+				(!info.isConversionOperator ? info.name : info.returnType.name)
 			);
 			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
 			info.fullDeclaration = $"{ info.declaration }({ info.parameterDeclaration })";
@@ -193,6 +221,16 @@ namespace SharpChecker {
 			}
 			
 			return info;
+		}
+		
+		public static bool HasExtensionAttribute(MethodInfo method) {
+			foreach(AttributeInfo attr in method.attributes) {
+				if(attr.typeInfo.fullName == "System.Runtime.CompilerServices.ExtensionAttribute") {
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
 		public static string[] GetParameterDeclaration(MethodInfo method) {

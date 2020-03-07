@@ -59,12 +59,14 @@ namespace SharpChecker {
 		public FieldInfo[] fields;
 		public PropertyInfo[] properties;
 		public PropertyInfo[] staticProperties;
-		// TODO: Events
+		public EventInfo[] events;
+		public EventInfo[] staticEvents;
 		/// <summary>
 		/// The list of information of the methods the type holds
 		/// </summary>
 		public MethodInfo[] methods;
 		public MethodInfo[] staticMethods;
+		public MethodInfo[] operators;
 		internal static string assemblyUsed = "";
 		internal static string[] assembliesUsed;
 		internal static bool ignorePrivate = true;
@@ -222,8 +224,11 @@ namespace SharpChecker {
 			info.fields = FieldInfo.GenerateInfoArray(type.Fields);
 			info.properties = PropertyInfo.GenerateInfoArray(type, true, false);
 			info.staticProperties = PropertyInfo.GenerateInfoArray(type, false, true);
+			info.events = EventInfo.GenerateInfoArray(type, true, false);
+			info.staticEvents = EventInfo.GenerateInfoArray(type, false, true);
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
+			info.operators = MethodInfo.GenerateInfoArray(type, true, true, false, true);
 			info.fullDeclaration = GetFullDeclaration(info, type);
 			
 			return info;

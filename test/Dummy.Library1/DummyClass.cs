@@ -35,6 +35,14 @@ namespace Dummy {
 		internal string Nope3 { private get; set; }
 		//public override string V1 { get { return "1"; } set {}}
 		
+		public event System.EventHandler OnEvent;
+		private event System.EventHandler OnEvent100;
+		private static event System.EventHandler OnEvent99;
+		public static event System.EventHandler OnEvent19 { add {} remove {} }
+		public event System.EventHandler OnEvent3 { add {} remove {} }
+		internal event System.EventHandler OnEvent31 { add {} remove {} }
+		protected event System.EventHandler OnEvent32 { add {} remove {} }
+		
 		#region Public Constructors
 		
 		public DummyClass(double parameter1, T parameter2) {
@@ -53,5 +61,10 @@ namespace Dummy {
 		public new void Yoyo() {}
 		public void Below() {}
 		//public new bool Equals(DummyStruct other) { return true; }
+		
+		public static bool operator ==(DummyClass<T> left, DummyClass<T> right) { return true; }
+		public static bool operator !=(DummyClass<T> left, DummyClass<T> right) { return false; }
+		public static explicit operator DummyStructer(DummyClass<T> obj) { return new DummyStructer(); }
+		public static implicit operator Duma(DummyClass<T> obj) { return new Duma(); }
 	}
 }
