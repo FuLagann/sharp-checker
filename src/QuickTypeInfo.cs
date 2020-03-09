@@ -64,7 +64,7 @@ namespace SharpChecker {
 			);
 			
 			GetNames(
-				type.FullName,
+				type.FullName.Replace("&", ""),
 				type.Namespace,
 				generics,
 				out info.unlocalizedName,
@@ -91,7 +91,7 @@ namespace SharpChecker {
 			);
 			
 			GetNames(
-				type.FullName,
+				type.FullName.Replace("&", ""),
 				type.Namespace,
 				generics,
 				out info.unlocalizedName,

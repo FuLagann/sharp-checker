@@ -241,21 +241,9 @@ namespace SharpChecker {
 			// Variables
 			string[] declarations = new string[method.parameters.Length];
 			int i = 0;
-			int index;
 			
 			foreach(ParameterInfo parameter in method.parameters) {
-				declarations[i] = parameter.typeInfo.unlocalizedName;
-				index = declarations[i].LastIndexOf('`');
-				if(index != -1) {
-					declarations[i] = (
-						declarations[i].Substring(0, index) + "<" +
-						string.Join(", ", parameter.genericParameterDeclarations) + ">"
-					);
-				}
-				declarations[i] = QuickTypeInfo.DeleteNamespaceFromType(
-					QuickTypeInfo.MakeNameFriendly(declarations[i])
-				);
-				declarations[i++] += $" { parameter.name }";
+				declarations[i++] = parameter.fullDeclaration;
 			}
 			
 			return declarations;

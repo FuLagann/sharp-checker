@@ -228,7 +228,44 @@ TODO: Add formatting
 
 ### ParameterInfo
 
-TODO: Add formatting
+All the information relevant to parameters.
+
+**`name` as (string):** The name of the parameter.
+
+**`defaultValue` as (string):** The default value of the parameter (if it exists).
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The list of attributes that the parameter contains.
+
+**`modifier` as (string):** Any modifiers to the parameter (such as ref, in, out, params, etc.).
+
+**`isOptional` as (boolean):** Set to true if the parameter is optional and can be left out when calling the method.
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the parameter's type.
+
+**`genericParameterDeclarations` as (string[]):** The list of types used for the generic parameters.
+
+**`fullDeclaration` as (string):** The full declaration of the parameter as it would be found within the code.
+
+Example JSON:
+
+```json
+{
+  "name": "max",
+  "defaultValue": "100",
+  "attributes": [],
+  "modifier": "",
+  "isOptional": true,
+  "typeInfo": {
+    "unlocalizedName": "System.Int32",
+    "name": "int",
+    "fullName": "System.Int32",
+    "namespaceName": "System",
+    "genericParameters": []
+  },
+  "genericParameterDeclarations": [],
+  "fullDeclaration": "int max = 100"
+}
+```
 
 ### AttributeFieldInfo
 
