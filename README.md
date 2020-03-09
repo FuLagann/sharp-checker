@@ -59,10 +59,10 @@ All the information relevant to an attribute.
 **`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the type
 that the attribute is.
 
-**`constructorArgs` as ([AttributeFieldInfo](#attributefieldinfo)):** The list of
+**`constructorArgs` as ([AttributeFieldInfo](#attributefieldinfo)[]):** The list of
 constructor arguments that the attribute is declaring.
 
-**`properties` as ([AttributeFieldInfo](#attributefieldinfo)):** The list of fields and properties that the attribute is declaring.
+**`properties` as ([AttributeFieldInfo](#attributefieldinfo)[]):** The list of fields and properties that the attribute is declaring.
 
 **`parameterDeclaration` as (string):** The declaration of parameters as seen if
 looking at the code.
