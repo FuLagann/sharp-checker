@@ -73,63 +73,63 @@ Example JSON:
 
 ```json
 {
-	"typeInfo": {
-		"unlocalizedName": "Dummy.DummyAttribute",
-		"name": "DummyAttribute",
-		"fullName": "Dummy.DummyAttribute",
-		"namespaceName": "Dummy",
-		"genericParameters": []
-	},
-	"constructorArgs": [
-		{
-			"name": "hash1",
-			"value": "Hello",
-			"typeInfo": {
-				"unlocalizedName": "System.String",
-				"name": "string",
-				"fullName": "System.String",
-				"namespaceName": "System",
-				"genericParameters": []
-			}
-		},
-		{
-			"name": "hash2",
-			"value": "World",
-			"typeInfo": {
-				"unlocalizedName": "System.String",
-				"name": "string",
-				"fullName": "System.String",
-				"namespaceName": "System",
-				"genericParameters": []
-			}
-		}
-	],
-	"properties": [
-		{
-			"name": "val",
-			"value": "Testing",
-			"typeInfo": {
-				"unlocalizedName": "System.String",
-				"name": "string",
-				"fullName": "System.String",
-				"namespaceName": "System",
-				"genericParameters": []
-			}
-		},
-		{
-			"name": "HasValue",
-			"value": "true",
-			"typeInfo": {
-				"unlocalizedName": "System.Boolean",
-				"name": "bool",
-				"fullName": "System.Boolean",
-				"namespaceName": "System",
-				"genericParameters": []
-			}
-		}
-	],
-	"parameterDeclaration": "\"Hello\", \"World\", val = \"Testing\", HasValue = true",
-	"fullDeclaration": "[Dummy.DummyAttribute(\"Hello\", \"World\", val = \"Testing\", HasValue = true)]"
+  "typeInfo": {
+    "unlocalizedName": "Dummy.DummyAttribute",
+    "name": "DummyAttribute",
+    "fullName": "Dummy.DummyAttribute",
+    "namespaceName": "Dummy",
+    "genericParameters": []
+  },
+  "constructorArgs": [
+    {
+      "name": "hash1",
+      "value": "Hello",
+      "typeInfo": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      }
+    },
+    {
+      "name": "hash2",
+      "value": "World",
+      "typeInfo": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      }
+    }
+  ],
+  "properties": [
+    {
+      "name": "val",
+      "value": "Testing",
+      "typeInfo": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      }
+    },
+    {
+      "name": "HasValue",
+      "value": "true",
+      "typeInfo": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      }
+    }
+  ],
+  "parameterDeclaration": "\"Hello\", \"World\", val = \"Testing\", HasValue = true",
+  "fullDeclaration": "[Dummy.DummyAttribute(\"Hello\", \"World\", val = \"Testing\", HasValue = true)]"
 }
 ```
 
@@ -163,15 +163,15 @@ Example JSON:
 
 ```json
 {
-	"name": "isMod",
-	"value": "false",
-	"typeInfo": {
-		"unlocalizedName": "System.Boolean",
-		"name": "bool",
-		"fullName": "System.Boolean",
-		"namespaceName": "System",
-		"genericParameters": []
-	}
+  "name": "isMod",
+  "value": "false",
+  "typeInfo": {
+    "unlocalizedName": "System.Boolean",
+    "name": "bool",
+    "fullName": "System.Boolean",
+    "namespaceName": "System",
+    "genericParameters": []
+  }
 }
 ```
 
