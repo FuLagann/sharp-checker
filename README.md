@@ -40,7 +40,13 @@ SharpChecker Dummy.DummyClass-1 DummyLibrary.dll SecondDummyLibrary.dll
 SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
 ```
 
+## Format
+
 The returning json will be of the of the following formats (with `TypeInfo` being the main type):
+
+### QuickTypeInfo
+
+TODO: Add formatting
 
 ### TypeInfo
 
@@ -48,7 +54,84 @@ TODO: Add formatting
 
 ### AttributeInfo
 
-TODO: Add formatting
+All the information relevant to an attribute.
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the type
+that the attribute is.
+
+**`constructorArgs` as ([AttributeFieldInfo](#attributefieldinfo)):** The list of
+constructor arguments that the attribute is declaring.
+
+**`properties` as ([AttributeFieldInfo](#attributefieldinfo)):** The list of fields and properties that the attribute is declaring.
+
+**`parameterDeclaration` as (string):** The declaration of parameters as seen if
+looking at the code.
+
+**`fullDeclaration` as (string):** The declaration of the attribute as a whole, with name and parameters as seen if looking at the code.
+
+Example JSON:
+
+```json
+{
+	"typeInfo": {
+		"unlocalizedName": "Dummy.DummyAttribute",
+		"name": "DummyAttribute",
+		"fullName": "Dummy.DummyAttribute",
+		"namespaceName": "Dummy",
+		"genericParameters": []
+	},
+	"constructorArgs": [
+		{
+			"name": "hash1",
+			"value": "Hello",
+			"typeInfo": {
+				"unlocalizedName": "System.String",
+				"name": "string",
+				"fullName": "System.String",
+				"namespaceName": "System",
+				"genericParameters": []
+			}
+		},
+		{
+			"name": "hash2",
+			"value": "World",
+			"typeInfo": {
+				"unlocalizedName": "System.String",
+				"name": "string",
+				"fullName": "System.String",
+				"namespaceName": "System",
+				"genericParameters": []
+			}
+		}
+	],
+	"properties": [
+		{
+			"name": "val",
+			"value": "Testing",
+			"typeInfo": {
+				"unlocalizedName": "System.String",
+				"name": "string",
+				"fullName": "System.String",
+				"namespaceName": "System",
+				"genericParameters": []
+			}
+		},
+		{
+			"name": "HasValue",
+			"value": "true",
+			"typeInfo": {
+				"unlocalizedName": "System.Boolean",
+				"name": "bool",
+				"fullName": "System.Boolean",
+				"namespaceName": "System",
+				"genericParameters": []
+			}
+		}
+	],
+	"parameterDeclaration": "\"Hello\", \"World\", val = \"Testing\", HasValue = true",
+	"fullDeclaration": "[Dummy.DummyAttribute(\"Hello\", \"World\", val = \"Testing\", HasValue = true)]"
+}
+```
 
 ### InterfaceInfo
 
@@ -66,23 +149,34 @@ TODO: Add formatting
 
 TODO: Add formatting
 
-### Example JSON Output
+### AttributeFieldInfo
+
+All the information relevant to the attribute's fields.
+
+**`name` as (string):** The name of the attribute field.
+
+**`value` as (string):** The value of the attribute field.
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the attribute field's type.
+
+Example JSON:
 
 ```json
 {
-	"unlocalizeName": "Dummy.DummyClass`1",
-	"name": "DummyClass<T>",
-	"fullName": "Dummy.DummyClass<T>",
-	"namespaceName": "Dummy",
-	"assemblyName": "DummyLibrary",
-	"accessor": "public",
-	"modifier": "abstract",
-	"objectType": "class",
-	"declaration": "public class DummyClass<T>",
-	"fullDeclaration": "public class DummyClass<T> : IDummy",
-	"baseType": "",
-	"genericParameters": ["T"],
-	"interfaces": [],
-	"methods": []
+	"name": "isMod",
+	"value": "false",
+	"typeInfo": {
+		"unlocalizedName": "System.Boolean",
+		"name": "bool",
+		"fullName": "System.Boolean",
+		"namespaceName": "System",
+		"genericParameters": []
+	}
 }
+```
+
+### Example JSON Output
+
+```json
+
 ```

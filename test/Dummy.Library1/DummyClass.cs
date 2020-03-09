@@ -13,7 +13,7 @@ public class Test2 : ITest {
 
 namespace Dummy {
 	[Mod(false)]
-	[Dummy("Henlo", "Goobey", val="Hello", HasValue=true)]
+	[Dummy("Hello", "World", val="Testing", HasValue=true)]
 	public class DummyClass<T> : DummyStruct, IDummy, ITest {
 		#region Field Variables
 		// Variables

@@ -3,14 +3,35 @@ using Mono.Cecil;
 using Mono.Collections.Generic;
 
 namespace SharpChecker {
+	/// <summary>All the information relevant to an attribute</summary>
 	public class AttributeInfo {
+		#region Field Variables
 		// Variables
+		/// <summary>The information of the type that the attribute is</summary>
 		public QuickTypeInfo typeInfo;
+		/// <summary>The list of constructor arguments that the attribute is declaring</summary>
 		public AttributeFieldInfo[] constructorArgs;
+		/// <summary>The list of fields and properties that the attribute is declaring</summary>
 		public AttributeFieldInfo[] properties;
+		/// <summary>The declaration of parameters as seen if looking at the code</summary>
 		public string parameterDeclaration;
+		/// <summary>
+		/// The declaration of the attribute as a whole, with name and parameters as seen if looking
+		/// at the code
+		/// </summary>
 		public string fullDeclaration;
 		
+		#endregion // Field Variables
+		
+		#region Public Methods
+		
+		/// <summary>
+		/// Generates an array of information for all the attributes given a collection of custom attributes
+		/// </summary>
+		/// <param name="attrs">The collection of custom attributes to gather all the information from</param>
+		/// <returns>
+		/// Returns the array of attribute information generated from the collection of custom attributes
+		/// </returns>
 		public static AttributeInfo[] GenerateInfoArray(Collection<CustomAttribute> attrs) {
 			// Variables
 			AttributeInfo[] results = new AttributeInfo[attrs.Count];
@@ -23,6 +44,11 @@ namespace SharpChecker {
 			return results;
 		}
 		
+		/// <summary>
+		/// Generates the information for an attribute from the given Mono.Cecil custom attribute class
+		/// </summary>
+		/// <param name="attr">The attribute to gather the information from</param>
+		/// <returns>Returns the attribute information generated from the custom attribute</returns>
 		public static AttributeInfo GenerateInfo(CustomAttribute attr) {
 			// Variables
 			AttributeInfo info = new AttributeInfo();
@@ -75,7 +101,14 @@ namespace SharpChecker {
 			return info;
 		}
 		
-		public static string[] GetParameterDeclaration(AttributeInfo info) {
+		#endregion // Public Methods
+		
+		#region Private Methods
+		
+		/// <summary>Gets the parameter declaration string from the given info</summary>
+		/// <param name="info">The information used to retrieve the parameter declaration</param>
+		/// <returns>Returns the parameter declaration as a string</returns>
+		private static string[] GetParameterDeclaration(AttributeInfo info) {
 			// Variables
 			string[] declarations = new string[
 				info.constructorArgs.Length +
@@ -93,11 +126,21 @@ namespace SharpChecker {
 			return declarations;
 		}
 		
+		#endregion // Private Methods
+		
+		#region Nested Types
+		
+		/// <summary>All the information relevant to the attribute's fields</summary>
 		public class AttributeFieldInfo {
 			// Variables
-			public QuickTypeInfo typeInfo;
+			/// <summary>The name of the attribute field</summary>
 			public string name;
+			/// <summary>The value of the attribute field</summary>
 			public string value;
+			/// <summary>The information of the attribute field's type</summary>
+			public QuickTypeInfo typeInfo;
 		}
+		
+		#endregion // Nested Types
 	}
 }
