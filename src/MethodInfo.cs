@@ -251,7 +251,7 @@ namespace SharpChecker {
 						string.Join(", ", parameter.genericParameterDeclarations) + ">"
 					);
 				}
-				declarations[i] = QuickTypeInfo.DeleteNamespacesInGenerics(
+				declarations[i] = QuickTypeInfo.DeleteNamespaceFromType(
 					QuickTypeInfo.MakeNameFriendly(declarations[i])
 				);
 				declarations[i++] += $" { parameter.name }";

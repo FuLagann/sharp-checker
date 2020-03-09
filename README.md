@@ -44,13 +44,41 @@ SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
 
 The returning json will be of the of the following formats (with `TypeInfo` being the main type):
 
-### QuickTypeInfo
-
-TODO: Add formatting
-
 ### TypeInfo
 
 TODO: Add formatting
+
+### QuickTypeInfo
+
+A quick look into the information of the type.
+
+**`unlocalizedName` as (string):** The name of the type as found within the library's IL code.
+
+**`name` as (string):** The name of the type as found when looking at the code.
+
+**`fullName` as (string):** The full name of the type as found when looking at the code. Includes the namespace and the name within this variable.
+
+**`namespaceName` as (string):** The name of the namespace where the type is located in.
+
+**`genericParameters` as ([GenericParametersInfo](#genericparametersinfo)[]):** The list of generic parameters that the type contains.
+
+Example JSON:
+
+```json
+{
+  "unlocalizedName": "Dummy.DummyClass`1",
+  "name": "DummyClass<T>",
+  "fullName": "Dummy.DummyClass<T>",
+  "namespaceName": "Dummy",
+  "genericParameters": [
+    {
+      "unlocalizedName": "T",
+      "name": "T",
+      "constraints": []
+    }
+  ]
+}
+```
 
 ### AttributeInfo
 
@@ -174,6 +202,10 @@ Example JSON:
   }
 }
 ```
+
+### GenericParametersInfo
+
+TODO: Add formatting
 
 ### Example JSON Output
 

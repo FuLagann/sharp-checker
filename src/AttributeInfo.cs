@@ -23,7 +23,7 @@ namespace SharpChecker {
 		
 		#endregion // Field Variables
 		
-		#region Public Methods
+		#region Public Static Methods
 		
 		/// <summary>
 		/// Generates an array of information for all the attributes given a collection of custom attributes
@@ -101,9 +101,9 @@ namespace SharpChecker {
 			return info;
 		}
 		
-		#endregion // Public Methods
+		#endregion // Public Static Methods
 		
-		#region Private Methods
+		#region Private Static Methods
 		
 		/// <summary>Gets the parameter declaration string from the given info</summary>
 		/// <param name="info">The information used to retrieve the parameter declaration</param>
@@ -126,7 +126,7 @@ namespace SharpChecker {
 			return declarations;
 		}
 		
-		#endregion // Private Methods
+		#endregion // Private Static Methods
 		
 		#region Nested Types
 		
