@@ -84,7 +84,8 @@ namespace SharpChecker {
 		}
 		
 		public static void RemoveUnwanted(
-			ref MethodInfo[] temp, bool isStatic, bool isConstructor, bool isOperator
+			ref MethodInfo[] temp, bool isStatic,
+			bool isConstructor, bool isOperator
 		) {
 			// Variables
 			List<MethodInfo> methods = new List<MethodInfo>(temp);

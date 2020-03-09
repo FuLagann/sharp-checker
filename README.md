@@ -161,13 +161,66 @@ Example JSON:
 }
 ```
 
-### InterfaceInfo
-
-TODO: Add formatting
-
 ### FieldInfo
 
-TODO: Add formatting
+All the information relevant to fields.
+
+**`name` as (string):** The name of the field.
+
+**`value` as (string):** The value of the field (if it's a constant).
+
+**`isConstant` as (boolean):** Set to true if the field is constant.
+
+**`isStatic` as (boolean):** Set to true if the field is static.
+
+**`isReadonly` as (boolean):** Set to true if the field is readonly.
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The list of attributes that the field contains.
+
+**`accessor` as (string):** The accessor of the field (such as internal, private, protected, public).
+
+**`modifier` as (string):** Any modifiers to the field (such as static, const, static readonly, etc).
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The type information of the field's type.
+
+**`declaration` as (string):** The declaration of the field as it is found witihn the code.
+
+Example JSON:
+
+```json
+{
+  "name": "grid",
+  "value": "",
+  "isConstant": false,
+  "isStatic": false,
+  "isReadonly": false,
+  "attributes": [
+    {
+      "typeInfo": {
+        "unlocalizedName": "System.ObsoleteAttribute",
+        "name": "ObsoleteAttribute",
+        "fullName": "System.ObsoleteAttribute",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "constructorArgs": [],
+      "properties": [],
+      "parameterDeclaration": "",
+      "fullDeclaration": "[System.ObsoleteAttribute]"
+    }
+  ],
+  "accessor": "public",
+  "modifier": "",
+  "typeInfo": {
+    "unlocalizedName": "System.Object[][]",
+    "name": "object[][]",
+    "fullName": "System.Object[][]",
+    "namespaceName": "System",
+    "genericParameters": []
+  },
+  "declaration": "public object[][] grid"
+}
+```
 
 ### MethodInfo
 

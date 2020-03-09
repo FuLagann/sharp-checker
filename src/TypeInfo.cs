@@ -57,6 +57,7 @@ namespace SharpChecker {
 		public QuickTypeInfo[] interfaces;
 		public MethodInfo[] constructors;
 		public FieldInfo[] fields;
+		public FieldInfo[] staticFields;
 		public PropertyInfo[] properties;
 		public PropertyInfo[] staticProperties;
 		public EventInfo[] events;
@@ -221,7 +222,8 @@ namespace SharpChecker {
 			}
 			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
 			info.constructors = MethodInfo.GenerateInfoArray(type, false, false, true);
-			info.fields = FieldInfo.GenerateInfoArray(type.Fields);
+			info.fields = FieldInfo.GenerateInfoArray(type, true, false);
+			info.staticFields = FieldInfo.GenerateInfoArray(type, false, true);
 			info.properties = PropertyInfo.GenerateInfoArray(type, true, false);
 			info.staticProperties = PropertyInfo.GenerateInfoArray(type, false, true);
 			info.events = EventInfo.GenerateInfoArray(type, true, false);
