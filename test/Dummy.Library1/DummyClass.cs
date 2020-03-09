@@ -14,7 +14,7 @@ public class Test2 : ITest {
 namespace Dummy {
 	[Mod(false)]
 	[Dummy("Hello", "World", val="Testing", HasValue=true)]
-	public class DummyClass<T> : DummyStruct, IDummy, ITest {
+	public class DummyClass<T> : DummyStruct, IDummy, ITest where T : struct {
 		#region Field Variables
 		// Variables
 		public string variable1;
@@ -55,7 +55,7 @@ namespace Dummy {
 		
 		#endregion // Public Constructors
 		
-		public string Temp2(DummyClass<IDummy> a, DummyStruct b) { return ""; }
+		public string Temp2(DummyClass<int> a, DummyStruct b) { return ""; }
 		protected sealed override void Temporary() {}
 		public void Yoyoyo() {}
 		public new void Yoyo() {}

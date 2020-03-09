@@ -295,7 +295,31 @@ Example JSON:
 
 ### GenericParametersInfo
 
-TODO: Add formatting
+All the information relevant to generic parameters.
+
+**`unlocalizedName` as (string):** The unlocalized name of the generic parameter as it would appear in the IL code.
+
+**`name` as (string):** The name of the generic parameter.
+
+**`constraints` as ([QuickTypeInfo](#attributefieldinfo)[]):** The list of constraints of what type the generic parameter should be.
+
+Example JSON:
+
+```json
+{
+  "unlocalizedName": "T",
+  "name": "T",
+  "constraints": [
+    {
+      "unlocalizedName": "System.ValueType",
+      "name": "struct",
+      "fullName": "System.ValueType",
+      "namespaceName": "System",
+      "genericParameters": []
+    }
+  ]
+}
+```
 
 ### Example JSON Output
 

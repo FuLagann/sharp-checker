@@ -21,16 +21,16 @@ namespace Dummy {
 		public virtual void Yoyo() {}
 		public void Ayo() {}
 		protected abstract void Temporary();
-		public void Create(ref DummyClass<DummyStruct> s, out DummyStruct b, string[] ss, int a = 10, string bob = "Hello!") { b = null; }
+		public void Create(ref DummyClass<int> s, out DummyStruct b, string[] ss, int a = 10, string bob = "Hello!") { b = null; }
 		
-		public void Display(ref DummyClass<DummyStruct> dummy, int max = 100) {}
+		public void Display(ref DummyClass<int> dummy, int max = 100) {}
 		
 		public virtual bool Equals(DummyStruct other) {
 			return true;
 		}
 		
 		[Dummy("Henlo", "Goobey", val="Hello", HasValue=true)]
-		public static void Create(ref DummyClass<DummyStruct> s, out DummyStruct b) {
+		public static void Create(ref DummyClass<int> s, out DummyStruct b) {
 			b = (DummyStruct)s;
 		}
 		
