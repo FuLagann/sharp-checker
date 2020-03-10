@@ -1,4 +1,6 @@
 
+using Newtonsoft.Json;
+
 using System.IO;
 
 namespace SharpChecker {
@@ -24,12 +26,14 @@ namespace SharpChecker {
 			string typePath = args[0].Replace('-', '`');
 			string[] assemblies = new string[args.Length - 1];
 			TypeInfo info;
+			string json = "";
 			
 			System.Array.Copy(args, 1, assemblies, 0, assemblies.Length);
 			
 			if(TypeInfo.GenerateTypeInfo(assemblies, typePath, out info)) {
-				System.Console.WriteLine(info.GetJson());
-				File.WriteAllText("type.json", info.GetJson());
+				json = JsonConvert.SerializeObject(info, Formatting.Indented);
+				System.Console.WriteLine(json);
+				File.WriteAllText("type.json", json);
 			}
 			else {
 				System.Console.WriteLine($"Type [{ typePath }] is not found!");

@@ -10,115 +10,70 @@ using System.IO;
 using Reflection = System.Reflection;
 
 namespace SharpChecker {
-	/// <summary>
-	/// All the important information pertaining to a type
-	/// </summary>
+	/// <summary>All the information relevant to types</summary>
 	public class TypeInfo {
 		#region Field Variables
 		// Variables
-		/// <summary>
-		/// All the type information to identify the type
-		/// </summary>
+		/// <summary>The quick look at the information of the type (including name, namespace, generic parameters)</summary>
 		public QuickTypeInfo typeInfo;
-		/// <summary>
-		/// The assembly where the type came from
-		/// </summary>
+		/// <summary>The name of the assembly where the type is found in</summary>
 		public string assemblyName;
-		/// <summary>
-		/// The type of accessor the type grants access to (e.g. public or private)
-		/// </summary>
+		/// <summary>The accessor of the type (such as internal, private, protected, public)</summary>
 		public string accessor;
-		/// <summary>
-		/// The types of modifiers the type has (e.g. static, abstract, or sealed)
-		/// </summary>
+		/// <summary>Any modifiers that the type contains (such as static, sealed, abstract, etc.)</summary>
 		public string modifier;
-		/// <summary>
-		/// The type of object the type is (e.g. clas, struct, enum, or interface)
-		/// </summary>
+		/// <summary>The object type of the type (such as class, struct, enum, or interface)</summary>
 		public string objectType;
-		/// <summary>
-		/// The declaration of the type as if it was found in the code (without any inheritance)
-		/// (e.g. public static class Math)
-		/// </summary>
+		/// <summary>The partial declaration of the class within the inheritance declaration that can be found within the code</summary>
 		public string declaration;
-		/// <summary>
-		/// The declaration of the type as if it was found in the code
-		/// (e.g. public abstract class Graphics : MarshalByRefObjects, IDisposable, IDeviceContext)
-		/// </summary>
+		/// <summary>The full declaration of the type as it would be found within the code</summary>
 		public string fullDeclaration;
-		/// <summary>
-		/// The base type that the type is derived from
-		/// </summary>
+		/// <summary>The information of the base type that the type inherits</summary>
 		public QuickTypeInfo baseType;
+		/// <summary>The array of attributes that the type contains</summary>
 		public AttributeInfo[] attributes;
-		/// <summary>
-		/// The list of information of the interfaces the type is implementing
-		/// </summary>
+		/// <summary>The array of type information of interfaces that the type implements</summary>
 		public QuickTypeInfo[] interfaces;
+		/// <summary>The array of constructors that the type contains</summary>
 		public MethodInfo[] constructors;
+		/// <summary>The array of fields that the type contains</summary>
 		public FieldInfo[] fields;
+		/// <summary>The array of static fields that the type contains</summary>
 		public FieldInfo[] staticFields;
+		/// <summary>The array of properties that the type contains</summary>
 		public PropertyInfo[] properties;
+		/// <summary>The array of static properties that the type contains</summary>
 		public PropertyInfo[] staticProperties;
+		/// <summary>The array of events that the type contains</summary>
 		public EventInfo[] events;
+		/// <summary>The array of static events that the type contains</summary>
 		public EventInfo[] staticEvents;
-		/// <summary>
-		/// The list of information of the methods the type holds
-		/// </summary>
+		/// <summary>The array of static methods that the type contains</summary>
 		public MethodInfo[] methods;
+		/// <summary>The array of static methods that the type contains</summary>
 		public MethodInfo[] staticMethods;
+		/// <summary>The array of operators that the type contains</summary>
 		public MethodInfo[] operators;
+		// The name of the assembly used
 		internal static string assemblyUsed = "";
+		// The array of assemblies that the user wanted to look into
 		internal static string[] assembliesUsed;
-		internal static bool ignorePrivate = true;
+		// Set to true to ignore all private members
+		internal static bool ignorePrivate = false;
 		
 		#endregion // Field Variables
 		
 		#region Public Static Methods
 		
-		public static bool IsTypePublic(string typePath, string[] assemblies) {
-			foreach(string assembly in assemblies) {
-				// Variables
-				AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(assembly);
-				
-				foreach(ModuleDefinition module in asm.Modules) {
-					// Variables
-					TypeDefinition type = module.GetType(typePath);
-					
-					if(type != null) {
-						return type.IsPublic;
-					}
-				}
-			}
-			try {
-				// Variables
-				System.Type sysType = System.Type.GetType(typePath, true);
-				AssemblyDefinition _asm = AssemblyDefinition.ReadAssembly(
-					sysType.Assembly.CodeBase.Replace("file:///", "")
-				);
-				
-				foreach(ModuleDefinition _module in _asm.Modules) {
-					// Variables
-					TypeDefinition _type = _module.GetType(typePath);
-					
-					if(_type != null) {
-						return _type.IsPublic;
-					}
-				}
-			} catch(System.Exception e) {
-				System.Console.WriteLine(e);
-			}
-			
-			return false;
-		}
+		/// <summary>Sets whether the program should ignore private methods</summary>
+		/// <param name="isPrivate">Set to true to ignore all private members</param>
+		public static void SetIgnorePrivate(bool isPrivate) { ignorePrivate = isPrivate; }
 		
-		/// <summary>
-		/// Generates a type information from the list of assemblies and the type path
-		/// </summary>
-		/// <param name="assemblies">The list of assemblies to search through</param>
-		/// <param name="typePath">The type path to search for</param>
-		/// <param name="info">The resulting information of the type</param>
-		/// <returns>Returns true if the information has successfully been found</returns>
+		/// <summary>Generates the type information from a list of assemblies with a safe check</summary>
+		/// <param name="assemblies">The list of assemblies to look into</param>
+		/// <param name="typePath">The type path to look into</param>
+		/// <param name="info">The resulting type information that is generated</param>
+		/// <returns>Returns true if the type information is found</returns>
 		public static bool GenerateTypeInfo(string[] assemblies, string typePath, out TypeInfo info) {
 			assembliesUsed = assemblies;
 			foreach(string assembly in assemblies) {
@@ -160,11 +115,9 @@ namespace SharpChecker {
 			return false;
 		}
 		
-		/// <summary>
-		/// Creates the type information
-		/// </summary>
-		/// <param name="asm">The assembly definition to get more information out of</param>
-		/// <param name="type">The type definition to get information from</param>
+		/// <summary>Generates a type information from the given type definition</summary>
+		/// <param name="asm">The assembly definition where the type came from</param>
+		/// <param name="type">The type definition to look into</param>
 		/// <returns>Returns the type information</returns>
 		public static TypeInfo GenerateInfo(AssemblyDefinition asm, TypeDefinition type) {
 			// Variables
@@ -236,7 +189,48 @@ namespace SharpChecker {
 			return info;
 		}
 		
-		public static string GetFullDeclaration(TypeInfo info, TypeDefinition type) {
+		/// <summary>Localizes the name using the list of generic parameter names</summary>
+		/// <param name="name">The name of the type</param>
+		/// <param name="generics">The array of generic parameter names</param>
+		/// <returns>Returns the localized name</returns>
+		public static string LocalizeName(string name, string[] generics) {
+			if(generics.Length == 0) {
+				return name;
+			}
+			
+			return (
+				name.Substring(0, name.LastIndexOf('`')) + "<" +
+				string.Join(", ", generics) + ">"
+			);
+		}
+		
+		/// <summary>Gets an array of generic parameter names from the given array of generic parameters</summary>
+		/// <param name="generics">The array of generic parameters</param>
+		/// <returns>Returns an array of generic parameter names</returns>
+		public static string[] GetGenericParametersString(GenericParameter[] generics) {
+			if(generics == null) {
+				return new string[0];
+			}
+			
+			// Variables
+			string[] results = new string[generics.Length];
+			
+			for(int i = 0; i < generics.Length; i++) {
+				results[i] = generics[i].Name;
+			}
+			
+			return results;
+		}
+		
+		#endregion // Public Static Methods
+		
+		#region Private Static Methods
+		
+		/// <summary>Gets the full declaration of the type</summary>
+		/// <param name="info">The type information to look into</param>
+		/// <param name="type">The type definition to look into</param>
+		/// <returns>Returns the full declaration of the type</returns>
+		private static string GetFullDeclaration(TypeInfo info, TypeDefinition type) {
 			// Variables
 			bool hasInheritance = (info.baseType.fullName != "" || info.interfaces.Length > 0);
 			string decl = info.declaration + (hasInheritance ? " : " : "");
@@ -264,7 +258,10 @@ namespace SharpChecker {
 			return decl;
 		}
 		
-		public static QuickTypeInfo[] GenerateInteraceInfoArray(Collection<InterfaceImplementation> interfaces) {
+		/// <summary>Generates an array of interface informations</summary>
+		/// <param name="interfaces">The collection of interface implementations</param>
+		/// <returns>Returns an array of interface informations</returns>
+		private static QuickTypeInfo[] GenerateInteraceInfoArray(Collection<InterfaceImplementation> interfaces) {
 			// Variables
 			List<QuickTypeInfo> results = new List<QuickTypeInfo>();
 			QuickTypeInfo info;
@@ -280,47 +277,46 @@ namespace SharpChecker {
 			return results.ToArray();
 		}
 		
-		/// <summary>
-		/// Gets the array generic parameters as an array of strings
-		/// </summary>
-		/// <param name="generics">The generic parameters to convert</param>
-		/// <returns>Returns an array of strings of the generic parameter names</returns>
-		public static string[] GetGenericParametersString(GenericParameter[] generics) {
-			if(generics == null) {
-				return new string[0];
+		/// <summary>Finds if the type is a public type</summary>
+		/// <param name="typePath">The type path to look into</param>
+		/// <param name="assemblies">The list of assemblies to look into</param>
+		/// <returns>Returns true if the type is public</returns>
+		private static bool IsTypePublic(string typePath, string[] assemblies) {
+			foreach(string assembly in assemblies) {
+				// Variables
+				AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(assembly);
+				
+				foreach(ModuleDefinition module in asm.Modules) {
+					// Variables
+					TypeDefinition type = module.GetType(typePath);
+					
+					if(type != null) {
+						return type.IsPublic;
+					}
+				}
+			}
+			try {
+				// Variables
+				System.Type sysType = System.Type.GetType(typePath, true);
+				AssemblyDefinition _asm = AssemblyDefinition.ReadAssembly(
+					sysType.Assembly.CodeBase.Replace("file:///", "")
+				);
+				
+				foreach(ModuleDefinition _module in _asm.Modules) {
+					// Variables
+					TypeDefinition _type = _module.GetType(typePath);
+					
+					if(_type != null) {
+						return _type.IsPublic;
+					}
+				}
+			} catch(System.Exception e) {
+				System.Console.WriteLine(e);
 			}
 			
-			// Variables
-			string[] results = new string[generics.Length];
-			
-			for(int i = 0; i < generics.Length; i++) {
-				results[i] = generics[i].Name;
-			}
-			
-			return results;
+			return false;
 		}
 		
-		public static string LocalizeName(string name, string[] generics) {
-			if(generics.Length == 0) {
-				return name;
-			}
-			
-			return (
-				name.Substring(0, name.LastIndexOf('`')) + "<" +
-				string.Join(", ", generics) + ">"
-			);
-		}
-		
-		#endregion // Public Static Methods
-		
-		#region Public Methods
-		
-		/// <summary>
-		/// Gets the json string of the object
-		/// </summary>
-		/// <returns>Returns the json string of the object</returns>
-		public string GetJson() { return JsonConvert.SerializeObject(this, Formatting.Indented); }
-		
-		#endregion // Public Methods
+		#endregion // Private Static Methods
 	}
 }

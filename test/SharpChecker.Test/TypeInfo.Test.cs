@@ -1,4 +1,6 @@
 
+using Newtonsoft.Json;
+
 using System.IO;
 
 using Xunit;
@@ -44,7 +46,7 @@ namespace SharpChecker.Testing {
 			if(File.Exists("type.json")) { File.Delete("type.json"); }
 			
 			if(TypeInfo.GenerateTypeInfo(assemblies, "Dummy.DummyClass`1", out info)) {
-				File.WriteAllText("type.json", info.GetJson());
+				File.WriteAllText("type.json", JsonConvert.SerializeObject(info, Formatting.Indented));
 			}
 			Assert.True(File.Exists("type.json"));
 		}

@@ -51,6 +51,8 @@ namespace Dummy {
 		
 		#endregion // Public Constructors
 		
+		internal override void World() {}
+		
 		public string Temp2(DummyClass<int> a, DummyStruct b) { return ""; }
 		protected sealed override void Temporary() {}
 		public void Yoyoyo() {}

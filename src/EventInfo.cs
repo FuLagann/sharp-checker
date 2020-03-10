@@ -41,7 +41,7 @@ namespace SharpChecker {
 			if(!recursive) {
 				EventInfo[] results = GenerateInfoArray(type.Events);
 				
-				RemoveUnwanted(ref results, isStatic);
+				RemoveUnwanted(ref results, isStatic, true);
 				
 				return results;
 			}
@@ -51,10 +51,11 @@ namespace SharpChecker {
 			EventInfo[] temp;
 			TypeDefinition currType = type;
 			TypeReference baseType;
+			bool isOriginal = true;
 			
 			while(currType != null) {
 				temp = GenerateInfoArray(currType.Events);
-				RemoveUnwanted(ref temp, isStatic);
+				RemoveUnwanted(ref temp, isStatic, isOriginal);
 				if(currType != type) {
 					RemoveDuplicates(ref temp, events);
 				}
@@ -64,6 +65,7 @@ namespace SharpChecker {
 					break;
 				}
 				currType = baseType.Resolve();
+				isOriginal = false;
 			}
 			
 			return events.ToArray();
@@ -122,7 +124,8 @@ namespace SharpChecker {
 		/// <summary>Removes any unwanted elements from the array of event informations</summary>
 		/// <param name="temp">The array of event informations to remove from</param>
 		/// <param name="isStatic">Set to true if non-static members should be removed</param>
-		public static void RemoveUnwanted(ref EventInfo[] temp, bool isStatic) {
+		/// <param name="isOriginal">Set to false if it's a base type, this will remove any private members</param>
+		public static void RemoveUnwanted(ref EventInfo[] temp, bool isStatic, bool isOriginal) {
 			// Variables
 			List<EventInfo> events = new List<EventInfo>(temp);
 			
@@ -131,6 +134,9 @@ namespace SharpChecker {
 					events.RemoveAt(i);
 				}
 				else if(events[i].isStatic != isStatic) {
+					events.RemoveAt(i);
+				}
+				else if(!isOriginal && events[i].accessor == "private") {
 					events.RemoveAt(i);
 				}
 			}

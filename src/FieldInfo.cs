@@ -52,7 +52,7 @@ namespace SharpChecker {
 			if(!recursive) {
 				FieldInfo[] results = GenerateInfoArray(type.Fields);
 				
-				RemoveUnwanted(ref results, isStatic);
+				RemoveUnwanted(ref results, isStatic, true);
 				
 				return results;
 			}
@@ -62,10 +62,11 @@ namespace SharpChecker {
 			FieldInfo[] temp;
 			TypeDefinition currType = type;
 			TypeReference baseType;
+			bool isOriginal = true;
 			
 			while(currType != null) {
 				temp = GenerateInfoArray(currType.Fields);
-				RemoveUnwanted(ref temp, isStatic);
+				RemoveUnwanted(ref temp, isStatic, isOriginal);
 				if(currType != type) {
 					RemoveDuplicates(ref temp, methods);
 				}
@@ -75,6 +76,7 @@ namespace SharpChecker {
 					break;
 				}
 				currType = baseType.Resolve();
+				isOriginal = false;
 			}
 			
 			return methods.ToArray();
@@ -171,7 +173,8 @@ namespace SharpChecker {
 		/// <summary>Removes any unwanted elements witihn the list</summary>
 		/// <param name="temp">The list of field informations to look into</param>
 		/// <param name="isStatic">Set to true to remove any non-static members</param>
-		private static void RemoveUnwanted(ref FieldInfo[] temp, bool isStatic) {
+		/// <param name="isOriginal">Set to false if it's a base type, this will remove any private members</param>
+		private static void RemoveUnwanted(ref FieldInfo[] temp, bool isStatic, bool isOriginal) {
 			// Variables
 			List<FieldInfo> fields = new List<FieldInfo>(temp);
 			
@@ -180,6 +183,9 @@ namespace SharpChecker {
 					fields.RemoveAt(i);
 				}
 				else if(fields[i].isStatic != isStatic) {
+					fields.RemoveAt(i);
+				}
+				else if(!isOriginal && fields[i].accessor == "private") {
 					fields.RemoveAt(i);
 				}
 			}

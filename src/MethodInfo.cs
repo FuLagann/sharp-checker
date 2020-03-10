@@ -73,7 +73,7 @@ namespace SharpChecker {
 			if(!recursive) {
 				MethodInfo[] results = GenerateInfoArray(type.Methods);
 				
-				RemoveUnwanted(ref results, isStatic, isConstructor, isOperator);
+				RemoveUnwanted(ref results, isStatic, isConstructor, isOperator, true);
 				
 				return results;
 			}
@@ -83,10 +83,11 @@ namespace SharpChecker {
 			MethodInfo[] temp;
 			TypeDefinition currType = type;
 			TypeReference baseType;
+			bool isOriginal = true;
 			
 			while(currType != null) {
 				temp = GenerateInfoArray(currType.Methods);
-				RemoveUnwanted(ref temp, isStatic, isConstructor, isOperator);
+				RemoveUnwanted(ref temp, isStatic, isConstructor, isOperator, isOriginal);
 				if(currType != type) {
 					RemoveDuplicates(ref temp, methods);
 				}
@@ -96,6 +97,7 @@ namespace SharpChecker {
 					break;
 				}
 				currType = baseType.Resolve();
+				isOriginal = false;
 			}
 			
 			return methods.ToArray();
@@ -203,9 +205,10 @@ namespace SharpChecker {
 		/// <param name="isStatic">Set to true if non-static methods should be removed</param>
 		/// <param name="isConstructor">Set to false if constructors should be removed</param>
 		/// <param name="isOperator">Set to false if operators should be removed</param>
+		/// <param name="isOriginal">Set to false if it's a base type, this will remove any private members</param>
 		private static void RemoveUnwanted(
 			ref MethodInfo[] temp, bool isStatic,
-			bool isConstructor, bool isOperator
+			bool isConstructor, bool isOperator, bool isOriginal
 		) {
 			// Variables
 			List<MethodInfo> methods = new List<MethodInfo>(temp);
@@ -227,6 +230,9 @@ namespace SharpChecker {
 					methods.RemoveAt(i);
 				}
 				else if(methods[i].isOperator != isOperator) {
+					methods.RemoveAt(i);
+				}
+				else if(!isOriginal && methods[i].accessor == "private") {
 					methods.RemoveAt(i);
 				}
 			}

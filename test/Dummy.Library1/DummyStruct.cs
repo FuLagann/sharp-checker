@@ -21,6 +21,8 @@ namespace Dummy {
 		public virtual void Yoyo() {}
 		public void Ayo() {}
 		protected abstract void Temporary();
+		private void Hello(){}
+		internal virtual void World() {}
 		public void Create(ref DummyClass<int> s, out DummyStruct b, string[] ss, int a = 10, string bob = "Hello!") { b = null; }
 		
 		public void Display(ref DummyClass<int> dummy, int max = 100) {}
