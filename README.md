@@ -413,6 +413,102 @@ All the information relevant to events.
 }
 ```
 
+### PropertyInfo
+
+TODO: Add formatting
+
+```json
+{
+  "name": "Guuid",
+  "isStatic": false,
+  "hasGetter": true,
+  "hasSetter": false,
+  "attributes": [],
+  "accessor": "public",
+  "modifier": "virtual",
+  "typeInfo": {
+    "unlocalizedName": "System.String",
+    "name": "string",
+    "fullName": "System.String",
+    "namespaceName": "System",
+    "genericParameters": []
+  },
+  "implementedType": {
+    "unlocalizedName": "Dummy.DummyClass`1",
+    "name": "DummyClass<T>",
+    "fullName": "Dummy.DummyClass<T>",
+    "namespaceName": "Dummy",
+    "genericParameters": [
+      {
+        "unlocalizedName": "T",
+        "name": "T",
+        "constraints": [
+          {
+            "unlocalizedName": "System.ValueType",
+            "name": "struct",
+            "fullName": "System.ValueType",
+            "namespaceName": "System",
+            "genericParameters": []
+          }
+        ]
+      }
+    ]
+  },
+  "parameters": [],
+  "getter": {
+    "name": "get_Guuid",
+    "accessor": "public",
+    "modifier": "virtual",
+    "isAbstract": false,
+    "isConstructor": false,
+    "isConversionOperator": false,
+    "isExtension": false,
+    "isOperator": false,
+    "isOverriden": false,
+    "isStatic": false,
+    "isVirtual": true,
+    "implementedType": {
+      "unlocalizedName": "Dummy.DummyClass`1",
+      "name": "DummyClass<T>",
+      "fullName": "Dummy.DummyClass<T>",
+      "namespaceName": "Dummy",
+      "genericParameters": [
+        {
+          "unlocalizedName": "T",
+          "name": "T",
+          "constraints": [
+            {
+              "unlocalizedName": "System.ValueType",
+              "name": "struct",
+              "fullName": "System.ValueType",
+              "namespaceName": "System",
+              "genericParameters": []
+            }
+          ]
+        }
+      ]
+    },
+    "returnType": {
+      "unlocalizedName": "System.String",
+      "name": "string",
+      "fullName": "System.String",
+      "namespaceName": "System",
+      "genericParameters": []
+    },
+    "attributes": [],
+    "parameters": [],
+    "declaration": "public virtual string get_Guuid",
+    "parameterDeclaration": "",
+    "fullDeclaration": "public virtual string get_Guuid()"
+  },
+  "setter": null,
+  "declaration": "public virtual string Guuid",
+  "parameterDeclaration": "",
+  "getSetDeclaration": "get;",
+  "fullDeclaration": "public virtual string Guuid { get; }"
+}
+```
+
 ### MethodInfo
 
 All the information relevant to methods.

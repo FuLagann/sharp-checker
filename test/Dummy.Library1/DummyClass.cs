@@ -25,7 +25,9 @@ namespace Dummy {
 		
 		#endregion // Field Variables
 		
-		public string Variable2 { get { return this.variable2.ToString(); } }
+		public virtual string Guuid { get { return this.variable2.ToString(); } }
+		public string this[int index] { get { return index + ""; } set {} }
+		public int this[string hash] { get { return 1; } }
 		
 		public virtual string Yepper { get; }
 		public static string Yep { get; }
