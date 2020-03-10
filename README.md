@@ -222,6 +222,197 @@ Example JSON:
 }
 ```
 
+### EventInfo
+
+All the information relevant to events.
+
+**`name` as (string):** The name of the event.
+
+**`isStatic` as (boolean):** Set to true if the event is static.
+
+**`accessor` as (string):** The accessor of the event (such as internal, private, protected, public).
+
+**`modifier` as (string):** Any modifiers of the event (such as static, virtual, override, etc.).
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the event's type.
+
+**`adder` as ([MethodInfo](#methodinfo)):** The information of the event's adding method.
+
+**`remover` as ([MethodInfo](#methodinfo):** The information of the event's removing method.
+
+**`fullDeclaration` as (string):** The declaration of the event as it would be found in the code.
+
+```json
+{
+  "name": "OnLog",
+  "isStatic": false,
+  "accessor": "public",
+  "modifier": "",
+  "typeInfo": {
+    "unlocalizedName": "System.EventHandler",
+    "name": "EventHandler",
+    "fullName": "System.EventHandler",
+    "namespaceName": "System",
+    "genericParameters": []
+  },
+  "adder": {
+    "name": "add_OnLog",
+    "accessor": "public",
+    "modifier": "",
+    "isAbstract": false,
+    "isConstructor": false,
+    "isConversionOperator": false,
+    "isExtension": false,
+    "isOperator": false,
+    "isOverriden": true,
+    "isStatic": false,
+    "isVirtual": false,
+    "implementedType": {
+      "unlocalizedName": "Dummy.DummyClass`1",
+      "name": "DummyClass<T>",
+      "fullName": "Dummy.DummyClass<T>",
+      "namespaceName": "Dummy",
+      "genericParameters": [
+        {
+          "unlocalizedName": "T",
+          "name": "T",
+          "constraints": [
+            {
+              "unlocalizedName": "System.ValueType",
+              "name": "struct",
+              "fullName": "System.ValueType",
+              "namespaceName": "System",
+              "genericParameters": []
+            }
+          ]
+        }
+      ]
+    },
+    "returnType": {
+      "unlocalizedName": "System.Void",
+      "name": "void",
+      "fullName": "System.Void",
+      "namespaceName": "System",
+      "genericParameters": []
+    },
+    "attributes": [
+      {
+        "typeInfo": {
+          "unlocalizedName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+          "name": "CompilerGeneratedAttribute",
+          "fullName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+          "namespaceName": "System.Runtime.CompilerServices",
+          "genericParameters": []
+        },
+        "constructorArgs": [],
+        "properties": [],
+        "parameterDeclaration": "",
+        "fullDeclaration": "[System.Runtime.CompilerServices.CompilerGeneratedAttribute]"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "value",
+        "defaultValue": "",
+        "attributes": [],
+        "modifier": "",
+        "isOptional": false,
+        "typeInfo": {
+          "unlocalizedName": "System.EventHandler",
+          "name": "EventHandler",
+          "fullName": "System.EventHandler",
+          "namespaceName": "System",
+          "genericParameters": []
+        },
+        "genericParameterDeclarations": [],
+        "fullDeclaration": "EventHandler value"
+      }
+    ],
+    "declaration": "public void add_OnLog",
+    "parameterDeclaration": "EventHandler value",
+    "fullDeclaration": "public void add_OnLog(EventHandler value)"
+  },
+  "remover": {
+    "name": "remove_OnLog",
+    "accessor": "public",
+    "modifier": "",
+    "isAbstract": false,
+    "isConstructor": false,
+    "isConversionOperator": false,
+    "isExtension": false,
+    "isOperator": false,
+    "isOverriden": true,
+    "isStatic": false,
+    "isVirtual": false,
+    "implementedType": {
+      "unlocalizedName": "Dummy.DummyClass`1",
+      "name": "DummyClass<T>",
+      "fullName": "Dummy.DummyClass<T>",
+      "namespaceName": "Dummy",
+      "genericParameters": [
+        {
+          "unlocalizedName": "T",
+          "name": "T",
+          "constraints": [
+            {
+              "unlocalizedName": "System.ValueType",
+              "name": "struct",
+              "fullName": "System.ValueType",
+              "namespaceName": "System",
+              "genericParameters": []
+            }
+          ]
+        }
+      ]
+    },
+    "returnType": {
+      "unlocalizedName": "System.Void",
+      "name": "void",
+      "fullName": "System.Void",
+      "namespaceName": "System",
+      "genericParameters": []
+    },
+    "attributes": [
+      {
+        "typeInfo": {
+          "unlocalizedName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+          "name": "CompilerGeneratedAttribute",
+          "fullName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+          "namespaceName": "System.Runtime.CompilerServices",
+          "genericParameters": []
+        },
+        "constructorArgs": [],
+        "properties": [],
+        "parameterDeclaration": "",
+        "fullDeclaration": "[System.Runtime.CompilerServices.CompilerGeneratedAttribute]"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "value",
+        "defaultValue": "",
+        "attributes": [],
+        "modifier": "",
+        "isOptional": false,
+        "typeInfo": {
+          "unlocalizedName": "System.EventHandler",
+          "name": "EventHandler",
+          "fullName": "System.EventHandler",
+          "namespaceName": "System",
+          "genericParameters": []
+        },
+        "genericParameterDeclarations": [],
+        "fullDeclaration": "EventHandler value"
+      }
+    ],
+    "declaration": "public void remove_OnLog",
+    "parameterDeclaration": "EventHandler value",
+    "fullDeclaration": "public void remove_OnLog(EventHandler value)"
+  },
+  "fullDeclaration": "public EventHandler OnLog"
+}
+```
+
 ### MethodInfo
 
 All the information relevant to methods.
