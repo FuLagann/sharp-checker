@@ -479,7 +479,37 @@ All the information relevant to methods.
 
 ### PropertyInfo
 
-TODO: Add formatting
+**`name` as (string):** The name of the property.
+
+**`isStatic` as (boolean):** Set to true if the property is static.
+
+**`hasGetter` as (boolean):** Set to true if the property has a getter method.
+
+**`hasSetter` as (boolean):** Set to true if the property has a setter method.
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The list of attributes associated with the property.
+
+**`accessor` as (string):** The accessor of the property (such as internal, private, protected, public).
+
+**`modifier` as (string):** Any modifiers to the property (such as static, virtual, override, etc.).
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the property's type.
+
+**`implementedType` as ([QuickTypeInfo](#quicktypeinfo)):** The information of where the property was implemented.
+
+**`parameters` as ([ParameterInfo](#parameterinfo)[]):** The parameters the property has (if any).
+
+**`getter` as ([MethodInfo](#methodinfo)):** The getter method of the property (this can be null, you must check the hasGetter variable).
+
+**`setter` as ([MethodInfo](#methodinfo)):** The setter method of the property (this can be null, you must check the hasSetter variable).
+
+**`declaration` as (string):** The partial declaration of the property as can be found in the code.
+
+**`parameterDeclaration` as (string):** The partial declaration of the property's parameters (if any) as can be found in the code.
+
+**`getSetDeclaration` as (string):** The partial declaration of the property that determines the accessibility of the get and set methods as can be found in the code.
+
+**`fullDeclaration` as (string):** The full declaration of the property as can be found in the code.
 
 <details>
 <summary>Example JSON</summary>
@@ -597,7 +627,7 @@ All the information relevant to events.
 
 **`adder` as ([MethodInfo](#methodinfo)):** The information of the event's adding method.
 
-**`remover` as ([MethodInfo](#methodinfo):** The information of the event's removing method.
+**`remover` as ([MethodInfo](#methodinfo)):** The information of the event's removing method.
 
 **`fullDeclaration` as (string):** The declaration of the event as it would be found in the code.
 
