@@ -224,7 +224,121 @@ Example JSON:
 
 ### MethodInfo
 
-TODO: Add formatting
+All the information relevant to methods.
+
+**`name` as (string):** The name of the method.
+
+**`accessor` as (string):** The accessor of the method (such as internal, private, protected, public).
+
+**`modifier` as (string):** Any modifiers of the method (such as static, virtual, override, etc.).
+
+**`isAbstract` as (boolean):** Set to true if the method is abstract.
+
+**`isConstructor` as (boolean):** Set to true if the method is a constructor.
+
+**`isConversionOperator` as (boolean):** Set to true if the method is a conversion operator.
+
+**`isExtension` as (boolean):** Set to true if the method is an extension.
+
+**`isOperator` as (boolean):** Set to true if the method is an operator.
+
+**`isOverriden` as (boolean):** Set to true if the method is overriden.
+
+**`isStatic` as (boolean):** Set to true if the method is static.
+
+**`isVirtual` as (boolean):** Set to true if the method is virtual.
+
+**`implementedType` as ([QuickTypeInfo](#quicktypeinfo)):** The type that the method is implemented in.
+
+**`returnType` as ([QuickTypeInfo](#quicktypeinfo)):** The type that the method returns.
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The attributes of the methods.
+
+**`parameters` as ([ParameterInfo](#parameterinfo)[]):** The parameters that the methods contains.
+
+**`declaration` as (string):** The partial declaration of the method (without parameters) that can be found in the code.
+
+**`parameterDeclaration` as (string):** The partial declaration of the parameters that can be found in the code.
+
+**`fullDeclaration` as (string):** The full declaration of the method that can be found in the code.
+
+Example JSON:
+
+```json
+{
+  "name": "Display",
+  "accessor": "public",
+  "modifier": "",
+  "isStatic": false,
+  "isVirtual": false,
+  "isAbstract": false,
+  "isOverriden": true,
+  "isOperator": false,
+  "isExtension": false,
+  "isConversionOperator": false,
+  "isConstructor": false,
+  "implementedType": {
+    "unlocalizedName": "Dummy.DummyStruct",
+    "name": "DummyStruct",
+    "fullName": "Dummy.DummyStruct",
+    "namespaceName": "Dummy",
+    "genericParameters": []
+  },
+  "returnType": {
+    "unlocalizedName": "System.Void",
+    "name": "void",
+    "fullName": "System.Void",
+    "namespaceName": "System",
+    "genericParameters": []
+  },
+  "parameters": [
+    {
+      "name": "dummy",
+      "defaultValue": "",
+      "attributes": [],
+      "modifier": "ref",
+      "isOptional": false,
+      "typeInfo": {
+        "unlocalizedName": "Dummy.DummyClass`1",
+        "name": "DummyClass<int>",
+        "fullName": "Dummy.DummyClass<System.Int32>",
+        "namespaceName": "Dummy",
+        "genericParameters": [
+          {
+            "unlocalizedName": "System.Int32",
+            "name": "int",
+            "constraints": []
+          }
+        ]
+      },
+      "genericParameterDeclarations": [
+        "int"
+      ],
+      "fullDeclaration": "ref DummyClass<int> dummy"
+    },
+    {
+      "name": "max",
+      "defaultValue": "100",
+      "attributes": [],
+      "modifier": "",
+      "isOptional": true,
+      "typeInfo": {
+        "unlocalizedName": "System.Int32",
+        "name": "int",
+        "fullName": "System.Int32",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "genericParameterDeclarations": [],
+      "fullDeclaration": "int max = 100"
+    }
+  ],
+  "attributes": [],
+  "declaration": "public void Display",
+  "parameterDeclaration": "ref DummyClass<int> dummy, int max = 100",
+  "fullDeclaration": "public void Display(ref DummyClass<int> dummy, int max = 100)"
+}
+```
 
 ### ParameterInfo
 
