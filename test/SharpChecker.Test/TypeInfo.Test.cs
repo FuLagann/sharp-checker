@@ -15,7 +15,7 @@ namespace SharpChecker.Testing {
 			
 			TypeInfo.GenerateTypeInfo(
 				new string[] { "Dummy.Library1.dll" },
-				"Dummy.DummyClass`1",
+				"SchoolSys.IMember",
 				out info
 			);
 			Assert.NotNull(info);
@@ -45,7 +45,7 @@ namespace SharpChecker.Testing {
 			
 			if(File.Exists("type.json")) { File.Delete("type.json"); }
 			
-			if(TypeInfo.GenerateTypeInfo(assemblies, "Dummy.DummyClass`1", out info)) {
+			if(TypeInfo.GenerateTypeInfo(assemblies, "SchoolSys.Guests.GuestMember`1", out info)) {
 				File.WriteAllText("type.json", JsonConvert.SerializeObject(info, Formatting.Indented));
 			}
 			Assert.True(File.Exists("type.json"));
