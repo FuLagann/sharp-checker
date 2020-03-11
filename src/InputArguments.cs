@@ -2,15 +2,28 @@
 using System.Collections.Generic;
 
 namespace SharpChecker {
+	/// <summary>A managed version of the input arguments</summary>
 	public class InputArguments {
+		#region Field Variables
 		// Variables
+		/// <summary>Set to true if the user is querying for the program to produce the help menu</summary>
 		public bool isHelp;
+		/// <summary>Set to true if the user is querying for the program to produce a list</summary>
 		public bool isList;
+		/// <summary>Set to true to include private members</summary>
 		public bool includePrivate;
+		/// <summary>The output file that the program will save to</summary>
 		public string output;
+		/// <summary>The path to look into the type</summary>
 		public string typePath;
+		/// <summary>The list of assemblies that the program should look into</summary>
 		public List<string> assemblies;
 		
+		#endregion // Field Variables
+		
+		#region Public Constructors
+		
+		/// <summary>A base constructor for creating the managed input arguments</summary>
 		public InputArguments() {
 			this.isHelp = false;
 			this.isList = false;
@@ -20,6 +33,13 @@ namespace SharpChecker {
 			this.assemblies = new List<string>();
 		}
 		
+		#endregion // Public Constructors
+		
+		#region Public Static Methods
+		
+		/// <summary>Creates a managed version of input arguments from the array of arguments</summary>
+		/// <param name="args">The arguments the program started with</param>
+		/// <returns>Returns a managed version of the input arguments</returns>
 		public static InputArguments Create(string[] args) {
 			// Variables
 			InputArguments input = new InputArguments();
@@ -48,5 +68,7 @@ namespace SharpChecker {
 			
 			return input;
 		}
+		
+		#endregion // Public Static Methods
 	}
 }

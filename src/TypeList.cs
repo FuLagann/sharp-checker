@@ -37,6 +37,9 @@ namespace SharpChecker {
 						if(type.FullName.StartsWith('<') && type.FullName.EndsWith('>')) {
 							continue;
 						}
+						if(type.IsNotPublic && TypeInfo.ignorePrivate) {
+							continue;
+						}
 						list.types[asmName].Add(type.FullName);
 					}
 				}

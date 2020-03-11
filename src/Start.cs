@@ -15,6 +15,8 @@ namespace SharpChecker {
 				// Variables
 				InputArguments input = InputArguments.Create(args);
 				
+				TypeInfo.ignorePrivate = !input.includePrivate;
+				
 				if(input.isList) {
 					TypeList list = TypeList.GenerateList(input.assemblies.ToArray());
 					string listJson = JsonConvert.SerializeObject(list, Formatting.Indented);
