@@ -42,11 +42,7 @@ SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
 
 ## Format
 
-The returning json will be of the of the following formats (with `TypeInfo` being the main type):
-
-### TypeInfo
-
-TODO: Add formatting
+The returning json will be of the of the following formats (with [TypeInfo](#typeinfo) being the main type):
 
 ### QuickTypeInfo
 
@@ -78,6 +74,1087 @@ A quick look into the information of the type.
       "unlocalizedName": "T",
       "name": "T",
       "constraints": []
+    }
+  ]
+}
+```
+
+</p>
+</details>
+
+### TypeInfo
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The quick look at the information of the type (including name, namespace, generic parameters).
+
+**`assemblyName` as (string):** The name of the assembly where the type is found in.
+
+**`accessor` as (string):** The accessor of the type (such as internal, private, protected, public).
+
+**`modifier` as (string):** Any modifiers that the type contains (such as static, sealed, abstract, etc.).
+
+**`objectType` as (string):** The object type of the type (such as class, struct, enum, or interface).
+
+**`declaration` as (string):** The partial declaration of the class within the inheritance declaration that can be found within the code.
+
+**`fullDeclaration` as (string):** The full declaration of the type as it would be found within the code.
+
+**`baseType` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the base type that the type inherits.
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The array of attributes that the type contains.
+
+**`interfaces` as ([QuickTypeInfo](#quicktypeinfo)[]):** The array of type information of interfaces that the type implements.
+
+**`constructors` as ([MethodInfo](#methodinfo)[]):** The array of constructors that the type contains.
+
+**`fields` as ([FieldInfo](#fieldinfo)[]):** The array of fields that the type contains.
+
+**`staticFields` as ([FieldInfo](#fieldinfo)[]):** The array of static fields that the type contains.
+
+**`properties` as ([PropertyInfo](#propertyinfo)[]):** The array of properties that the type contains.
+
+**`staticProperties` as ([PropertyInfo](#propertyinfo)[]):** The array of static properties that the type contains.
+
+**`events` as ([EventInfo](#eventinfo)[]):** The array of events that the type contains.
+
+**`staticEvents` as ([EventInfo](#eventinfo)[]):** The array of static events that the type contains.
+
+**`methods` as ([MethodInfo](#methodinfo)[]):** The array of methods that the type contains.
+
+**`staticMethods` as ([MethodInfo](#methodinfo)[]):** The array of static methods that the type contains.
+
+**`operators` as ([MethodInfo](#methodinfo)[]):** The array of operators that the type contains.
+
+<details>
+<summary>Example JSON</summary>
+
+<p>
+
+```json
+{
+  "typeInfo": {
+    "unlocalizedName": "SchoolSys.StudentMember",
+    "name": "StudentMember",
+    "fullName": "SchoolSys.StudentMember",
+    "namespaceName": "SchoolSys",
+    "genericParameters": []
+  },
+  "assemblyName": "Dummy.Library1",
+  "accessor": "public",
+  "modifier": "sealed",
+  "objectType": "class",
+  "declaration": "public sealed class StudentMember",
+  "fullDeclaration": "public sealed class StudentMember : BaseMember, ICloneable",
+  "baseType": {
+    "unlocalizedName": "SchoolSys.BaseMember",
+    "name": "BaseMember",
+    "fullName": "SchoolSys.BaseMember",
+    "namespaceName": "SchoolSys",
+    "genericParameters": []
+  },
+  "attributes": [],
+  "interfaces": [
+    {
+      "unlocalizedName": "System.ICloneable",
+      "name": "ICloneable",
+      "fullName": "System.ICloneable",
+      "namespaceName": "System",
+      "genericParameters": []
+    }
+  ],
+  "constructors": [
+    {
+      "name": "StudentMember",
+      "accessor": "public",
+      "modifier": "",
+      "isAbstract": false,
+      "isConstructor": true,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": false,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.StudentMember",
+        "name": "StudentMember",
+        "fullName": "SchoolSys.StudentMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Void",
+        "name": "void",
+        "fullName": "System.Void",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [
+        {
+          "name": "id",
+          "defaultValue": "",
+          "attributes": [],
+          "modifier": "",
+          "isOptional": false,
+          "typeInfo": {
+            "unlocalizedName": "System.String",
+            "name": "string",
+            "fullName": "System.String",
+            "namespaceName": "System",
+            "genericParameters": []
+          },
+          "genericParameterDeclarations": [],
+          "fullDeclaration": "string id"
+        }
+      ],
+      "declaration": "public StudentMember",
+      "parameterDeclaration": "string id",
+      "fullDeclaration": "public StudentMember(string id)"
+    }
+  ],
+  "fields": [
+    {
+      "name": "id",
+      "value": "",
+      "isConstant": false,
+      "isStatic": false,
+      "isReadonly": false,
+      "attributes": [],
+      "accessor": "private",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.StudentMember",
+        "name": "StudentMember",
+        "fullName": "SchoolSys.StudentMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "declaration": "private string id"
+    }
+  ],
+  "staticFields": [],
+  "properties": [
+    {
+      "name": "Id",
+      "isStatic": false,
+      "hasGetter": true,
+      "hasSetter": false,
+      "attributes": [],
+      "accessor": "public",
+      "modifier": "override",
+      "typeInfo": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.StudentMember",
+        "name": "StudentMember",
+        "fullName": "SchoolSys.StudentMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "parameters": [],
+      "getter": {
+        "name": "get_Id",
+        "accessor": "public",
+        "modifier": "override",
+        "isAbstract": false,
+        "isConstructor": false,
+        "isConversionOperator": false,
+        "isExtension": false,
+        "isOperator": false,
+        "isOverriden": true,
+        "isStatic": false,
+        "isVirtual": true,
+        "implementedType": {
+          "unlocalizedName": "SchoolSys.StudentMember",
+          "name": "StudentMember",
+          "fullName": "SchoolSys.StudentMember",
+          "namespaceName": "SchoolSys",
+          "genericParameters": []
+        },
+        "returnType": {
+          "unlocalizedName": "System.String",
+          "name": "string",
+          "fullName": "System.String",
+          "namespaceName": "System",
+          "genericParameters": []
+        },
+        "attributes": [],
+        "parameters": [],
+        "declaration": "public override string get_Id",
+        "parameterDeclaration": "",
+        "fullDeclaration": "public override string get_Id()"
+      },
+      "setter": null,
+      "declaration": "public override string Id",
+      "parameterDeclaration": "",
+      "getSetDeclaration": "get;",
+      "fullDeclaration": "public override string Id { get; }"
+    }
+  ],
+  "staticProperties": [],
+  "events": [
+    {
+      "name": "OnMesseged",
+      "isStatic": false,
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.EventHandler",
+        "name": "EventHandler",
+        "fullName": "System.EventHandler",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.BaseMember",
+        "name": "BaseMember",
+        "fullName": "SchoolSys.BaseMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "adder": {
+        "name": "add_OnMesseged",
+        "accessor": "public",
+        "modifier": "",
+        "isAbstract": false,
+        "isConstructor": false,
+        "isConversionOperator": false,
+        "isExtension": false,
+        "isOperator": false,
+        "isOverriden": true,
+        "isStatic": false,
+        "isVirtual": false,
+        "implementedType": {
+          "unlocalizedName": "SchoolSys.BaseMember",
+          "name": "BaseMember",
+          "fullName": "SchoolSys.BaseMember",
+          "namespaceName": "SchoolSys",
+          "genericParameters": []
+        },
+        "returnType": {
+          "unlocalizedName": "System.Void",
+          "name": "void",
+          "fullName": "System.Void",
+          "namespaceName": "System",
+          "genericParameters": []
+        },
+        "attributes": [
+          {
+            "typeInfo": {
+              "unlocalizedName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "name": "CompilerGeneratedAttribute",
+              "fullName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "namespaceName": "System.Runtime.CompilerServices",
+              "genericParameters": []
+            },
+            "constructorArgs": [],
+            "properties": [],
+            "parameterDeclaration": "",
+            "fullDeclaration": "[System.Runtime.CompilerServices.CompilerGeneratedAttribute]"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "defaultValue": "",
+            "attributes": [],
+            "modifier": "",
+            "isOptional": false,
+            "typeInfo": {
+              "unlocalizedName": "System.EventHandler",
+              "name": "EventHandler",
+              "fullName": "System.EventHandler",
+              "namespaceName": "System",
+              "genericParameters": []
+            },
+            "genericParameterDeclarations": [],
+            "fullDeclaration": "EventHandler value"
+          }
+        ],
+        "declaration": "public void add_OnMesseged",
+        "parameterDeclaration": "EventHandler value",
+        "fullDeclaration": "public void add_OnMesseged(EventHandler value)"
+      },
+      "remover": {
+        "name": "remove_OnMesseged",
+        "accessor": "public",
+        "modifier": "",
+        "isAbstract": false,
+        "isConstructor": false,
+        "isConversionOperator": false,
+        "isExtension": false,
+        "isOperator": false,
+        "isOverriden": true,
+        "isStatic": false,
+        "isVirtual": false,
+        "implementedType": {
+          "unlocalizedName": "SchoolSys.BaseMember",
+          "name": "BaseMember",
+          "fullName": "SchoolSys.BaseMember",
+          "namespaceName": "SchoolSys",
+          "genericParameters": []
+        },
+        "returnType": {
+          "unlocalizedName": "System.Void",
+          "name": "void",
+          "fullName": "System.Void",
+          "namespaceName": "System",
+          "genericParameters": []
+        },
+        "attributes": [
+          {
+            "typeInfo": {
+              "unlocalizedName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "name": "CompilerGeneratedAttribute",
+              "fullName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "namespaceName": "System.Runtime.CompilerServices",
+              "genericParameters": []
+            },
+            "constructorArgs": [],
+            "properties": [],
+            "parameterDeclaration": "",
+            "fullDeclaration": "[System.Runtime.CompilerServices.CompilerGeneratedAttribute]"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "defaultValue": "",
+            "attributes": [],
+            "modifier": "",
+            "isOptional": false,
+            "typeInfo": {
+              "unlocalizedName": "System.EventHandler",
+              "name": "EventHandler",
+              "fullName": "System.EventHandler",
+              "namespaceName": "System",
+              "genericParameters": []
+            },
+            "genericParameterDeclarations": [],
+            "fullDeclaration": "EventHandler value"
+          }
+        ],
+        "declaration": "public void remove_OnMesseged",
+        "parameterDeclaration": "EventHandler value",
+        "fullDeclaration": "public void remove_OnMesseged(EventHandler value)"
+      },
+      "fullDeclaration": "public EventHandler OnMesseged"
+    },
+    {
+      "name": "OnMessege",
+      "isStatic": false,
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.EventHandler",
+        "name": "EventHandler",
+        "fullName": "System.EventHandler",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.BaseMember",
+        "name": "BaseMember",
+        "fullName": "SchoolSys.BaseMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "adder": {
+        "name": "add_OnMessege",
+        "accessor": "public",
+        "modifier": "",
+        "isAbstract": false,
+        "isConstructor": false,
+        "isConversionOperator": false,
+        "isExtension": false,
+        "isOperator": false,
+        "isOverriden": true,
+        "isStatic": false,
+        "isVirtual": false,
+        "implementedType": {
+          "unlocalizedName": "SchoolSys.BaseMember",
+          "name": "BaseMember",
+          "fullName": "SchoolSys.BaseMember",
+          "namespaceName": "SchoolSys",
+          "genericParameters": []
+        },
+        "returnType": {
+          "unlocalizedName": "System.Void",
+          "name": "void",
+          "fullName": "System.Void",
+          "namespaceName": "System",
+          "genericParameters": []
+        },
+        "attributes": [
+          {
+            "typeInfo": {
+              "unlocalizedName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "name": "CompilerGeneratedAttribute",
+              "fullName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "namespaceName": "System.Runtime.CompilerServices",
+              "genericParameters": []
+            },
+            "constructorArgs": [],
+            "properties": [],
+            "parameterDeclaration": "",
+            "fullDeclaration": "[System.Runtime.CompilerServices.CompilerGeneratedAttribute]"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "defaultValue": "",
+            "attributes": [],
+            "modifier": "",
+            "isOptional": false,
+            "typeInfo": {
+              "unlocalizedName": "System.EventHandler",
+              "name": "EventHandler",
+              "fullName": "System.EventHandler",
+              "namespaceName": "System",
+              "genericParameters": []
+            },
+            "genericParameterDeclarations": [],
+            "fullDeclaration": "EventHandler value"
+          }
+        ],
+        "declaration": "public void add_OnMessege",
+        "parameterDeclaration": "EventHandler value",
+        "fullDeclaration": "public void add_OnMessege(EventHandler value)"
+      },
+      "remover": {
+        "name": "remove_OnMessege",
+        "accessor": "public",
+        "modifier": "",
+        "isAbstract": false,
+        "isConstructor": false,
+        "isConversionOperator": false,
+        "isExtension": false,
+        "isOperator": false,
+        "isOverriden": true,
+        "isStatic": false,
+        "isVirtual": false,
+        "implementedType": {
+          "unlocalizedName": "SchoolSys.BaseMember",
+          "name": "BaseMember",
+          "fullName": "SchoolSys.BaseMember",
+          "namespaceName": "SchoolSys",
+          "genericParameters": []
+        },
+        "returnType": {
+          "unlocalizedName": "System.Void",
+          "name": "void",
+          "fullName": "System.Void",
+          "namespaceName": "System",
+          "genericParameters": []
+        },
+        "attributes": [
+          {
+            "typeInfo": {
+              "unlocalizedName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "name": "CompilerGeneratedAttribute",
+              "fullName": "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+              "namespaceName": "System.Runtime.CompilerServices",
+              "genericParameters": []
+            },
+            "constructorArgs": [],
+            "properties": [],
+            "parameterDeclaration": "",
+            "fullDeclaration": "[System.Runtime.CompilerServices.CompilerGeneratedAttribute]"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "defaultValue": "",
+            "attributes": [],
+            "modifier": "",
+            "isOptional": false,
+            "typeInfo": {
+              "unlocalizedName": "System.EventHandler",
+              "name": "EventHandler",
+              "fullName": "System.EventHandler",
+              "namespaceName": "System",
+              "genericParameters": []
+            },
+            "genericParameterDeclarations": [],
+            "fullDeclaration": "EventHandler value"
+          }
+        ],
+        "declaration": "public void remove_OnMessege",
+        "parameterDeclaration": "EventHandler value",
+        "fullDeclaration": "public void remove_OnMessege(EventHandler value)"
+      },
+      "fullDeclaration": "public EventHandler OnMessege"
+    }
+  ],
+  "staticEvents": [],
+  "methods": [
+    {
+      "name": "Clone",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.StudentMember",
+        "name": "StudentMember",
+        "fullName": "SchoolSys.StudentMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual object Clone",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual object Clone()"
+    },
+    {
+      "name": "SignIn",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.BaseMember",
+        "name": "BaseMember",
+        "fullName": "SchoolSys.BaseMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual bool SignIn",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual bool SignIn()"
+    },
+    {
+      "name": "SignOut",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.BaseMember",
+        "name": "BaseMember",
+        "fullName": "SchoolSys.BaseMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual bool SignOut",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual bool SignOut()"
+    },
+    {
+      "name": "GetSchedule",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.BaseMember",
+        "name": "BaseMember",
+        "fullName": "SchoolSys.BaseMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "SchoolSys.ISchedule[]",
+        "name": "ISchedule[]",
+        "fullName": "SchoolSys.ISchedule[]",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual ISchedule[] GetSchedule",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual ISchedule[] GetSchedule()"
+    },
+    {
+      "name": "Talk",
+      "accessor": "public",
+      "modifier": "",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": false,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.BaseMember",
+        "name": "BaseMember",
+        "fullName": "SchoolSys.BaseMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Void",
+        "name": "void",
+        "fullName": "System.Void",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [
+        {
+          "name": "message",
+          "defaultValue": "",
+          "attributes": [],
+          "modifier": "",
+          "isOptional": false,
+          "typeInfo": {
+            "unlocalizedName": "System.String",
+            "name": "string",
+            "fullName": "System.String",
+            "namespaceName": "System",
+            "genericParameters": []
+          },
+          "genericParameterDeclarations": [],
+          "fullDeclaration": "string message"
+        }
+      ],
+      "declaration": "public void Talk",
+      "parameterDeclaration": "string message",
+      "fullDeclaration": "public void Talk(string message)"
+    },
+    {
+      "name": "GetType",
+      "accessor": "public",
+      "modifier": "",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": false,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Type",
+        "name": "Type",
+        "fullName": "System.Type",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [
+        {
+          "typeInfo": {
+            "unlocalizedName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "name": "NullableContextAttribute",
+            "fullName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "namespaceName": "System.Runtime.CompilerServices",
+            "genericParameters": []
+          },
+          "constructorArgs": [
+            {
+              "name": "",
+              "value": "1",
+              "typeInfo": {
+                "unlocalizedName": "System.Byte",
+                "name": "byte",
+                "fullName": "System.Byte",
+                "namespaceName": "System",
+                "genericParameters": []
+              }
+            }
+          ],
+          "properties": [],
+          "parameterDeclaration": "1",
+          "fullDeclaration": "[System.Runtime.CompilerServices.NullableContextAttribute(1)]"
+        }
+      ],
+      "parameters": [],
+      "declaration": "public Type GetType",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public Type GetType()"
+    },
+    {
+      "name": "MemberwiseClone",
+      "accessor": "protected",
+      "modifier": "",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": false,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [
+        {
+          "typeInfo": {
+            "unlocalizedName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "name": "NullableContextAttribute",
+            "fullName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "namespaceName": "System.Runtime.CompilerServices",
+            "genericParameters": []
+          },
+          "constructorArgs": [
+            {
+              "name": "",
+              "value": "1",
+              "typeInfo": {
+                "unlocalizedName": "System.Byte",
+                "name": "byte",
+                "fullName": "System.Byte",
+                "namespaceName": "System",
+                "genericParameters": []
+              }
+            }
+          ],
+          "properties": [],
+          "parameterDeclaration": "1",
+          "fullDeclaration": "[System.Runtime.CompilerServices.NullableContextAttribute(1)]"
+        }
+      ],
+      "parameters": [],
+      "declaration": "protected object MemberwiseClone",
+      "parameterDeclaration": "",
+      "fullDeclaration": "protected object MemberwiseClone()"
+    },
+    {
+      "name": "Finalize",
+      "accessor": "protected",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Void",
+        "name": "void",
+        "fullName": "System.Void",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [
+        {
+          "typeInfo": {
+            "unlocalizedName": "System.Runtime.Versioning.NonVersionableAttribute",
+            "name": "NonVersionableAttribute",
+            "fullName": "System.Runtime.Versioning.NonVersionableAttribute",
+            "namespaceName": "System.Runtime.Versioning",
+            "genericParameters": []
+          },
+          "constructorArgs": [],
+          "properties": [],
+          "parameterDeclaration": "",
+          "fullDeclaration": "[System.Runtime.Versioning.NonVersionableAttribute]"
+        }
+      ],
+      "parameters": [],
+      "declaration": "protected virtual void Finalize",
+      "parameterDeclaration": "",
+      "fullDeclaration": "protected virtual void Finalize()"
+    },
+    {
+      "name": "ToString",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual string ToString",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual string ToString()"
+    },
+    {
+      "name": "Equals",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [
+        {
+          "name": "obj",
+          "defaultValue": "",
+          "attributes": [],
+          "modifier": "",
+          "isOptional": false,
+          "typeInfo": {
+            "unlocalizedName": "System.Object",
+            "name": "object",
+            "fullName": "System.Object",
+            "namespaceName": "System",
+            "genericParameters": []
+          },
+          "genericParameterDeclarations": [],
+          "fullDeclaration": "object obj"
+        }
+      ],
+      "declaration": "public virtual bool Equals",
+      "parameterDeclaration": "object obj",
+      "fullDeclaration": "public virtual bool Equals(object obj)"
+    },
+    {
+      "name": "GetHashCode",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Int32",
+        "name": "int",
+        "fullName": "System.Int32",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual int GetHashCode",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual int GetHashCode()"
+    }
+  ],
+  "staticMethods": [
+    {
+      "name": "GenerateId",
+      "accessor": "public",
+      "modifier": "static",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": true,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.StudentMember",
+        "name": "StudentMember",
+        "fullName": "SchoolSys.StudentMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [
+        {
+          "name": "seed",
+          "defaultValue": "10203040",
+          "attributes": [],
+          "modifier": "",
+          "isOptional": true,
+          "typeInfo": {
+            "unlocalizedName": "System.Int32",
+            "name": "int",
+            "fullName": "System.Int32",
+            "namespaceName": "System",
+            "genericParameters": []
+          },
+          "genericParameterDeclarations": [],
+          "fullDeclaration": "int seed = 10203040"
+        }
+      ],
+      "declaration": "public static string GenerateId",
+      "parameterDeclaration": "int seed = 10203040",
+      "fullDeclaration": "public static string GenerateId(int seed = 10203040)"
+    }
+  ],
+  "operators": [
+    {
+      "name": "op_Implicit__StaffMember",
+      "accessor": "public",
+      "modifier": "static implicit operator",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": true,
+      "isExtension": false,
+      "isOperator": true,
+      "isOverriden": true,
+      "isStatic": true,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "SchoolSys.StudentMember",
+        "name": "StudentMember",
+        "fullName": "SchoolSys.StudentMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "SchoolSys.StaffMember",
+        "name": "StaffMember",
+        "fullName": "SchoolSys.StaffMember",
+        "namespaceName": "SchoolSys",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [
+        {
+          "name": "obj",
+          "defaultValue": "",
+          "attributes": [],
+          "modifier": "",
+          "isOptional": false,
+          "typeInfo": {
+            "unlocalizedName": "SchoolSys.StudentMember",
+            "name": "StudentMember",
+            "fullName": "SchoolSys.StudentMember",
+            "namespaceName": "SchoolSys",
+            "genericParameters": []
+          },
+          "genericParameterDeclarations": [],
+          "fullDeclaration": "StudentMember obj"
+        }
+      ],
+      "declaration": "public static implicit operator StaffMember",
+      "parameterDeclaration": "StudentMember obj",
+      "fullDeclaration": "public static implicit operator StaffMember(StudentMember obj)"
     }
   ]
 }
@@ -261,6 +1338,8 @@ All the information relevant to fields.
 
 **`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The type information of the field's type.
 
+**`implementedType` as ([QuickTypeInfo](#quicktypeinfo)):** The type the field is implemented in.
+
 **`declaration` as (string):** The declaration of the field as it is found witihn the code.
 
 <details>
@@ -300,177 +1379,6 @@ All the information relevant to fields.
     "genericParameters": []
   },
   "declaration": "public object[][] grid"
-}
-```
-
-</p>
-</details>
-
-### ParameterInfo
-
-All the information relevant to parameters.
-
-**`name` as (string):** The name of the parameter.
-
-**`defaultValue` as (string):** The default value of the parameter (if it exists).
-
-**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The list of attributes that the parameter contains.
-
-**`modifier` as (string):** Any modifiers to the parameter (such as ref, in, out, params, etc.).
-
-**`isOptional` as (boolean):** Set to true if the parameter is optional and can be left out when calling the method.
-
-**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the parameter's type.
-
-**`genericParameterDeclarations` as (string[]):** The list of types used for the generic parameters.
-
-**`fullDeclaration` as (string):** The full declaration of the parameter as it would be found within the code.
-
-<details>
-<summary>Example JSON</summary>
-
-<p>
-
-```json
-{
-  "name": "max",
-  "defaultValue": "100",
-  "attributes": [],
-  "modifier": "",
-  "isOptional": true,
-  "typeInfo": {
-    "unlocalizedName": "System.Int32",
-    "name": "int",
-    "fullName": "System.Int32",
-    "namespaceName": "System",
-    "genericParameters": []
-  },
-  "genericParameterDeclarations": [],
-  "fullDeclaration": "int max = 100"
-}
-```
-
-</p>
-</details>
-
-### MethodInfo
-
-All the information relevant to methods.
-
-**`name` as (string):** The name of the method.
-
-**`accessor` as (string):** The accessor of the method (such as internal, private, protected, public).
-
-**`modifier` as (string):** Any modifiers of the method (such as static, virtual, override, etc.).
-
-**`isAbstract` as (boolean):** Set to true if the method is abstract.
-
-**`isConstructor` as (boolean):** Set to true if the method is a constructor.
-
-**`isConversionOperator` as (boolean):** Set to true if the method is a conversion operator.
-
-**`isExtension` as (boolean):** Set to true if the method is an extension.
-
-**`isOperator` as (boolean):** Set to true if the method is an operator.
-
-**`isOverriden` as (boolean):** Set to true if the method is overriden.
-
-**`isStatic` as (boolean):** Set to true if the method is static.
-
-**`isVirtual` as (boolean):** Set to true if the method is virtual.
-
-**`implementedType` as ([QuickTypeInfo](#quicktypeinfo)):** The type that the method is implemented in.
-
-**`returnType` as ([QuickTypeInfo](#quicktypeinfo)):** The type that the method returns.
-
-**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The attributes of the methods.
-
-**`parameters` as ([ParameterInfo](#parameterinfo)[]):** The parameters that the methods contains.
-
-**`declaration` as (string):** The partial declaration of the method (without parameters) that can be found in the code.
-
-**`parameterDeclaration` as (string):** The partial declaration of the parameters that can be found in the code.
-
-**`fullDeclaration` as (string):** The full declaration of the method that can be found in the code.
-
-<details>
-<summary>Example JSON</summary>
-
-<p>
-
-```json
-{
-  "name": "Display",
-  "accessor": "public",
-  "modifier": "",
-  "isStatic": false,
-  "isVirtual": false,
-  "isAbstract": false,
-  "isOverriden": true,
-  "isOperator": false,
-  "isExtension": false,
-  "isConversionOperator": false,
-  "isConstructor": false,
-  "implementedType": {
-    "unlocalizedName": "Dummy.DummyStruct",
-    "name": "DummyStruct",
-    "fullName": "Dummy.DummyStruct",
-    "namespaceName": "Dummy",
-    "genericParameters": []
-  },
-  "returnType": {
-    "unlocalizedName": "System.Void",
-    "name": "void",
-    "fullName": "System.Void",
-    "namespaceName": "System",
-    "genericParameters": []
-  },
-  "parameters": [
-    {
-      "name": "dummy",
-      "defaultValue": "",
-      "attributes": [],
-      "modifier": "ref",
-      "isOptional": false,
-      "typeInfo": {
-        "unlocalizedName": "Dummy.DummyClass`1",
-        "name": "DummyClass<int>",
-        "fullName": "Dummy.DummyClass<System.Int32>",
-        "namespaceName": "Dummy",
-        "genericParameters": [
-          {
-            "unlocalizedName": "System.Int32",
-            "name": "int",
-            "constraints": []
-          }
-        ]
-      },
-      "genericParameterDeclarations": [
-        "int"
-      ],
-      "fullDeclaration": "ref DummyClass<int> dummy"
-    },
-    {
-      "name": "max",
-      "defaultValue": "100",
-      "attributes": [],
-      "modifier": "",
-      "isOptional": true,
-      "typeInfo": {
-        "unlocalizedName": "System.Int32",
-        "name": "int",
-        "fullName": "System.Int32",
-        "namespaceName": "System",
-        "genericParameters": []
-      },
-      "genericParameterDeclarations": [],
-      "fullDeclaration": "int max = 100"
-    }
-  ],
-  "attributes": [],
-  "declaration": "public void Display",
-  "parameterDeclaration": "ref DummyClass<int> dummy, int max = 100",
-  "fullDeclaration": "public void Display(ref DummyClass<int> dummy, int max = 100)"
 }
 ```
 
@@ -624,6 +1532,8 @@ All the information relevant to events.
 **`modifier` as (string):** Any modifiers of the event (such as static, virtual, override, etc.).
 
 **`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the event's type.
+
+**`implementedType` as ([QuickTypeInfo](#quicktypeinfo)):** The type the event is implemented in.
 
 **`adder` as ([MethodInfo](#methodinfo)):** The information of the event's adding method.
 
@@ -804,6 +1714,177 @@ All the information relevant to events.
     "fullDeclaration": "public void remove_OnLog(EventHandler value)"
   },
   "fullDeclaration": "public EventHandler OnLog"
+}
+```
+
+</p>
+</details>
+
+### MethodInfo
+
+All the information relevant to methods.
+
+**`name` as (string):** The name of the method.
+
+**`accessor` as (string):** The accessor of the method (such as internal, private, protected, public).
+
+**`modifier` as (string):** Any modifiers of the method (such as static, virtual, override, etc.).
+
+**`isAbstract` as (boolean):** Set to true if the method is abstract.
+
+**`isConstructor` as (boolean):** Set to true if the method is a constructor.
+
+**`isConversionOperator` as (boolean):** Set to true if the method is a conversion operator.
+
+**`isExtension` as (boolean):** Set to true if the method is an extension.
+
+**`isOperator` as (boolean):** Set to true if the method is an operator.
+
+**`isOverriden` as (boolean):** Set to true if the method is overriden.
+
+**`isStatic` as (boolean):** Set to true if the method is static.
+
+**`isVirtual` as (boolean):** Set to true if the method is virtual.
+
+**`implementedType` as ([QuickTypeInfo](#quicktypeinfo)):** The type that the method is implemented in.
+
+**`returnType` as ([QuickTypeInfo](#quicktypeinfo)):** The type that the method returns.
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The attributes of the methods.
+
+**`parameters` as ([ParameterInfo](#parameterinfo)[]):** The parameters that the methods contains.
+
+**`declaration` as (string):** The partial declaration of the method (without parameters) that can be found in the code.
+
+**`parameterDeclaration` as (string):** The partial declaration of the parameters that can be found in the code.
+
+**`fullDeclaration` as (string):** The full declaration of the method that can be found in the code.
+
+<details>
+<summary>Example JSON</summary>
+
+<p>
+
+```json
+{
+  "name": "Display",
+  "accessor": "public",
+  "modifier": "",
+  "isStatic": false,
+  "isVirtual": false,
+  "isAbstract": false,
+  "isOverriden": true,
+  "isOperator": false,
+  "isExtension": false,
+  "isConversionOperator": false,
+  "isConstructor": false,
+  "implementedType": {
+    "unlocalizedName": "Dummy.DummyStruct",
+    "name": "DummyStruct",
+    "fullName": "Dummy.DummyStruct",
+    "namespaceName": "Dummy",
+    "genericParameters": []
+  },
+  "returnType": {
+    "unlocalizedName": "System.Void",
+    "name": "void",
+    "fullName": "System.Void",
+    "namespaceName": "System",
+    "genericParameters": []
+  },
+  "parameters": [
+    {
+      "name": "dummy",
+      "defaultValue": "",
+      "attributes": [],
+      "modifier": "ref",
+      "isOptional": false,
+      "typeInfo": {
+        "unlocalizedName": "Dummy.DummyClass`1",
+        "name": "DummyClass<int>",
+        "fullName": "Dummy.DummyClass<System.Int32>",
+        "namespaceName": "Dummy",
+        "genericParameters": [
+          {
+            "unlocalizedName": "System.Int32",
+            "name": "int",
+            "constraints": []
+          }
+        ]
+      },
+      "genericParameterDeclarations": [
+        "int"
+      ],
+      "fullDeclaration": "ref DummyClass<int> dummy"
+    },
+    {
+      "name": "max",
+      "defaultValue": "100",
+      "attributes": [],
+      "modifier": "",
+      "isOptional": true,
+      "typeInfo": {
+        "unlocalizedName": "System.Int32",
+        "name": "int",
+        "fullName": "System.Int32",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "genericParameterDeclarations": [],
+      "fullDeclaration": "int max = 100"
+    }
+  ],
+  "attributes": [],
+  "declaration": "public void Display",
+  "parameterDeclaration": "ref DummyClass<int> dummy, int max = 100",
+  "fullDeclaration": "public void Display(ref DummyClass<int> dummy, int max = 100)"
+}
+```
+
+</p>
+</details>
+
+### ParameterInfo
+
+All the information relevant to parameters.
+
+**`name` as (string):** The name of the parameter.
+
+**`defaultValue` as (string):** The default value of the parameter (if it exists).
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The list of attributes that the parameter contains.
+
+**`modifier` as (string):** Any modifiers to the parameter (such as ref, in, out, params, etc.).
+
+**`isOptional` as (boolean):** Set to true if the parameter is optional and can be left out when calling the method.
+
+**`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the parameter's type.
+
+**`genericParameterDeclarations` as (string[]):** The list of types used for the generic parameters.
+
+**`fullDeclaration` as (string):** The full declaration of the parameter as it would be found within the code.
+
+<details>
+<summary>Example JSON</summary>
+
+<p>
+
+```json
+{
+  "name": "max",
+  "defaultValue": "100",
+  "attributes": [],
+  "modifier": "",
+  "isOptional": true,
+  "typeInfo": {
+    "unlocalizedName": "System.Int32",
+    "name": "int",
+    "fullName": "System.Int32",
+    "namespaceName": "System",
+    "genericParameters": []
+  },
+  "genericParameterDeclarations": [],
+  "fullDeclaration": "int max = 100"
 }
 ```
 

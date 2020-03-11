@@ -19,6 +19,8 @@ namespace SharpChecker {
 		public string modifier;
 		/// <summary>The information of the event's type</summary>
 		public QuickTypeInfo typeInfo;
+		/// <summary>The type the event is implemented in</summary>
+		public QuickTypeInfo implementedType;
 		/// <summary>The information of the event's adding method</summary>
 		public MethodInfo adder;
 		/// <summary>The information of the event's removing method</summary>
@@ -99,6 +101,7 @@ namespace SharpChecker {
 			
 			info.name = ev.Name;
 			info.typeInfo = QuickTypeInfo.GenerateInfo(ev.EventType);
+			info.implementedType = QuickTypeInfo.GenerateInfo(ev.DeclaringType);
 			info.adder = MethodInfo.GenerateInfo(ev.AddMethod);
 			info.remover = MethodInfo.GenerateInfo(ev.RemoveMethod);
 			info.accessor = info.adder.accessor;

@@ -28,6 +28,8 @@ namespace SharpChecker {
 		public string modifier;
 		/// <summary>The type information of the field's type</summary>
 		public QuickTypeInfo typeInfo;
+		/// <summary>The type the field is implemented in</summary>
+		public QuickTypeInfo implementedType;
 		/// <summary>The declaration of the field as it is found witihn the code</summary>
 		public string declaration;
 		/// <summary>If it's true then the info should not be printed out and should be deleted</summary>
@@ -127,6 +129,7 @@ namespace SharpChecker {
 			}
 			info.name = field.Name;
 			info.typeInfo = QuickTypeInfo.GenerateInfo(field.FieldType);
+			info.implementedType = QuickTypeInfo.GenerateInfo(field.DeclaringType);
 			info.value = $"{ field.Constant ?? val }";
 			info.isConstant = field.HasConstant;
 			info.isStatic = field.IsStatic;

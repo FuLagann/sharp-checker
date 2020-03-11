@@ -45,7 +45,7 @@ namespace SharpChecker.Testing {
 			
 			if(File.Exists("type.json")) { File.Delete("type.json"); }
 			
-			if(TypeInfo.GenerateTypeInfo(assemblies, "SchoolSys.Guests.GuestMember`1", out info)) {
+			if(TypeInfo.GenerateTypeInfo(assemblies, "SchoolSys.StudentMember", out info)) {
 				File.WriteAllText("type.json", JsonConvert.SerializeObject(info, Formatting.Indented));
 			}
 			Assert.True(File.Exists("type.json"));
