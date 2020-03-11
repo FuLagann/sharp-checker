@@ -14,6 +14,7 @@ namespace SharpChecker.Testing {
 		[InlineData("SchoolSys.IMember", "SchoolSys.IMember", "SchoolSys", "IMember")]
 		[InlineData("SchoolSys.ISchedule", "SchoolSys.ISchedule", "SchoolSys", "ISchedule")]
 		[InlineData("SchoolSys.Guests.GuestMember`1", "SchoolSys.Guests.GuestMember`1", "SchoolSys.Guests", "GuestMember<T>")]
+		[InlineData("System.Collections.Generic.Dictionary`2", "System.Collections.Generic.Dictionary`2", "System.Collections.Generic", "Dictionary<TKey, TValue>")]
 		public void CheckName(string typePath, string expectedUnlocalized, string expectedNamespace, string expectedName) {
 			// Variables
 			TypeInfo info;
@@ -37,6 +38,7 @@ namespace SharpChecker.Testing {
 		[Theory]
 		[InlineData("SchoolSys.ISchedule", false, 0, "", "", null)]
 		[InlineData("SchoolSys.Guests.GuestMember`1", true, 0, "T", "T", new string[] { "SchoolSys.IMember", "SchoolSys", "IMember" })]
+		[InlineData("System.Collections.Generic.Dictionary`2", true, 1, "TValue", "TValue", new string[0])]
 		public void CheckGenericParameters(string typePath, bool hasParameters, int parameterIndex, string expectedUnlocalized, string expectedName, string[] constraints_uname_namesp_name) {
 			// Variables
 			TypeInfo info;
