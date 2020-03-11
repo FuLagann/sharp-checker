@@ -16,7 +16,10 @@ namespace SharpChecker {
 				InputArguments input = InputArguments.Create(args);
 				
 				if(input.isList) {
-					// TODO: Output list
+					TypeList list = TypeList.GenerateList(input.assemblies.ToArray());
+					string listJson = JsonConvert.SerializeObject(list, Formatting.Indented);
+					
+					File.WriteAllText(input.output, listJson);
 					System.Console.WriteLine($"JSON file ({ input.output }) of listing every type successfully created!");
 					System.Environment.Exit(0);
 				}
