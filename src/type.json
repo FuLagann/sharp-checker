@@ -1,0 +1,550 @@
+{
+  "typeInfo": {
+    "unlocalizedName": "SharpChecker.InputArguments",
+    "name": "InputArguments",
+    "fullName": "SharpChecker.InputArguments",
+    "namespaceName": "SharpChecker",
+    "genericParameters": []
+  },
+  "assemblyName": "SharpChecker",
+  "accessor": "public",
+  "modifier": "",
+  "objectType": "class",
+  "declaration": "public class InputArguments",
+  "fullDeclaration": "public class InputArguments",
+  "baseType": {
+    "unlocalizedName": "",
+    "name": "",
+    "fullName": "",
+    "namespaceName": "",
+    "genericParameters": []
+  },
+  "attributes": [],
+  "interfaces": [],
+  "constructors": [
+    {
+      "name": "InputArguments",
+      "accessor": "public",
+      "modifier": "",
+      "isAbstract": false,
+      "isConstructor": true,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": false,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Void",
+        "name": "void",
+        "fullName": "System.Void",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public InputArguments",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public InputArguments()"
+    }
+  ],
+  "fields": [
+    {
+      "name": "isHelp",
+      "value": "",
+      "isConstant": false,
+      "isStatic": false,
+      "isReadonly": false,
+      "attributes": [],
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "declaration": "public bool isHelp"
+    },
+    {
+      "name": "isList",
+      "value": "",
+      "isConstant": false,
+      "isStatic": false,
+      "isReadonly": false,
+      "attributes": [],
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "declaration": "public bool isList"
+    },
+    {
+      "name": "includePrivate",
+      "value": "",
+      "isConstant": false,
+      "isStatic": false,
+      "isReadonly": false,
+      "attributes": [],
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "declaration": "public bool includePrivate"
+    },
+    {
+      "name": "output",
+      "value": "",
+      "isConstant": false,
+      "isStatic": false,
+      "isReadonly": false,
+      "attributes": [],
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "declaration": "public string output"
+    },
+    {
+      "name": "typePath",
+      "value": "",
+      "isConstant": false,
+      "isStatic": false,
+      "isReadonly": false,
+      "attributes": [],
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "declaration": "public string typePath"
+    },
+    {
+      "name": "assemblies",
+      "value": "",
+      "isConstant": false,
+      "isStatic": false,
+      "isReadonly": false,
+      "attributes": [],
+      "accessor": "public",
+      "modifier": "",
+      "typeInfo": {
+        "unlocalizedName": "System.Collections.Generic.List`1",
+        "name": "List<string>",
+        "fullName": "System.Collections.Generic.List<System.String>",
+        "namespaceName": "System.Collections.Generic",
+        "genericParameters": [
+          {
+            "unlocalizedName": "System.String",
+            "name": "string",
+            "constraints": []
+          }
+        ]
+      },
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "declaration": "public List<string> assemblies"
+    }
+  ],
+  "staticFields": [],
+  "properties": [],
+  "staticProperties": [],
+  "events": [],
+  "staticEvents": [],
+  "methods": [
+    {
+      "name": "GetType",
+      "accessor": "public",
+      "modifier": "",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": false,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Type",
+        "name": "Type",
+        "fullName": "System.Type",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [
+        {
+          "typeInfo": {
+            "unlocalizedName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "name": "NullableContextAttribute",
+            "fullName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "namespaceName": "System.Runtime.CompilerServices",
+            "genericParameters": []
+          },
+          "constructorArgs": [
+            {
+              "name": "",
+              "value": "1",
+              "typeInfo": {
+                "unlocalizedName": "System.Byte",
+                "name": "byte",
+                "fullName": "System.Byte",
+                "namespaceName": "System",
+                "genericParameters": []
+              }
+            }
+          ],
+          "properties": [],
+          "parameterDeclaration": "1",
+          "fullDeclaration": "[System.Runtime.CompilerServices.NullableContextAttribute(1)]"
+        }
+      ],
+      "parameters": [],
+      "declaration": "public Type GetType",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public Type GetType()"
+    },
+    {
+      "name": "MemberwiseClone",
+      "accessor": "protected",
+      "modifier": "",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": false,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [
+        {
+          "typeInfo": {
+            "unlocalizedName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "name": "NullableContextAttribute",
+            "fullName": "System.Runtime.CompilerServices.NullableContextAttribute",
+            "namespaceName": "System.Runtime.CompilerServices",
+            "genericParameters": []
+          },
+          "constructorArgs": [
+            {
+              "name": "",
+              "value": "1",
+              "typeInfo": {
+                "unlocalizedName": "System.Byte",
+                "name": "byte",
+                "fullName": "System.Byte",
+                "namespaceName": "System",
+                "genericParameters": []
+              }
+            }
+          ],
+          "properties": [],
+          "parameterDeclaration": "1",
+          "fullDeclaration": "[System.Runtime.CompilerServices.NullableContextAttribute(1)]"
+        }
+      ],
+      "parameters": [],
+      "declaration": "protected object MemberwiseClone",
+      "parameterDeclaration": "",
+      "fullDeclaration": "protected object MemberwiseClone()"
+    },
+    {
+      "name": "Finalize",
+      "accessor": "protected",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Void",
+        "name": "void",
+        "fullName": "System.Void",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [
+        {
+          "typeInfo": {
+            "unlocalizedName": "System.Runtime.Versioning.NonVersionableAttribute",
+            "name": "NonVersionableAttribute",
+            "fullName": "System.Runtime.Versioning.NonVersionableAttribute",
+            "namespaceName": "System.Runtime.Versioning",
+            "genericParameters": []
+          },
+          "constructorArgs": [],
+          "properties": [],
+          "parameterDeclaration": "",
+          "fullDeclaration": "[System.Runtime.Versioning.NonVersionableAttribute]"
+        }
+      ],
+      "parameters": [],
+      "declaration": "protected virtual void Finalize",
+      "parameterDeclaration": "",
+      "fullDeclaration": "protected virtual void Finalize()"
+    },
+    {
+      "name": "ToString",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.String",
+        "name": "string",
+        "fullName": "System.String",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual string ToString",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual string ToString()"
+    },
+    {
+      "name": "Equals",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Boolean",
+        "name": "bool",
+        "fullName": "System.Boolean",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [
+        {
+          "name": "obj",
+          "defaultValue": "",
+          "attributes": [],
+          "modifier": "",
+          "isOptional": false,
+          "typeInfo": {
+            "unlocalizedName": "System.Object",
+            "name": "object",
+            "fullName": "System.Object",
+            "namespaceName": "System",
+            "genericParameters": []
+          },
+          "genericParameterDeclarations": [],
+          "fullDeclaration": "object obj"
+        }
+      ],
+      "declaration": "public virtual bool Equals",
+      "parameterDeclaration": "object obj",
+      "fullDeclaration": "public virtual bool Equals(object obj)"
+    },
+    {
+      "name": "GetHashCode",
+      "accessor": "public",
+      "modifier": "virtual",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": false,
+      "isStatic": false,
+      "isVirtual": true,
+      "implementedType": {
+        "unlocalizedName": "System.Object",
+        "name": "object",
+        "fullName": "System.Object",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "System.Int32",
+        "name": "int",
+        "fullName": "System.Int32",
+        "namespaceName": "System",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [],
+      "declaration": "public virtual int GetHashCode",
+      "parameterDeclaration": "",
+      "fullDeclaration": "public virtual int GetHashCode()"
+    }
+  ],
+  "staticMethods": [
+    {
+      "name": "Create",
+      "accessor": "public",
+      "modifier": "static",
+      "isAbstract": false,
+      "isConstructor": false,
+      "isConversionOperator": false,
+      "isExtension": false,
+      "isOperator": false,
+      "isOverriden": true,
+      "isStatic": true,
+      "isVirtual": false,
+      "implementedType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "returnType": {
+        "unlocalizedName": "SharpChecker.InputArguments",
+        "name": "InputArguments",
+        "fullName": "SharpChecker.InputArguments",
+        "namespaceName": "SharpChecker",
+        "genericParameters": []
+      },
+      "attributes": [],
+      "parameters": [
+        {
+          "name": "args",
+          "defaultValue": "",
+          "attributes": [],
+          "modifier": "",
+          "isOptional": false,
+          "typeInfo": {
+            "unlocalizedName": "System.String[]",
+            "name": "string[]",
+            "fullName": "System.String[]",
+            "namespaceName": "System",
+            "genericParameters": []
+          },
+          "genericParameterDeclarations": [],
+          "fullDeclaration": "string[] args"
+        }
+      ],
+      "declaration": "public static InputArguments Create",
+      "parameterDeclaration": "string[] args",
+      "fullDeclaration": "public static InputArguments Create(string[] args)"
+    }
+  ],
+  "operators": []
+}

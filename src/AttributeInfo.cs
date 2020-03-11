@@ -25,9 +25,7 @@ namespace SharpChecker {
 		
 		#region Public Static Methods
 		
-		/// <summary>
-		/// Generates an array of information for all the attributes given a collection of custom attributes
-		/// </summary>
+		/// <summary>Generates an array of information for all the attributes given a collection of custom attributes</summary>
 		/// <param name="attrs">The collection of custom attributes to gather all the information from</param>
 		/// <returns>
 		/// Returns the array of attribute information generated from the collection of custom attributes
@@ -44,9 +42,7 @@ namespace SharpChecker {
 			return results;
 		}
 		
-		/// <summary>
-		/// Generates the information for an attribute from the given Mono.Cecil custom attribute class
-		/// </summary>
+		/// <summary>Generates the information for an attribute from the given Mono.Cecil custom attribute class</summary>
 		/// <param name="attr">The attribute to gather the information from</param>
 		/// <returns>Returns the attribute information generated from the custom attribute</returns>
 		public static AttributeInfo GenerateInfo(CustomAttribute attr) {

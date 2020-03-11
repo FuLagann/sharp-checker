@@ -84,9 +84,7 @@ namespace SharpChecker {
 			return methods.ToArray();
 		}
 		
-		/// <summary>
-		/// Generates an array of field informations from a collection of field definitions
-		/// </summary>
+		/// <summary>Generates an array of field informations from a collection of field definitions</summary>
 		/// <param name="fields">The field definition to look into</param>
 		/// <returns>Returns the list of field informations</returns>
 		public static FieldInfo[] GenerateInfoArray(Collection<FieldDefinition> fields) {

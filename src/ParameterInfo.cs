@@ -106,9 +106,7 @@ namespace SharpChecker {
 			return decl;
 		}
 		
-		/// <summary>
-		/// Finds if the parameter has the params attribute (meaning that the parameter is a "params type[] name" kind of parameter)
-		/// </summary>
+		/// <summary>Finds if the parameter has the params attribute (meaning that the parameter is a "params type[] name" kind of parameter)</summary>
 		/// <param name="attrs">The list of attributes the parameter has</param>
 		/// <returns>Returns true if the parameter contains the params attribute</returns>
 		private static bool HasParamsAttribute(AttributeInfo[] attrs) {

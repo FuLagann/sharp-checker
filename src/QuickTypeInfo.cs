@@ -107,9 +107,7 @@ namespace SharpChecker {
 			return info;
 		}
 		
-		/// <summary>
-		/// Makes the names of managed types of primitives into the names of primitives
-		/// </summary>
+		/// <summary>Makes the names of managed types of primitives into the names of primitives</summary>
 		/// <param name="name">The name of the type</param>
 		/// <returns>
 		/// Returns the name of the primitive or the type depending if it's a managed
@@ -126,9 +124,7 @@ namespace SharpChecker {
 			return temp;
 		}
 		
-		/// <summary>
-		/// Deletes the namespace full the given name
-		/// </summary>
+		/// <summary>Deletes the namespace full the given name</summary>
 		/// <param name="name">The name of the type</param>
 		/// <returns>Returns a string with any namespaces being removed</returns>
 		public static string DeleteNamespaceFromType(string name) {
@@ -138,9 +134,7 @@ namespace SharpChecker {
 			return Regex.Replace(Regex.Replace(name, _pattern, ""), @",(\w)", ", $1");
 		}
 		
-		/// <summary>
-		/// Gets the list of generic parameter names from the full name of the type
-		/// </summary>
+		/// <summary>Gets the list of generic parameter names from the full name of the type</summary>
 		/// <param name="fullName">The full name of the type</param>
 		/// <returns>Returns the list of generic parameter names</returns>
 		public static string[] GetGenericParametersAsStrings(string fullName) {
@@ -160,9 +154,7 @@ namespace SharpChecker {
 			return results;
 		}
 		
-		/// <summary>
-		/// Gets the list of information of generic parameters from the full name of the type
-		/// </summary>
+		/// <summary>Gets the list of information of generic parameters from the full name of the type</summary>
 		/// <param name="fullName">The full name of the type</param>
 		/// <returns>Returns the list of information of generic parameters</returns>
 		public static GenericParametersInfo[] GetGenericParameters(string fullName) {
