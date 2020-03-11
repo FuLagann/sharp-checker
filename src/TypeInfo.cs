@@ -48,7 +48,7 @@ namespace SharpChecker {
 		public EventInfo[] events;
 		/// <summary>The array of static events that the type contains</summary>
 		public EventInfo[] staticEvents;
-		/// <summary>The array of static methods that the type contains</summary>
+		/// <summary>The array of methods that the type contains</summary>
 		public MethodInfo[] methods;
 		/// <summary>The array of static methods that the type contains</summary>
 		public MethodInfo[] staticMethods;
