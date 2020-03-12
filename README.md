@@ -84,6 +84,8 @@ A quick look into the information of the type.
 
 ### TypeInfo
 
+All the information relevant to types.
+
 **`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The quick look at the information of the type (including name, namespace, generic parameters).
 
 **`assemblyName` as (string):** The name of the assembly where the type is found in.
@@ -1386,6 +1388,8 @@ All the information relevant to fields.
 </details>
 
 ### PropertyInfo
+
+All the information relevant to the property.
 
 **`name` as (string):** The name of the property.
 
