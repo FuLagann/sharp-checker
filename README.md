@@ -1,10 +1,6 @@
 # SharpChecker
 
-SharpChecker is a CLI program that looks into .NET libraries (dll) and
-applications (exe) to check on information about specific types as the
-user listed. It will also save all the information as a JSON file, normally
-saved as `type.json` from where it was ran. Information on how to use can
-be found under the [Usage section](#usage).
+SharpChecker is a CLI program that looks into .NET libraries (dll) and executables (exe) to check on information about specific types as the user has queried. SharpChecker will generate a JSON file that records everything it can about the specified type. Alternatively, the program can also list all the types existing in the list of .NET assemblies that the user has specified, recording a JSON file of all the types found within their respective assembly. To see more information on how to use SharpChecker, see the [Usage section](#usage).
 
 **NOTE:** When looking up types with generic parameters, instead of looking for something like `System.Collections.Generic.Dictionary<TValue, TKey>`, you must look up the type with a grave character ( &grave; ); which means you must look up the type as such: ``System.Collections.Generic.Dictionary`2``. Since the grave character ( &grave; ) does not work nicely with terminals, you can replace the grave character ( &grave; ) with a dash ( - ). Thus looking for types with generic parameters should be as such: `System.Collections.Generic.Dictionary-2`.
 
@@ -42,25 +38,25 @@ The following are options that can be optionally inputted into the program to ch
 
 <p>
 
-Using the following command will generate a [TypeList](#typelist) json.
+Using the following command will generate a [TypeList](#typelist) JSON.
 
 ```bat
 SharpChecker --list TestingLibrary.dll SecondLibrary.dll
 ```
 
-Using the following command will generate a [TypeList](#typelist) json where all the private and internal types are recorded.
+Using the following command will generate a [TypeList](#typelist) JSON where all the private and internal types are recorded.
 
 ```bat
 SharpChecker --list --include-private TestingLibrary.dll SecondLibrary.dll
 ```
 
-Using the following command will generate a [TypeInfo](#typeinfo) json.
+Using the following command will generate a [TypeInfo](#typeinfo) JSON.
 
 ```bat
 SharpChecker Dummy.DummyClass TestingLibrary.dll SecondLibrary.dll
 ```
 
-Using the following command will generate a [TypeInfo](#typeinfo) json where all the private and internal members are recorded.
+Using the following command will generate a [TypeInfo](#typeinfo) JSON where all the private and internal members are recorded.
 
 ```bat
 SharpChecker --include-private Dummy.DummyClass TestingLibrary.dll SecondLibrary.dll
@@ -77,7 +73,7 @@ SharpChecker Dummy.DummyList-1 TestingLibrary.dll SecondLibrary.dll
 
 ## Format
 
-The following subsections are all the data structures that the generated json can take form of. When generating a list of all the types within the assemblies inputted, the returning data structure of the json will be a [TypeList](#typelist). When generating an in depth view of a type, the returning data structure of the json will be a [TypeInfo](#typeinfo).
+The following subsections are all the data structures that the generated JSON can take form of. When generating a list of all the types within the assemblies inputted, the returning data structure of the JSON will be a [TypeList](#typelist). When generating an in depth view of a type, the returning data structure of the JSON will be a [TypeInfo](#typeinfo).
 
 ### TypeList
 
