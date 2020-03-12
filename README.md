@@ -6,9 +6,7 @@ user listed. It will also save all the information as a JSON file, normally
 saved as `type.json` from where it was ran. Information on how to use can
 be found under the [Usage section](#usage).
 
-**NOTE:** Since it's a CLI and types that use generic parameters, types that
-use generic parameters are found using "`". Instead you can replace that
-character with -, since the original character can mess up running on the terminal.
+**NOTE:** When looking up types with generic parameters, instead of looking for something like `System.Collections.Generic.Dictionary<TValue, TKey>`, you must look up the type with a grave character ( &grave; ); which means you must look up the type as such: ``System.Collections.Generic.Dictionary`2``. Since the grave character ( &grave; ) does not work nicely with terminals, you can replace the grave character ( &grave; ) with a dash ( - ). Thus looking for types with generic parameters should be as such: `System.Collections.Generic.Dictionary-2`.
 
 ## Build Status
 
@@ -68,7 +66,7 @@ Using the following command will generate a [TypeInfo](#typeinfo) json where all
 SharpChecker --include-private Dummy.DummyClass TestingLibrary.dll SecondLibrary.dll
 ```
 
-**Note:** When looking up types with generic parameters, instead of looking for something like `System.Collections.Generic.Dictionary<TValue, TKey>`, you must look up the type with a grave character ( &grave; ); which means you must look up the type as such: ``System.Collections.Generic.Dictionary`2``.Since the grave character ( &grave; ) does not work nicely with terminals, you can replace ( &grave; ) with a dash ( - ). The following is an example of looking up a type with a generic parameter.
+**NOTE:** When looking up types with generic parameters, instead of looking for something like `System.Collections.Generic.Dictionary<TValue, TKey>`, you must look up the type with a grave character ( &grave; ); which means you must look up the type as such: ``System.Collections.Generic.Dictionary`2``. Since the grave character ( &grave; ) does not work nicely with terminals, you can replace the grave character ( &grave; ) with a dash ( - ). The following is an example of looking up a type with a generic parameter.
 
 ```bat
 SharpChecker Dummy.DummyList-1 TestingLibrary.dll SecondLibrary.dll
