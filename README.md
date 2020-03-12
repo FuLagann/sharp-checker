@@ -44,6 +44,53 @@ SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
 
 The returning json will be of the of the following formats (with [TypeInfo](#typeinfo) being the main type):
 
+### TypeList
+
+All the information of types with it's associated library or executable.
+
+**`types` as (Map&lt;string, string[]&gt;&gt;):** A hashmap of a library or executable mapping to a list of types it contains.
+
+<details>
+<summary>Example JSON</summary>
+
+<p>
+
+```json
+{
+  "types": {
+    "Dummy.Library1.dll": [
+      "SchoolSys.BaseMember",
+      "SchoolSys.FacultyMember",
+      "SchoolSys.HiddenMember",
+      "SchoolSys.IMember",
+      "SchoolSys.ISchedule",
+      "SchoolSys.StaffMember",
+      "SchoolSys.StudentMember",
+      "SchoolSys.TimeBlock",
+      "SchoolSys.Guests.GuestMember`1"
+    ],
+    "Dummy.Library2.dll": [
+      "DataStructures.Action`3",
+      "DataStructures.DataTree`1",
+      "DataStructures.DataTree`1/GatherHash`1",
+      "DataStructures.OpenGrid",
+      "DataStructures.OpenList`1",
+      "DataStructures.OpenMap`2"
+    ],
+    "Dummy.Library3.dll": [
+      "Dummy.AbstractDummyClass",
+      "Dummy.DummyClass",
+      "Dummy.DummyEnum",
+      "Dummy.IDummy",
+      "Dummy.SealedDummyClass"
+    ]
+  }
+}
+```
+
+</p>
+</details>
+
 ### QuickTypeInfo
 
 A quick look into the information of the type.

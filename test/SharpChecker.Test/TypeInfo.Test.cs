@@ -50,5 +50,22 @@ namespace SharpChecker.Testing {
 			}
 			Assert.True(File.Exists("type.json"));
 		}
+		
+		[Fact]
+		public void GenerateJsonForList() {
+			// Variables
+			TypeList list;
+			string[] assemblies = new string[] {
+				"Dummy.Library1.dll",
+				"Dummy.Library2.dll",
+				"Dummy.Library3.dll"
+			};
+			
+			if(File.Exists("type.json")) { File.Delete("type.json"); }
+			
+			list = TypeList.GenerateList(assemblies);
+			
+			File.WriteAllText("listTypes.json", JsonConvert.SerializeObject(list, Formatting.Indented));
+		}
 	}
 }
