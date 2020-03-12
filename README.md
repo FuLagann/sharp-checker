@@ -42,7 +42,7 @@ SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
 
 ## Format
 
-The returning json will be of the of the following formats (with [TypeInfo](#typeinfo) being the main type):
+The following subsections are all the data structures that the generated json can take form of. When generating a list of all the types within the assemblies inputted, the returning data structure of the json will be a [TypeList](#typelist). When generating an in depth view of a type, the returning data structure of the json will be a [TypeInfo](#typeinfo).
 
 ### TypeList
 
