@@ -21,24 +21,61 @@ Builds and tests are done as
 
 ## Usage
 
-To use the application, the basics usage is to run it with the full path of
-the type and a following list of libraries to look into.
+To use SharpChecker, input the type path and a list of assemblies with any options. The usage format is as follows:
 
-Basic outline:
-
-```
-SharpChecker <type-path> <list-of-assemblies>
+```html
+SharpChecker [options] <type-path> <list-of-assemblies>
 ```
 
-Example usage:
+### Options
+
+The following are options that can be optionally inputted into the program to change the way it generates documents:
+
+**`-h` or `--help`:** Displays the help menu.
+
+**`-l` or `--list`:** Lists all the types of each assembly.
+
+**`-p` or `--include-private`:** Include private members.
+
+**`-o <output-file>` or `--out <output-file>`:** The file to be outputted, must have a space between the option declaration and the filename. Output will be relative to where the program is ran. By default, the output file will be `type.json`. Alternatively, when generating a type list (by using `--list`) the output file will be `listTypes.json`.
+
+<details>
+<summary>Example Usage</summary>
+
+<p>
+
+Using the following command will generate a [TypeList](#typelist) json.
 
 ```bat
-SharpChecker Dummy.DummyClass-1 DummyLibrary.dll SecondDummyLibrary.dll
+SharpChecker --list TestingLibrary.dll SecondLibrary.dll
 ```
 
+Using the following command will generate a [TypeList](#typelist) json where all the private and internal types are recorded.
+
 ```bat
-SharpChecker Newtonsoft.Json.JsonConvert Newtonsoft.Json.dll
+SharpChecker --list --include-private TestingLibrary.dll SecondLibrary.dll
 ```
+
+Using the following command will generate a [TypeInfo](#typeinfo) json.
+
+```bat
+SharpChecker Dummy.DummyClass TestingLibrary.dll SecondLibrary.dll
+```
+
+Using the following command will generate a [TypeInfo](#typeinfo) json where all the private and internal members are recorded.
+
+```bat
+SharpChecker --include-private Dummy.DummyClass TestingLibrary.dll SecondLibrary.dll
+```
+
+**Note:** When looking up types with generic parameters, instead of looking for something like `System.Collections.Generic.Dictionary<TValue, TKey>`, you must look up the type with a grave character ( &grave; ); which means you must look up the type as such: ``System.Collections.Generic.Dictionary`2``.Since the grave character ( &grave; ) does not work nicely with terminals, you can replace ( &grave; ) with a dash ( - ). The following is an example of looking up a type with a generic parameter.
+
+```bat
+SharpChecker Dummy.DummyList-1 TestingLibrary.dll SecondLibrary.dll
+```
+
+</p>
+</details>
 
 ## Format
 
@@ -48,7 +85,7 @@ The following subsections are all the data structures that the generated json ca
 
 All the information of types with it's associated library or executable.
 
-**`types` as (Map&lt;string, string[]&gt;&gt;):** A hashmap of a library or executable mapping to a list of types it contains.
+**`types` as (Map&lt;string, string[]&gt;):** A hashmap of a library or executable mapping to a list of types it contains.
 
 <details>
 <summary>Example JSON</summary>
