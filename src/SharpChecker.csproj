@@ -1,9 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+	<Configuration>Release</Configuration>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.1</TargetFrameworks>
     <Version>1.0.0.0</Version>
+	<OutputPath>bin/Release/lib</OutputPath>
+	<NuspecFile>$(ProjectDir)SharpChecker.nuspec</NuspecFile>
+	<NuspecBasePath>$(ProjectDir)bin/Release</NuspecBasePath>
+	<NoWarn>NU5119,NU5128</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
