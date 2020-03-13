@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>CSharpChecker</id>
+    <version>1.0.1</version>
+    <title>C# Checker</title>
+    <authors>Paul Gonzalez-Becerra</authors>
+    <owners>FuLagann</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/FuLagann/sharp-checker</projectUrl>
+	<repository type="git" url="https://github.com/FuLagann/sharp-checker.git" />
+    <description>SharpChecker is a CLI program that looks into .NET libraries (dll) and executables (exe) to check on information about specific types as the user has queried. SharpChecker will generate a JSON file that records everything it can about the specified type. Alternatively, the program can also list all the types existing in the list of .NET assemblies that the user has specified, recording a JSON file of all the types found within their respective assembly.</description>
+    <copyright>Copyright 2020 - Paul Gonzalez-Becerra</copyright>
+    <tags>reflection c# look into dll json print types assemblies .net modules type field method property event cli cs csharp check checker checking peek peeking</tags>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.0">
+        <dependency id="Mono.Cecil" version="0.11.2" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
