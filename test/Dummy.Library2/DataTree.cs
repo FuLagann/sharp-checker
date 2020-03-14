@@ -6,7 +6,7 @@ namespace DataStructures {
 		private DataTree<TKey>[] children;
 		private TKey value;
 		
-		public delegate DataTree<T> GatherHash<T>(T original, T control, DataTree<T> reference) where T : struct;
+		public delegate DataTree<T> GatherHash<T>(T original, TKey control, DataTree<T> reference) where T : struct;
 		
 		public TKey Value { get { return this.value; } }
 		public int Count { get { return 1 + this.children.Length; } }

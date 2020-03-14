@@ -45,7 +45,7 @@ namespace SharpChecker.Testing {
 			
 			if(File.Exists("type.json")) { File.Delete("type.json"); }
 			
-			if(TypeInfo.GenerateTypeInfo(assemblies, "SchoolSys.StudentMember", out info)) {
+			if(TypeInfo.GenerateTypeInfo(assemblies, "DataStructures.DataTree`1/GatherHash`1", out info)) {
 				File.WriteAllText("type.json", JsonConvert.SerializeObject(info, Formatting.Indented));
 			}
 			Assert.True(File.Exists("type.json"));
@@ -61,11 +61,12 @@ namespace SharpChecker.Testing {
 				"Dummy.Library3.dll"
 			};
 			
-			if(File.Exists("type.json")) { File.Delete("type.json"); }
+			if(File.Exists("listTypes.json")) { File.Delete("listTypes.json"); }
 			
 			list = TypeList.GenerateList(assemblies);
 			
 			File.WriteAllText("listTypes.json", JsonConvert.SerializeObject(list, Formatting.Indented));
+			Assert.True(File.Exists("listTypes.json"));
 		}
 	}
 }

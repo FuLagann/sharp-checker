@@ -218,7 +218,7 @@ namespace SharpChecker {
 			int index = typeFullName.IndexOf('<');
 			
 			unlocalizedName = (index == -1 ? typeFullName : typeFullName.Substring(0, index));
-			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName, generics), pattern, "");
+			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName.Replace("/", "."), generics), pattern, "");
 			namespaceName = typeNamespace;
 			name = DeleteNamespaceFromType(MakeNameFriendly(fullName));
 		}

@@ -18,6 +18,8 @@ namespace SharpChecker {
 		public QuickTypeInfo typeInfo;
 		/// <summary>The name of the assembly where the type is found in</summary>
 		public string assemblyName;
+		/// <summary>Set to true if the type is a delegate declaration</summary>
+		public bool isDelegate;
 		/// <summary>The accessor of the type (such as internal, private, protected, public)</summary>
 		public string accessor;
 		/// <summary>Any modifiers that the type contains (such as static, sealed, abstract, etc.)</summary>
@@ -124,30 +126,14 @@ namespace SharpChecker {
 			TypeInfo info = new TypeInfo();
 			string[] generics = GetGenericParametersString(type.GenericParameters.ToArray());
 			
-			info.accessor = type.IsPublic ? "public" : "internal";
+			if(type.IsPublic || type.IsNestedPublic) { info.accessor = "public"; }
+			else if(type.IsNestedAssembly) { info.accessor = "internal"; }
+			else if(type.IsNestedFamily) { info.accessor = "protected"; }
+			else if(type.IsNestedPrivate) { info.accessor = "private"; }
+			else { info.accessor = "internal"; }
+			
 			info.typeInfo = QuickTypeInfo.GenerateInfo(type);
 			info.assemblyName = asm.Name.Name;
-			// ObjectType
-			if(type.IsEnum) { info.objectType = "enum"; }
-			else if(type.IsValueType) { info.objectType = "struct"; }
-			else if(type.IsInterface) { info.objectType = "interface"; }
-			else { info.objectType = "class"; }
-			// Modifier
-			if(type.IsValueType || type.IsInterface) { info.modifier = ""; }
-			else if(type.IsSealed && type.IsAbstract) { info.modifier = "static"; }
-			else {
-				info.modifier = (type.IsSealed ?
-					"sealed" :
-					type.IsAbstract ? "abstract" : ""
-				);
-			}
-			info.declaration = (
-				$"{ info.accessor } " +
-				$"{ (info.modifier != "" ? info.modifier + " " : "") }" +
-				$"{ info.objectType } " +
-				info.typeInfo.name
-			);
-			info.attributes = AttributeInfo.GenerateInfoArray(type.CustomAttributes);
 			if(type.BaseType != null) {
 				switch(type.BaseType.FullName) {
 					case "System.Enum":
@@ -173,6 +159,23 @@ namespace SharpChecker {
 				info.baseType.namespaceName = "";
 				info.baseType.genericParameters = new GenericParametersInfo[0];
 			}
+			info.isDelegate = (info.baseType != null && info.baseType.fullName == "System.MulticastDelegate");
+			// ObjectType
+			if(info.isDelegate) { info.objectType = "delegate"; }
+			else if(type.IsEnum) { info.objectType = "enum"; }
+			else if(type.IsValueType) { info.objectType = "struct"; }
+			else if(type.IsInterface) { info.objectType = "interface"; }
+			else { info.objectType = "class"; }
+			// Modifier
+			if(info.isDelegate || type.IsValueType || type.IsInterface) { info.modifier = ""; }
+			else if(type.IsSealed && type.IsAbstract) { info.modifier = "static"; }
+			else {
+				info.modifier = (type.IsSealed ?
+					"sealed" :
+					type.IsAbstract ? "abstract" : ""
+				);
+			}
+			info.attributes = AttributeInfo.GenerateInfoArray(type.CustomAttributes);
 			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
 			info.constructors = MethodInfo.GenerateInfoArray(type, false, false, true);
 			info.fields = FieldInfo.GenerateInfoArray(type, true, false);
@@ -184,6 +187,13 @@ namespace SharpChecker {
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
 			info.operators = MethodInfo.GenerateInfoArray(type, true, true, false, true);
+			info.declaration = (
+				$"{ info.accessor } " +
+				$"{ (info.modifier != "" ? info.modifier + " " : "") }" +
+				$"{ info.objectType } " +
+				(info.isDelegate ? GetDelegateReturnType(info) + " " : "") +
+				info.typeInfo.name
+			);
 			info.fullDeclaration = GetFullDeclaration(info, type);
 			
 			return info;
@@ -197,6 +207,8 @@ namespace SharpChecker {
 			if(generics.Length == 0) {
 				return name;
 			}
+			
+			// TODO: Turn DataStructures.DataTree`1/GatherHash`1 into DataStructures.DataTree<TKey>.GatherHash<T> instead of DataStructures.DataTree.GatherHash<TKey, T> 
 			
 			return (
 				name.Substring(0, name.LastIndexOf('`')) + "<" +
@@ -225,6 +237,19 @@ namespace SharpChecker {
 		#endregion // Public Static Methods
 		
 		#region Private Static Methods
+		
+		/// <summary>Gets the return type of the delegate in string form</summary>
+		/// <param name="info">The type info to look into</param>
+		/// <returns>Returns the delegate return type in string form</returns>
+		private static string GetDelegateReturnType(TypeInfo info) {
+			foreach(MethodInfo method in info.methods) {
+				if(method.name == "Invoke") {
+					return method.returnType.name;
+				}
+			}
+			
+			return "";
+		}
 		
 		/// <summary>Gets the full declaration of the type</summary>
 		/// <param name="info">The type information to look into</param>
