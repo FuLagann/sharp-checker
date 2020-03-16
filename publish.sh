@@ -12,7 +12,7 @@ do
 		cd bin/Release/netcoreapp3.1/$a
 		mkdir "SharpChecker-v1.0-$a"
 		mv publish/* "SharpChecker-v1.0-$a"
-		zip ../../../"SharpChecker-v1.0-$a.zip" ./"SharpChecker-v1.0-$a"/*
+		zip ../../../"SharpChecker-v1.0-standalone-$a.zip" ./"SharpChecker-v1.0-$a"/*
 		cd ../../../..
 	else
 		for b in "netcoreapp3.1" "netcoreapp3.0" "netcoreapp2.1"
