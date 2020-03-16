@@ -129,9 +129,10 @@ namespace SharpChecker {
 		/// <returns>Returns a string with any namespaces being removed</returns>
 		public static string DeleteNamespaceFromType(string name) {
 			// Variables
-			const string _pattern = @"([a-zA-Z0-9<>]+\.)+";
+			const string pattern1 = @"(<[a-zA-Z0-9<>]+>)+(?=\.)";
+			const string pattern2 = @"([a-zA-Z0-9]+\.)+";
 			
-			return Regex.Replace(Regex.Replace(name, _pattern, ""), @",(\w)", ", $1");
+			return Regex.Replace(Regex.Replace(Regex.Replace(name, pattern1, ""), pattern2, ""), @",(\w)", ", $1");
 		}
 		
 		/// <summary>Gets the list of generic parameter names from the full name of the type</summary>

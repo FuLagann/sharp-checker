@@ -284,6 +284,26 @@ namespace SharpChecker {
 		/// <param name="type">The type definition to look into</param>
 		/// <returns>Returns the full declaration of the type</returns>
 		private static string GetFullDeclaration(TypeInfo info, TypeDefinition type) {
+			if(info.isDelegate) {
+				foreach(MethodInfo method in info.methods) {
+					if(method.name == "Invoke") {
+						string results = $"{ info.declaration }({ method.parameterDeclaration })";
+						
+						foreach(GenericParametersInfo generic in info.typeInfo.genericParameters) {
+							if(generic.constraints.Length == 0) {
+								continue;
+							}
+							results += $" where { generic.name } : ";
+							for(int i = 0; i < generic.constraints.Length; i++) {
+								results += generic.constraints[i].name + (i != generic.constraints.Length - 1 ? ", " : "");
+							}
+						}
+						
+						return results;
+					}
+				}
+			}
+			
 			// Variables
 			bool hasInheritance = (info.baseType.fullName != "" || info.interfaces.Length > 0);
 			string decl = info.declaration + (hasInheritance ? " : " : "");
@@ -295,15 +315,13 @@ namespace SharpChecker {
 				for(int i = 0; i < info.interfaces.Length; i++) {
 					decl += info.interfaces[i].name + (i != info.interfaces.Length - 1 ? ", " : "");
 				}
-				if(info.typeInfo.genericParameters.Length > 0) {
-					foreach(GenericParametersInfo generic in info.typeInfo.genericParameters) {
-						if(generic.constraints.Length == 0) {
-							continue;
-						}
-						decl += $" where { generic.name } : ";
-						for(int i = 0; i < generic.constraints.Length; i++) {
-							decl += generic.constraints[i].name + (i != generic.constraints.Length - 1 ? ", " : "");
-						}
+				foreach(GenericParametersInfo generic in info.typeInfo.genericParameters) {
+					if(generic.constraints.Length == 0) {
+						continue;
+					}
+					decl += $" where { generic.name } : ";
+					for(int i = 0; i < generic.constraints.Length; i++) {
+						decl += generic.constraints[i].name + (i != generic.constraints.Length - 1 ? ", " : "");
 					}
 				}
 			}

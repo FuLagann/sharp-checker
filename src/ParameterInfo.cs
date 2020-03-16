@@ -80,7 +80,7 @@ namespace SharpChecker {
 		/// <returns>Returns the full declaration of the parameter</returns>
 		private static string GetFullDeclaration(ParameterInfo parameter) {
 			// Variables
-			string decl = parameter.typeInfo.unlocalizedName;
+			string decl = parameter.typeInfo.unlocalizedName.Replace("/", ".");
 			int index = decl.LastIndexOf('`');
 			
 			if(index != -1) {

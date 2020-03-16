@@ -1,12 +1,13 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace DataStructures {
 	public class DataTree<TKey> : IDisposable, IEquatable<DataTree<TKey>> where TKey : struct {
 		private DataTree<TKey>[] children;
 		private TKey value;
 		
-		public delegate DataTree<T> GatherHash<T>(T original, TKey control, DataTree<T> reference) where T : struct;
+		public delegate DataTree<TKey> GatherHash<T>(GatherHash<Dictionary<Dictionary<T, T>, List<T>>> original, TKey control, DataTree<TKey> reference);
 		
 		public TKey Value { get { return this.value; } }
 		public int Count { get { return 1 + this.children.Length; } }
