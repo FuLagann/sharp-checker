@@ -4,10 +4,10 @@
 	<Configuration>Release</Configuration>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.1</TargetFrameworks>
-    <Version>1.0.0.0</Version>
-	<OutputPath>bin/Release/lib</OutputPath>
+    <Version>1.0.2.0</Version>
+	<OutputPath>bin/Release</OutputPath>
 	<NuspecFile>$(ProjectDir)SharpChecker.nuspec</NuspecFile>
-	<NuspecBasePath>$(ProjectDir)bin/Release</NuspecBasePath>
+	<NuspecBasePath>$(ProjectDir)bin/Release/NuGet</NuspecBasePath>
 	<NoWarn>NU5119,NU5128</NoWarn>
   </PropertyGroup>
 

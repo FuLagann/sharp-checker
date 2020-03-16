@@ -65,6 +65,10 @@ namespace SharpChecker {
 				input.output = (input.isList ? "listTypes.json" : "type.json");
 			}
 			input.isHelp = (input.isHelp || (!input.isList && input.typePath == ""));
+			if(input.isList && input.typePath != "") {
+				input.assemblies.Add(input.typePath);
+				input.typePath = "";
+			}
 			
 			return input;
 		}
