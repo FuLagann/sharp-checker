@@ -105,8 +105,24 @@ namespace SharpChecker {
 						return true;
 					}
 				}
-			} catch(System.Exception e) {
-				System.Console.WriteLine(e);
+			} catch {
+				foreach(string assembly in assemblies) {
+					// Variables
+					AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(assembly);
+					
+					foreach(ModuleDefinition module in asm.Modules) {
+						foreach(TypeDefinition type in module.GetTypes()) {
+							// Variables
+							string strType = type.FullName.Replace("/", ".");
+							
+							if(typePath == strType) {
+								assemblyUsed = assembly;
+								info = GenerateInfo(asm, type);
+								return true;
+							}
+						}
+					}
+				}
 			}
 			
 			info = null;
@@ -220,13 +236,10 @@ namespace SharpChecker {
 					}
 					
 					result = $"<{ string.Join(",", localGenerics) }>";
-					System.Console.WriteLine(result);
 				}
 				
 				return result;
 			});
-			
-			System.Console.WriteLine(newName);
 			
 			return newName;
 		}
