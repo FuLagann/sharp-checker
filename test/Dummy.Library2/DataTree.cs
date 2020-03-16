@@ -8,6 +8,7 @@ namespace DataStructures {
 		private TKey value;
 		
 		public delegate DataTree<TKey> GatherHash<T>(GatherHash<Dictionary<Dictionary<T, T>, List<T>>> original, TKey control, DataTree<TKey> reference);
+		public enum Data { A, B, C, D }
 		
 		public TKey Value { get { return this.value; } }
 		public int Count { get { return 1 + this.children.Length; } }

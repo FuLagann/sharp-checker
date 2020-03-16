@@ -16,6 +16,8 @@ namespace SharpChecker {
 		public string assemblyName;
 		/// <summary>Set to true if the type is a delegate declaration</summary>
 		public bool isDelegate;
+		/// <summary>Set to true if the type is a nested type</summary>
+		public bool isNested;
 		/// <summary>The accessor of the type (such as internal, private, protected, public)</summary>
 		public string accessor;
 		/// <summary>Any modifiers that the type contains (such as static, sealed, abstract, etc.)</summary>
@@ -172,6 +174,7 @@ namespace SharpChecker {
 				info.baseType.genericParameters = new GenericParametersInfo[0];
 			}
 			info.isDelegate = (info.baseType != null && info.baseType.fullName == "System.MulticastDelegate");
+			info.isNested = type.IsNested;
 			// ObjectType
 			if(info.isDelegate) { info.objectType = "delegate"; }
 			else if(type.IsEnum) { info.objectType = "enum"; }

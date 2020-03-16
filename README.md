@@ -170,6 +170,8 @@ All the information relevant to types.
 
 **`isDelegate` as (boolean):** Set to true if the type is a delegate declaration.
 
+**`isNested` as (boolean):** Set to true if the type is a nested type.
+
 **`accessor` as (string):** The accessor of the type (such as internal, private, protected, public).
 
 **`modifier` as (string):** Any modifiers that the type contains (such as static, sealed, abstract, etc.).
