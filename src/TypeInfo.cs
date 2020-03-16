@@ -2,12 +2,8 @@
 using Mono.Cecil;
 using Mono.Collections.Generic;
 
-using Newtonsoft.Json;
-
 using System.Collections.Generic;
-using System.IO;
-
-using Reflection = System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace SharpChecker {
 	/// <summary>All the information relevant to types</summary>
@@ -208,12 +204,31 @@ namespace SharpChecker {
 				return name;
 			}
 			
-			// TODO: Turn DataStructures.DataTree`1/GatherHash`1 into DataStructures.DataTree<TKey>.GatherHash<T> instead of DataStructures.DataTree.GatherHash<TKey, T> 
+			// Variables
+			int index = 0;
+			string newName = Regex.Replace(name, @"\u0060(\d+)", delegate(Match match) {
+				// Variables
+				int count;
+				string result = "";
+				
+				if(int.TryParse(match.Groups[1].Value, out count)) {
+					// Variables
+					string[] localGenerics = new string[count];
+					
+					for(int i = 0; i < count; i++) {
+						localGenerics[i] = generics[index++];
+					}
+					
+					result = $"<{ string.Join(",", localGenerics) }>";
+					System.Console.WriteLine(result);
+				}
+				
+				return result;
+			});
 			
-			return (
-				name.Substring(0, name.LastIndexOf('`')) + "<" +
-				string.Join(", ", generics) + ">"
-			);
+			System.Console.WriteLine(newName);
+			
+			return newName;
 		}
 		
 		/// <summary>Gets an array of generic parameter names from the given array of generic parameters</summary>

@@ -84,10 +84,7 @@ namespace SharpChecker {
 			int index = decl.LastIndexOf('`');
 			
 			if(index != -1) {
-				decl = (
-					decl.Substring(0, index) + "<" +
-					string.Join(", ", parameter.genericParameterDeclarations) + ">"
-				);
+				decl = TypeInfo.LocalizeName(decl, parameter.genericParameterDeclarations);
 			}
 			decl = QuickTypeInfo.DeleteNamespaceFromType(QuickTypeInfo.MakeNameFriendly(decl));
 			if(parameter.modifier != "") {

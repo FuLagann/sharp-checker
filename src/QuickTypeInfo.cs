@@ -129,7 +129,7 @@ namespace SharpChecker {
 		/// <returns>Returns a string with any namespaces being removed</returns>
 		public static string DeleteNamespaceFromType(string name) {
 			// Variables
-			const string _pattern = @"([a-zA-Z0-9]+\.)+";
+			const string _pattern = @"([a-zA-Z0-9<>]+\.)+";
 			
 			return Regex.Replace(Regex.Replace(name, _pattern, ""), @",(\w)", ", $1");
 		}
