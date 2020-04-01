@@ -214,6 +214,25 @@ namespace SharpChecker {
 			return info;
 		}
 		
+		/// <summary>Gets the generic parameter constraints (if any)</summary>
+		/// <param name="generics">The geneirc parameter to look into</param>
+		/// <returns>Returns the string of the generic parameter constraints</returns>
+		public static string GetGenericParameterConstraints(GenericParametersInfo[] generics) {
+			// Variables
+			string results = "";
+			
+			foreach(GenericParametersInfo generic in generics) {
+				if(generic.constraints.Length == 0) { continue; }
+				
+				results += $" where { generic.name } : ";
+				for(int i = 0; i < generic.constraints.Length; i++) {
+					results += generic.constraints[i].name + (i != generic.constraints.Length - 1 ? "," : "");
+				}
+			}
+			
+			return results;
+		}
+		
 		/// <summary>Localizes the name using the list of generic parameter names</summary>
 		/// <param name="name">The name of the type</param>
 		/// <param name="generics">The array of generic parameter names</param>
@@ -292,17 +311,7 @@ namespace SharpChecker {
 					if(method.name == "Invoke") {
 						string results = $"{ info.declaration }({ method.parameterDeclaration })";
 						
-						foreach(GenericParametersInfo generic in info.typeInfo.genericParameters) {
-							if(generic.constraints.Length == 0) {
-								continue;
-							}
-							results += $" where { generic.name } : ";
-							for(int i = 0; i < generic.constraints.Length; i++) {
-								results += generic.constraints[i].name + (i != generic.constraints.Length - 1 ? ", " : "");
-							}
-						}
-						
-						return results;
+						return results + GetGenericParameterConstraints(info.typeInfo.genericParameters);
 					}
 				}
 			}
@@ -318,15 +327,7 @@ namespace SharpChecker {
 				for(int i = 0; i < info.interfaces.Length; i++) {
 					decl += info.interfaces[i].name + (i != info.interfaces.Length - 1 ? ", " : "");
 				}
-				foreach(GenericParametersInfo generic in info.typeInfo.genericParameters) {
-					if(generic.constraints.Length == 0) {
-						continue;
-					}
-					decl += $" where { generic.name } : ";
-					for(int i = 0; i < generic.constraints.Length; i++) {
-						decl += generic.constraints[i].name + (i != generic.constraints.Length - 1 ? ", " : "");
-					}
-				}
+				decl += GetGenericParameterConstraints(info.typeInfo.genericParameters);
 			}
 			
 			return decl;

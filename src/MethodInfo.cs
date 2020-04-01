@@ -185,18 +185,37 @@ namespace SharpChecker {
 				info.accessor + " " +
 				(info.modifier != "" ? info.modifier + " " : "") +
 				(!info.isConstructor && !info.isConversionOperator ? info.returnType.name + " " : "") +
-				(!info.isConversionOperator ? info.name : info.returnType.name)
+				(!info.isConversionOperator ? info.name : info.returnType.name) +
+				(info.genericParameters.Length > 0 ?
+					$"<{ string.Join(", ", GetGenericParameterDeclaration(info.genericParameters)) }>" :
+					""
+				)
 			);
 			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
 			if(info.isExtension) {
 				info.parameterDeclaration = $"this { info.parameterDeclaration }";
 			}
 			info.fullDeclaration = $"{ info.declaration }({ info.parameterDeclaration })";
+			info.fullDeclaration += TypeInfo.GetGenericParameterConstraints(info.genericParameters);
 			if(TypeInfo.ignorePrivate && PropertyInfo.GetAccessorId(info.accessor) == 0) {
 				info.shouldDelete = true;
 			}
 			
 			return info;
+		}
+		
+		/// <summary>Gets the generic parameter declarations for the method</summary>
+		/// <param name="generics">The list of generics to look into</param>
+		/// <returns>Returns a list of the generic parameter declarations used</returns>
+		public static string[] GetGenericParameterDeclaration(GenericParametersInfo[] generics) {
+			// Variables
+			string[] results = new string[generics.Length];
+			
+			for(int i = 0; i < generics.Length; i++) {
+				results[i] = generics[i].unlocalizedName;
+			}
+			
+			return results;
 		}
 		
 		#endregion // Public Static Methods
