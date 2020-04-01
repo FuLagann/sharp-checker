@@ -1840,6 +1840,8 @@ All the information relevant to methods.
 
 **`parameters` as ([ParameterInfo](#parameterinfo)[]):** The parameters that the methods contains.
 
+**`genericParameters` as ([GenericParametersInfo](#genericparametersinfo)[]):** The generic parameters that the method uses.
+
 **`declaration` as (string):** The partial declaration of the method (without parameters) that can be found in the code.
 
 **`parameterDeclaration` as (string):** The partial declaration of the parameters that can be found in the code.
@@ -1920,6 +1922,7 @@ All the information relevant to methods.
       "fullDeclaration": "int max = 100"
     }
   ],
+  "genericParameters": [],
   "attributes": [],
   "declaration": "public void Display",
   "parameterDeclaration": "ref DummyClass<int> dummy, int max = 100",

@@ -40,6 +40,8 @@ namespace SharpChecker {
 		public AttributeInfo[] attributes;
 		/// <summary>The parameters that the methods contains</summary>
 		public ParameterInfo[] parameters;
+		/// <summary>The generic parameters that the method uses</summary>
+		public GenericParametersInfo[] genericParameters;
 		/// <summary>The partial declaration of the method (without parameters) that can be found in the code</summary>
 		public string declaration;
 		/// <summary>The partial declaration of the parameters that can be found in the code</summary>
@@ -167,6 +169,7 @@ namespace SharpChecker {
 				info.partialFullName = info.name;
 			}
 			info.parameters = ParameterInfo.GenerateInfoArray(method.Parameters);
+			info.genericParameters = GenericParametersInfo.GenerateInfoArray(method.GenericParameters);
 			info.attributes = AttributeInfo.GenerateInfoArray(method.CustomAttributes);
 			if(info.isConversionOperator) { info.modifier = $"static { method.Name.Substring(3).ToLower() } operator"; }
 			else if(info.isOperator) { info.modifier = "static operator"; }
