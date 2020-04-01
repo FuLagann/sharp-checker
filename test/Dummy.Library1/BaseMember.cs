@@ -10,5 +10,6 @@ namespace SchoolSys {
 		public bool SignOut() { return true; }
 		public ISchedule[] GetSchedule() { return new ISchedule[0]; }
 		public void Talk(string message) {}
+		public void SendMessage<T>(T message) {}
 	}
 }
