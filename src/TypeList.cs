@@ -34,11 +34,21 @@ namespace SharpChecker {
 				
 				foreach(ModuleDefinition module in asm.Modules) {
 					foreach(TypeDefinition type in module.GetTypes()) {
-						if(type.FullName.StartsWith('<') && type.FullName.EndsWith('>')) {
+						if(type.FullName.Contains('<') && type.FullName.Contains('>')) {
 							continue;
 						}
 						if(type.IsNotPublic && TypeInfo.ignorePrivate) {
 							continue;
+						}
+						if(TypeInfo.ignorePrivate) {
+							// Variables
+							TypeDefinition nestedType = type;
+							
+							while(nestedType.IsNested) {
+								nestedType = nestedType.DeclaringType;
+							}
+							
+							if(nestedType.IsNotPublic) { continue; }
 						}
 						list.types[asmName].Add(type.FullName);
 					}

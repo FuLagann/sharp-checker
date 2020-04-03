@@ -59,7 +59,7 @@ namespace SharpChecker {
 		// The array of assemblies that the user wanted to look into
 		internal static string[] assembliesUsed;
 		// Set to true to ignore all private members
-		internal static bool ignorePrivate = false;
+		internal static bool ignorePrivate = true;
 		
 		#endregion // Field Variables
 		
