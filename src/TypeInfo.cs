@@ -18,12 +18,25 @@ namespace SharpChecker {
 		public bool isDelegate;
 		/// <summary>Set to true if the type is a nested type</summary>
 		public bool isNested;
+		/// <summary>Set to true if the type is static and cannot have any instances only static members</summary>
+		public bool isStatic;
+		/// <summary>Set to true if the type is abstract and needs to be inherited to be used as an instance</summary>
+		public bool isAbstract;
+		/// <summary>Set to true if the type is sealed and cannot be inheritted from</summary>
+		public bool isSealed;
 		/// <summary>The accessor of the type (such as internal, private, protected, public)</summary>
 		public string accessor;
 		/// <summary>Any modifiers that the type contains (such as static, sealed, abstract, etc.)</summary>
 		public string modifier;
 		/// <summary>The object type of the type (such as class, struct, enum, or interface)</summary>
 		public string objectType;
+		/// <summary>Set to true if the type is nested and has a parent type</summary>
+		public bool hasDeclaringType;
+		/// <summary>
+		/// Gets the parent type in which this type is nested under. If it is not a nested type,
+		/// then it will be null. Check hasDeclaringType to see if it exists to begin with
+		/// </summary>
+		public QuickTypeInfo declaringType;
 		/// <summary>The partial declaration of the class within the inheritance declaration that can be found within the code</summary>
 		public string declaration;
 		/// <summary>The full declaration of the type as it would be found within the code</summary>
@@ -147,6 +160,13 @@ namespace SharpChecker {
 			else { info.accessor = "internal"; }
 			
 			info.typeInfo = QuickTypeInfo.GenerateInfo(type);
+			info.hasDeclaringType = (type.DeclaringType != null);
+			if(info.hasDeclaringType) {
+				info.declaringType = QuickTypeInfo.GenerateInfo(type.DeclaringType);
+			}
+			else {
+				info.declaringType = null;
+			}
 			info.assemblyName = asm.Name.Name;
 			if(type.BaseType != null) {
 				switch(type.BaseType.FullName) {
@@ -190,6 +210,9 @@ namespace SharpChecker {
 					type.IsAbstract ? "abstract" : ""
 				);
 			}
+			info.isStatic = (info.modifier == "static");
+			info.isAbstract = (info.modifier == "abstract");
+			info.isSealed = (info.modifier == "sealed");
 			info.attributes = AttributeInfo.GenerateInfoArray(type.CustomAttributes);
 			info.interfaces = GenerateInteraceInfoArray(type.Interfaces);
 			info.constructors = MethodInfo.GenerateInfoArray(type, false, false, true);

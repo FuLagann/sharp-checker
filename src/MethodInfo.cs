@@ -44,6 +44,8 @@ namespace SharpChecker {
 		public GenericParametersInfo[] genericParameters;
 		/// <summary>The partial declaration of the method (without parameters) that can be found in the code</summary>
 		public string declaration;
+		/// <summary>The partial declaration of the generics that can be found in the code</summary>
+		public string genericDeclaration;
 		/// <summary>The partial declaration of the parameters that can be found in the code</summary>
 		public string parameterDeclaration;
 		/// <summary>The full declaration of the method that can be found in the code</summary>
@@ -185,17 +187,17 @@ namespace SharpChecker {
 				info.accessor + " " +
 				(info.modifier != "" ? info.modifier + " " : "") +
 				(!info.isConstructor && !info.isConversionOperator ? info.returnType.name + " " : "") +
-				(!info.isConversionOperator ? info.name : info.returnType.name) +
-				(info.genericParameters.Length > 0 ?
-					$"<{ string.Join(", ", GetGenericParameterDeclaration(info.genericParameters)) }>" :
-					""
-				)
+				(!info.isConversionOperator ? info.name : info.returnType.name)
+			);
+			info.genericDeclaration = (info.genericParameters.Length > 0 ?
+				$"<{ string.Join(',', GetGenericParameterDeclaration(info.genericParameters)) }>" :
+				""
 			);
 			info.parameterDeclaration = string.Join(", ", GetParameterDeclaration(info));
 			if(info.isExtension) {
 				info.parameterDeclaration = $"this { info.parameterDeclaration }";
 			}
-			info.fullDeclaration = $"{ info.declaration }({ info.parameterDeclaration })";
+			info.fullDeclaration = $"{ info.declaration }{ info.genericDeclaration }({ info.parameterDeclaration })";
 			info.fullDeclaration += TypeInfo.GetGenericParameterConstraints(info.genericParameters);
 			if(TypeInfo.ignorePrivate && PropertyInfo.GetAccessorId(info.accessor) == 0) {
 				info.shouldDelete = true;
