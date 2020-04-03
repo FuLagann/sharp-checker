@@ -6,7 +6,7 @@ OutPath="bin/Release/NuGet/lib"
 
 for a in "linux-x64" "osx-x64" "win-x64"
 do
-	if $1 == true
+	if [ "$1" = "true" ]
 	then
 		dotnet publish -r $a -f "netcoreapp3.1" --self-contained $1
 		cd bin/Release/netcoreapp3.1/$a
@@ -26,7 +26,7 @@ do
 done
 
 echo "Done publishing."
-if $1 == true
+if [ "$1" = "true" ]
 then
 	echo "Done publishing self contained"
 else
