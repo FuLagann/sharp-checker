@@ -37,10 +37,10 @@ namespace SharpChecker {
 						if(type.FullName.Contains('<') && type.FullName.Contains('>')) {
 							continue;
 						}
-						if(type.IsNotPublic && TypeInfo.ignorePrivate) {
-							continue;
-						}
 						if(TypeInfo.ignorePrivate) {
+							if(type.IsNotPublic) { continue; }
+							if(type.IsNestedAssembly || type.IsNestedPrivate) { continue; }
+							
 							// Variables
 							TypeDefinition nestedType = type;
 							

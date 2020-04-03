@@ -11,5 +11,6 @@ namespace SchoolSys {
 		public ISchedule[] GetSchedule() { return new ISchedule[0]; }
 		public void Talk(string message) {}
 		public void SendMessage<T, K>(T message, K data) where K : struct {}
+		private class HiddenBaseMember {}
 	}
 }
