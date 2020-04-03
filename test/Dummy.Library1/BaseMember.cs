@@ -12,5 +12,6 @@ namespace SchoolSys {
 		public void Talk(string message) {}
 		public void SendMessage<T, K>(T message, K data) where K : struct {}
 		private class HiddenBaseMember {}
+		public class PublicBaseMember {}
 	}
 }

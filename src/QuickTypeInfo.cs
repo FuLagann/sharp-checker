@@ -65,7 +65,7 @@ namespace SharpChecker {
 			
 			GetNames(
 				type.FullName.Replace("&", ""),
-				type.Namespace,
+				GetNamespace(type),
 				generics,
 				out info.unlocalizedName,
 				out info.fullName,
@@ -92,7 +92,7 @@ namespace SharpChecker {
 			
 			GetNames(
 				type.FullName.Replace("&", ""),
-				type.Namespace,
+				GetNamespace(type),
 				generics,
 				out info.unlocalizedName,
 				out info.fullName,
@@ -222,6 +222,34 @@ namespace SharpChecker {
 			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName.Replace("/", "."), generics), pattern, "");
 			namespaceName = typeNamespace;
 			name = DeleteNamespaceFromType(MakeNameFriendly(fullName));
+		}
+		
+		/// <summary>Gets the namespace from the type</summary>
+		/// <param name="type">The type to look into</param>
+		/// <returns>Returns the namespace of the type</returns>
+		private static string GetNamespace(TypeDefinition type) {
+			// Variables
+			TypeDefinition nestedType = type;
+			
+			while(nestedType.IsNested) {
+				nestedType = nestedType.DeclaringType;
+			}
+			
+			return nestedType.Namespace;
+		}
+		
+		/// <summary>Gets the namespace from the type</summary>
+		/// <param name="type">The type to look into</param>
+		/// <returns>Returns the namespace of the type</returns>
+		private static string GetNamespace(TypeReference type) {
+			// Variables
+			TypeReference nestedType = type;
+			
+			while(nestedType.IsNested) {
+				nestedType = nestedType.DeclaringType;
+			}
+			
+			return nestedType.Namespace;
 		}
 		
 		#endregion // Private Static Methods
