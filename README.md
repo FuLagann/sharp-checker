@@ -128,6 +128,8 @@ A quick look into the information of the type.
 
 **`unlocalizedName` as (string):** The name of the type as found within the library's IL code.
 
+**`nonInstancedFullName` as (string):** The name of the type that is slightly localized but not generically instanced.
+
 **`name` as (string):** The name of the type as found when looking at the code.
 
 **`fullName` as (string):** The full name of the type as found when looking at the code. Includes the namespace and the name within this variable.

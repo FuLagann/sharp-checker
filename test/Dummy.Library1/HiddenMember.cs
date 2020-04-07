@@ -1,9 +1,9 @@
 
 namespace SchoolSys {
-	internal class HiddenMember : BaseMember<string> {
+	internal class HiddenMember : BaseMember {
 		public override string Id { get { return "hidden"; } }
 		
-		public class HiddenPublicMember : BaseMember<string> {
+		public class HiddenPublicMember : BaseMember {
 			public override string Id { get { return ""; } }
 			
 			public class SuperHiddenMember {

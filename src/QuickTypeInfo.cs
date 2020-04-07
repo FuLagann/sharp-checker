@@ -12,6 +12,8 @@ namespace SharpChecker {
 		/// <summary>The name of the type as found within the library's IL code</summary>
 		/// <remarks>The character ` means that it has generic parameters</remarks>
 		public string unlocalizedName;
+		/// <summary>The name of the type that is slightly localized but not generically instanced</summary>
+		public string nonInstancedFullName;
 		/// <summary>The name of the type as found when looking at the code</summary>
 		/// <remarks>
 		/// If there are any generic parameters, it will display it as a developer would declare it
@@ -68,6 +70,7 @@ namespace SharpChecker {
 				GetNamespace(type),
 				generics,
 				out info.unlocalizedName,
+				out info.nonInstancedFullName,
 				out info.fullName,
 				out info.namespaceName,
 				out info.name
@@ -95,6 +98,7 @@ namespace SharpChecker {
 				GetNamespace(type),
 				generics,
 				out info.unlocalizedName,
+				out info.nonInstancedFullName,
 				out info.fullName,
 				out info.namespaceName,
 				out info.name
@@ -146,7 +150,7 @@ namespace SharpChecker {
 			foreach(GenericParametersInfo info in infos) {
 				results[i] = info.name.Replace(",", ", ");
 				foreach(KeyValuePair<string, string> keyval in changes) {
-					results[i] = Regex.Replace(results[i], keyval.Key, keyval.Value);
+					results[i] = results[i].Replace(keyval.Key, keyval.Value);
 				}
 				i++;
 			}
@@ -215,14 +219,15 @@ namespace SharpChecker {
 		/// <param name="name">The resulting name of the type</param>
 		private static void GetNames(
 			string typeFullName, string typeNamespace, string[] generics,
-			out string unlocalizedName, out string fullName,
-			out string namespaceName, out string name
+			out string unlocalizedName, out string nonInstancedFullName,
+			out string fullName, out string namespaceName, out string name
 		) {
 			// Variables
 			int index = typeFullName.IndexOf('<');
 			
 			unlocalizedName = (index == -1 ? typeFullName : typeFullName.Substring(0, index)).Replace("[]", "");
 			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName.Replace("/", "."), generics), pattern, "");
+			nonInstancedFullName = fullName;
 			namespaceName = typeNamespace;
 			name = DeleteNamespaceFromType(MakeNameFriendly(fullName));
 		}

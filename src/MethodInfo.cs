@@ -265,6 +265,17 @@ namespace SharpChecker {
 				);
 			}
 			
+			if(info.fullName == info.name) {
+				// Variables
+				string arrayPattern = $@"[a-zA-Z0-9]+((?:\[,*\])+)";
+				
+				info.fullName = Regex.Replace(
+					info.fullName,
+					arrayPattern,
+					$"{ info.unlocalizedName }$1"
+				);
+			}
+			
 			return info;
 		}
 		

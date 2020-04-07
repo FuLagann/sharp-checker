@@ -1,6 +1,6 @@
 
 namespace SchoolSys {
-	public sealed class StudentMember : BaseMember<string>, System.ICloneable {
+	public sealed class StudentMember : BaseMember, System.ICloneable {
 		private string id;
 		
 		public override string Id { get { return id; } }
