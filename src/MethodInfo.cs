@@ -231,7 +231,6 @@ namespace SharpChecker {
 			isGeneric = false;
 			
 			foreach(string key in hash.Keys) {
-					System.IO.File.AppendAllText("Debug.txt", "\n\tKey: " + key);
 				if(info.fullName == key) {
 					info.unlocalizedName = hash[key].unlocalizedName;
 					info.fullName = hash[key].fullName;
