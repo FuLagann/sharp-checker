@@ -231,19 +231,29 @@ namespace SharpChecker {
 			isGeneric = false;
 			
 			foreach(string key in hash.Keys) {
-				if(info.fullName == key) {
+				// Variables
+				string arrayPattern = $@"{ key }((?:\[,*\])+)";
+				
+				if(info.unlocalizedName == key) {
 					info.unlocalizedName = hash[key].unlocalizedName;
+				}
+				if(info.fullName == key) {
 					info.fullName = hash[key].fullName;
 					isGeneric = true;
 				}
 				else if(info.fullName.Contains(key)) {
 					// Variables
-					string pattern = $@"([<,]){ key }([>,])";
+					string genericPattern = $@"([<,]){ key }([>,])";
 					
 					info.fullName = Regex.Replace(
 						info.fullName,
-						pattern,
+						genericPattern,
 						$"$1{ hash[key].fullName }$2"
+					);
+					info.fullName = Regex.Replace(
+						info.fullName,
+						arrayPattern,
+						$"{ hash[key].fullName }$1"
 					);
 					isGeneric = true;
 				}

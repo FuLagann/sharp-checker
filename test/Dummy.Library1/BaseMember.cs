@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace SchoolSys {
-	public abstract class BaseMember<T> : Dictionary<Dictionary<string, List<string>>, string> {
+	public abstract class BaseMember<T> : List<Dictionary<string, List<string>>> {
 		public abstract string Id { get; }
 		
 		public event System.EventHandler OnMesseged;
