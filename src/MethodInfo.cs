@@ -109,7 +109,16 @@ namespace SharpChecker {
 			return methods.ToArray();
 		}
 		
-		public static MethodInfo[] GenerateInfoArray(TypeDefinition type, TypeDefinition currType, TypeReference currTypeRef, Collection<MethodDefinition> methods) {
+		/// <summary>Generates an info array from a generic instanced type</summary>
+		/// <param name="type">The parent type to look into</param>
+		/// <param name="currType">The current (base) type to look into</param>
+		/// <param name="currTypeRef">The current (base) type reference to look into</param>
+		/// <param name="methods">The collections of methods to look into</param>
+		/// <returns>Returns an array of method informations</returns>
+		public static MethodInfo[] GenerateInfoArray(
+			TypeDefinition type, TypeDefinition currType,
+			TypeReference currTypeRef, Collection<MethodDefinition> methods
+		) {
 			// Variables
 			List<MethodInfo> results = new List<MethodInfo>();
 			MethodInfo info;
@@ -125,7 +134,16 @@ namespace SharpChecker {
 			return results.ToArray();
 		}
 		
-		public static MethodInfo GetGenericMethodInfo(TypeDefinition type, TypeDefinition currType, TypeReference currTypeRef, MethodDefinition method) {
+		/// <summary>Gets the generic instance version of the method info</summary>
+		/// <param name="type">The parent type to look into</param>
+		/// <param name="currType">The current (base) type to look into</param>
+		/// <param name="currTypeRef">The current (base) type reference to look into</param>
+		/// <param name="method">The method to look into</param>
+		/// <returns>Returns the method information</returns>
+		public static MethodInfo GetGenericMethodInfo(
+			TypeDefinition type, TypeDefinition currType,
+			TypeReference currTypeRef, MethodDefinition method
+		) {
 			// Variables
 			MethodReference methodRef = type.Module.ImportReference(method);
 			
@@ -140,6 +158,10 @@ namespace SharpChecker {
 			return GenerateInfo(method);
 		}
 		
+		/// <summary>Generates a generic instance of the method</summary>
+		/// <param name="method">The method to look into</param>
+		/// <param name="methodRef">The method reference to look into</param>
+		/// <returns>Returns the information into the method</returns>
 		public static MethodInfo GenerateInfo(MethodDefinition method, MethodReference methodRef) {
 			// Variables
 			QuickTypeInfo ninfo = QuickTypeInfo.GenerateInfo(methodRef.DeclaringType);
@@ -148,25 +170,20 @@ namespace SharpChecker {
 			bool isGeneric = false;
 			int i = 0;
 			
-			System.IO.File.AppendAllText("Debug.txt", "\nType: " + info.implementedType.fullName);
-			System.IO.File.AppendAllText("Debug.txt", "\n  Name: " + method.Name);
 			foreach(GenericParametersInfo generic in info.implementedType.genericParameters) {
 				// Variables
 				QuickTypeInfo temp = new QuickTypeInfo();
-					System.IO.File.AppendAllText("Debug.txt", "\n\tKeyType: " + generic.name);
 				
 				temp.unlocalizedName = ninfo.genericParameters[i].unlocalizedName;
 				temp.fullName = ninfo.genericParameters[i].name;
 				temp.name = QuickTypeInfo.DeleteNamespaceFromType(QuickTypeInfo.MakeNameFriendly(temp.fullName));
 				temp.namespaceName = methodRef.DeclaringType.Namespace;
 				
-					System.IO.File.AppendAllText("Debug.txt", "\n\tKeyHash: " + temp.fullName);
 				hash.Add(generic.name, temp);
 				i++;
 			}
 			foreach(ParameterInfo parameter in info.parameters) {
-					System.IO.File.AppendAllText("Debug.txt", "\n\tParameter Type -----");
-				parameter.typeInfo = GetGenericInstanceTypeInfo(hash, parameter.typeInfo, ninfo, ninfo, out isGeneric);
+				parameter.typeInfo = GetGenericInstanceTypeInfo(hash, parameter.typeInfo, ninfo, out isGeneric);
 				if(isGeneric) {
 					parameter.typeInfo.genericParameters = ninfo.genericParameters;
 					parameter.genericParameterDeclarations = QuickTypeInfo.GetGenericParametersAsStrings(parameter.typeInfo.fullName);
@@ -174,15 +191,12 @@ namespace SharpChecker {
 				}
 			}
 			
-					System.IO.File.AppendAllText("Debug.txt", "\n\tReturn Type -----");
 			info.returnType = GetGenericInstanceTypeInfo(
 				hash,
 				info.returnType,
 				QuickTypeInfo.GenerateInfo(methodRef.ReturnType),
-				ninfo,
 				out isGeneric
 			);
-					System.IO.File.AppendAllText("Debug.txt", "\n========================");
 			
 			info.declaration = (
 				info.accessor + " " +
@@ -204,19 +218,24 @@ namespace SharpChecker {
 			return info;
 		}
 		
-		public static QuickTypeInfo GetGenericInstanceTypeInfo(Dictionary<string, QuickTypeInfo> hash, QuickTypeInfo info, QuickTypeInfo ninfo, QuickTypeInfo ninfo2, out bool isGeneric) {
+		/// <summary>Gets the generic instanced type information</summary>
+		/// <param name="hash">The hashtable to change the generics into the instanced generics</param>
+		/// <param name="info">The information of the type to look into, should be the original</param>
+		/// <param name="ninfo">The information of the type to look into, should be generic instanced</param>
+		/// <param name="isGeneric">Set to true if anything was changed by this method</param>
+		/// <returns>Returns a quick look into the typing</returns>
+		public static QuickTypeInfo GetGenericInstanceTypeInfo(
+			Dictionary<string, QuickTypeInfo> hash, QuickTypeInfo info,
+			QuickTypeInfo ninfo, out bool isGeneric
+		) {
 			isGeneric = false;
-			System.IO.File.AppendAllText("Debug.txt", "\n\tInside 2nd: " + info.fullName);
-			System.IO.File.AppendAllText("Debug.txt", "\n\tHash Size: " + hash.Count);
 			
 			foreach(string key in hash.Keys) {
 					System.IO.File.AppendAllText("Debug.txt", "\n\tKey: " + key);
 				if(info.fullName == key) {
 					info.unlocalizedName = hash[key].unlocalizedName;
 					info.fullName = hash[key].fullName;
-					System.IO.File.AppendAllText("Debug.txt", "\n\tUpdate: " + info.fullName);
 					isGeneric = true;
-					System.IO.File.AppendAllText("Debug.txt", "\n\tContinue? " + isGeneric);
 				}
 				else if(info.fullName.Contains(key)) {
 					// Variables
@@ -227,9 +246,7 @@ namespace SharpChecker {
 						pattern,
 						$"$1{ hash[key].fullName }$2"
 					);
-					System.IO.File.AppendAllText("Debug.txt", "\n\tUpdate: " + info.fullName);
 					isGeneric = true;
-					System.IO.File.AppendAllText("Debug.txt", "\n\tContinue? " + isGeneric);
 				}
 			}
 			
