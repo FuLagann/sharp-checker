@@ -71,14 +71,10 @@ namespace SharpChecker {
 			return info;
 		}
 		
-		#endregion // Public Static Methods
-		
-		#region Private Static Methods
-		
 		/// <summary>Gets the full declaration of the parameter</summary>
 		/// <param name="parameter">The parameter info to look into</param>
 		/// <returns>Returns the full declaration of the parameter</returns>
-		private static string GetFullDeclaration(ParameterInfo parameter) {
+		public static string GetFullDeclaration(ParameterInfo parameter) {
 			// Variables
 			string decl = parameter.typeInfo.unlocalizedName.Replace("/", ".");
 			int index = decl.LastIndexOf('`');
@@ -102,6 +98,10 @@ namespace SharpChecker {
 			
 			return decl;
 		}
+		
+		#endregion // Public Static Methods
+		
+		#region Private Static Methods
 		
 		/// <summary>Finds if the parameter has the params attribute (meaning that the parameter is a "params type[] name" kind of parameter)</summary>
 		/// <param name="attrs">The list of attributes the parameter has</param>

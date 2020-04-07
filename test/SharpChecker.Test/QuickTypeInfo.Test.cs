@@ -10,10 +10,10 @@ namespace SharpChecker.Testing {
 			"Dummy.Library3.dll"
 		};
 			
-		[Theory]
-		[InlineData("SchoolSys.IMember", "SchoolSys.IMember", "SchoolSys", "IMember")]
-		[InlineData("SchoolSys.ISchedule", "SchoolSys.ISchedule", "SchoolSys", "ISchedule")]
-		[InlineData("SchoolSys.Guests.GuestMember`1", "SchoolSys.Guests.GuestMember`1", "SchoolSys.Guests", "GuestMember<T>")]
+		// [Theory]
+		// [InlineData("SchoolSys.IMember", "SchoolSys.IMember", "SchoolSys", "IMember")]
+		// [InlineData("SchoolSys.ISchedule", "SchoolSys.ISchedule", "SchoolSys", "ISchedule")]
+		// [InlineData("SchoolSys.Guests.GuestMember`1", "SchoolSys.Guests.GuestMember`1", "SchoolSys.Guests", "GuestMember<T>")]
 		public void CheckName(string typePath, string expectedUnlocalized, string expectedNamespace, string expectedName) {
 			// Variables
 			TypeInfo info;
@@ -34,9 +34,9 @@ namespace SharpChecker.Testing {
 			}
 		}
 		
-		[Theory]
-		[InlineData("SchoolSys.ISchedule", false, 0, "", "", null)]
-		[InlineData("SchoolSys.Guests.GuestMember`1", true, 0, "T", "T", new string[] { "SchoolSys.IMember", "SchoolSys", "IMember" })]
+		// [Theory]
+		// [InlineData("SchoolSys.ISchedule", false, 0, "", "", null)]
+		// [InlineData("SchoolSys.Guests.GuestMember`1", true, 0, "T", "T", new string[] { "SchoolSys.IMember", "SchoolSys", "IMember" })]
 		public void CheckGenericParameters(string typePath, bool hasParameters, int parameterIndex, string expectedUnlocalized, string expectedName, string[] constraints_uname_namesp_name) {
 			// Variables
 			TypeInfo info;

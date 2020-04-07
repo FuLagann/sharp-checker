@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace SharpChecker {
 	/// <summary>All the information relevant to events</summary>
-	public class EventInfo {
+	public class EventInfo : BaseInfo {
 		#region Field Variables
 		// Variables
 		/// <summary>The name of the event</summary>

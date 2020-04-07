@@ -1,6 +1,6 @@
 
 namespace SchoolSys {
-	public sealed class StudentMember : BaseMember, System.ICloneable {
+	public sealed class StudentMember : BaseMember<string>, System.ICloneable {
 		private string id;
 		
 		public override string Id { get { return id; } }
@@ -8,6 +8,7 @@ namespace SchoolSys {
 		public StudentMember(string id) { this.id = id; }
 		
 		public static string GenerateId(int seed = 10203040) {
+			(new StudentMember("")).SendMessage("Hello", 1);
 			return $"{ 2 * seed }w{ seed * seed }";
 		}
 		

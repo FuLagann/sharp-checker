@@ -82,6 +82,56 @@ namespace SharpChecker {
 		/// <param name="isPrivate">Set to true to ignore all private members</param>
 		public static void SetIgnorePrivate(bool isPrivate) { ignorePrivate = isPrivate; }
 		
+		public static TypeDefinition GetTypeDefinition(string[] assemblies, string typePath) {
+			foreach(string assembly in assemblies) {
+				// Variables
+				AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(assembly);
+				
+				foreach(ModuleDefinition module in asm.Modules) {
+					// Variables
+					TypeDefinition type = module.GetType(typePath);
+					
+					if(type != null) {
+						return type;
+					}
+				}
+			}
+			try {
+				// Variables
+				System.Type sysType = System.Type.GetType(typePath, true);
+				AssemblyDefinition _asm = AssemblyDefinition.ReadAssembly(
+					sysType.Assembly.CodeBase.Replace("file:///", "")
+				);
+				
+				foreach(ModuleDefinition _module in _asm.Modules) {
+					// Variables
+					TypeDefinition _type = _module.GetType(typePath);
+					
+					if(_type != null) {
+						return _type;
+					}
+				}
+			} catch {
+				foreach(string assembly in assemblies) {
+					// Variables
+					AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(assembly);
+					
+					foreach(ModuleDefinition module in asm.Modules) {
+						foreach(TypeDefinition type in module.GetTypes()) {
+							// Variables
+							string strType = type.FullName.Replace("/", ".");
+							
+							if(typePath == strType) {
+								return type;
+							}
+						}
+					}
+				}
+			}
+			
+			return null;
+		}
+		
 		/// <summary>Generates the type information from a list of assemblies with a safe check</summary>
 		/// <param name="assemblies">The list of assemblies to look into</param>
 		/// <param name="typePath">The type path to look into</param>
@@ -225,6 +275,18 @@ namespace SharpChecker {
 			info.methods = MethodInfo.GenerateInfoArray(type, true, false);
 			info.staticMethods = MethodInfo.GenerateInfoArray(type, false, true);
 			info.operators = MethodInfo.GenerateInfoArray(type, true, true, false, true);
+			
+			System.Array.Sort(info.constructors);
+			System.Array.Sort(info.fields);
+			System.Array.Sort(info.staticFields);
+			System.Array.Sort(info.properties);
+			System.Array.Sort(info.staticProperties);
+			System.Array.Sort(info.events);
+			System.Array.Sort(info.staticEvents);
+			System.Array.Sort(info.methods);
+			System.Array.Sort(info.staticMethods);
+			System.Array.Sort(info.operators);
+			
 			info.declaration = (
 				$"{ info.accessor } " +
 				$"{ (info.modifier != "" ? info.modifier + " " : "") }" +
@@ -256,13 +318,47 @@ namespace SharpChecker {
 			return results;
 		}
 		
+		public static string[] GetGenerics(string name) {
+			// Variables
+			int left = name.IndexOf("<");
+			int right = name.LastIndexOf(">");
+			int scope = 0;
+			string temp = "";
+			List<string> generics = new List<string>();
+			
+			for(int i = left + 1; i < right; i++) {
+				if(name[i] == '<') {
+					scope++;
+				}
+				else if(name[i] == '>') {
+					scope--;
+				}
+				else if(scope == 0 && name[i] == ',') {
+					generics.Add(temp);
+					temp = "";
+				}
+				else {
+					temp += name[i];
+				}
+			}
+			
+			generics.Add(temp);
+			
+			return generics.ToArray();
+		}
+		
 		/// <summary>Localizes the name using the list of generic parameter names</summary>
 		/// <param name="name">The name of the type</param>
 		/// <param name="generics">The array of generic parameter names</param>
 		/// <returns>Returns the localized name</returns>
 		public static string LocalizeName(string name, string[] generics) {
-			if(generics.Length == 0) {
+			if(generics.Length == 0 && name.LastIndexOf('<') == -1) {
 				return name;
+			}
+			
+			if(name.LastIndexOf('<') != -1) {
+				generics = GetGenerics(name);
+				name = name.Substring(0, name.IndexOf('<'));
 			}
 			
 			// Variables

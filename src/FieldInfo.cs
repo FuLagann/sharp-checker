@@ -7,7 +7,7 @@ using Reflection = System.Reflection;
 
 namespace SharpChecker {
 	/// <summary>All the information relevant to fields</summary>
-	public class FieldInfo {
+	public class FieldInfo : BaseInfo {
 		#region Field Variables
 		// Variables
 		/// <summary>The name of the field</summary>

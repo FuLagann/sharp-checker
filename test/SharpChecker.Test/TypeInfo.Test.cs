@@ -7,7 +7,7 @@ using Xunit;
 
 namespace SharpChecker.Testing {
 	public class TypeInfoTest {
-		[Fact]
+		// [Fact]
 		public void CanCheckDll() {
 			// Variables
 			TypeInfo info;
@@ -45,7 +45,7 @@ namespace SharpChecker.Testing {
 			
 			if(File.Exists("type.json")) { File.Delete("type.json"); }
 			
-			if(TypeInfo.GenerateTypeInfo(assemblies, "SchoolSys.BaseMember", out info)) {
+			if(TypeInfo.GenerateTypeInfo(assemblies, "SchoolSys.StudentMember", out info)) {
 				File.WriteAllText("type.json", JsonConvert.SerializeObject(info, Formatting.Indented));
 			}
 			Assert.True(File.Exists("type.json"));

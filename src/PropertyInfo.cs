@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace SharpChecker {
 	/// <summary>All the information relevant to the property</summary>
-	public class PropertyInfo {
+	public class PropertyInfo : BaseInfo {
 		#region Field Variables
 		// Variables
 		/// <summary>The name of the property</summary>
@@ -45,6 +45,10 @@ namespace SharpChecker {
 		private string partialFullName;
 		// Set to true to delete the property when able to
 		internal bool shouldDelete = false;
+		internal static int isGeneric = -1;
+		internal static TypeDefinition _type = null;
+		internal static TypeDefinition _currType = null;
+		internal static TypeReference _currTypeRef = null;
 		
 		#endregion // Field Variables
 		
@@ -68,10 +72,15 @@ namespace SharpChecker {
 			List<PropertyInfo> properties = new List<PropertyInfo>();
 			PropertyInfo[] temp;
 			TypeDefinition currType = type;
+			TypeReference currTypeRef = type.Resolve();
 			TypeReference baseType;
 			bool isOriginal = true;
 			
 			while(currType != null) {
+				_type = type;
+				_currType = currType;
+				_currTypeRef = currTypeRef;
+				isGeneric = currTypeRef.IsGenericInstance ? 1 : 0;
 				temp = GenerateInfoArray(currType.Properties);
 				RemoveUnwanted(ref temp, isStatic, isOriginal);
 				if(currType != type) {
@@ -82,6 +91,7 @@ namespace SharpChecker {
 				if(baseType == null) {
 					break;
 				}
+				currTypeRef = baseType;
 				currType = baseType.Resolve();
 				isOriginal = false;
 			}
@@ -96,8 +106,10 @@ namespace SharpChecker {
 			// Variables
 			List<PropertyInfo> results = new List<PropertyInfo>();
 			PropertyInfo info;
+			int genericId = isGeneric;
 			
 			foreach(PropertyDefinition property in properties) {
+				isGeneric = genericId;
 				info = GenerateInfo(property);
 				if(info.shouldDelete) {
 					continue;
@@ -117,8 +129,20 @@ namespace SharpChecker {
 			
 			info.hasGetter = (property.GetMethod != null);
 			info.hasSetter = (property.SetMethod != null);
-			info.getter = (info.hasGetter ? MethodInfo.GenerateInfo(property.GetMethod) : null);
-			info.setter = (info.hasSetter ? MethodInfo.GenerateInfo(property.SetMethod) : null);
+			info.getter = (info.hasGetter ?
+				(isGeneric != -1 ?
+					MethodInfo.GetGenericMethodInfo(_type, _currType, _currTypeRef, property.GetMethod) :
+					MethodInfo.GenerateInfo(property.GetMethod)
+				) :
+				null
+			);
+			info.setter = (info.hasSetter ?
+				(isGeneric != -1 ?
+					MethodInfo.GetGenericMethodInfo(_type, _currType, _currTypeRef, property.SetMethod) :
+					MethodInfo.GenerateInfo(property.SetMethod)
+				) :
+				null
+			);
 			if(info.getter != null && GetAccessorId(info.getter.accessor) == 0) {
 				info.getter = null;
 				info.hasGetter = false;
@@ -134,10 +158,26 @@ namespace SharpChecker {
 			info.name = property.Name;
 			info.partialFullName = property.FullName.Split("::")[1].Replace(",", ", ");
 			info.isStatic = !property.HasThis;
-			info.typeInfo = QuickTypeInfo.GenerateInfo(property.PropertyType);
 			info.attributes = AttributeInfo.GenerateInfoArray(property.CustomAttributes);
 			info.parameters = ParameterInfo.GenerateInfoArray(property.Parameters);
 			info.accessor = GetAccessor(info.getter, info.setter);
+			if(isGeneric == 1) {
+				if(info.hasGetter) {
+					info.typeInfo = info.getter.returnType;
+					info.parameters = info.getter.parameters;
+				}
+				else {
+					info.typeInfo = info.setter.parameters[info.setter.parameters.Length - 1].typeInfo;
+					System.Array.Copy(
+						info.setter.parameters,
+						info.parameters,
+						info.setter.parameters.Length - 1
+					);
+				}
+			}
+			else {
+				info.typeInfo = QuickTypeInfo.GenerateInfo(property.PropertyType);
+			}
 			if(!property.HasThis) { info.modifier = "static"; }
 			else { info.modifier = GetModifier(info.getter, info.setter); }
 			info.implementedType = QuickTypeInfo.GenerateInfo(property.DeclaringType);
@@ -154,6 +194,8 @@ namespace SharpChecker {
 				(info.parameterDeclaration != "" ? $"[{ info.parameterDeclaration }]" : "") +
 				$" {{ { info.getSetDeclaration } }}"
 			);
+			
+			isGeneric = -1;
 			
 			return info;
 		}
