@@ -11,6 +11,7 @@ for %%a in ("linux-x64", "osx-x64", "win-x64") do (
 		cd bin/Release/netcoreapp3.1/%%a
 		rename publish "SharpChecker-v1.0-%%a"
 		powershell "Compress-Archive SharpChecker-v1.0-%%a -DestinationPath SharpChecker-v1.0-standalone-%%a.zip"
+		REM "%ProgramFiles%/7-Zip/7z.exe" a -y SharpChecker-v1.0-standalone-%%a.7z SharpChecker-v1.0-%%a
 		cd ../../../..
 	) else (
 		for %%b in ("netcoreapp3.1", "netcoreapp3.0", "netcoreapp2.1") do (

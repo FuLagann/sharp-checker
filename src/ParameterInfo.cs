@@ -76,13 +76,8 @@ namespace SharpChecker {
 		/// <returns>Returns the full declaration of the parameter</returns>
 		public static string GetFullDeclaration(ParameterInfo parameter) {
 			// Variables
-			string decl = parameter.typeInfo.unlocalizedName.Replace("/", ".");
-			int index = decl.LastIndexOf('`');
+			string decl = parameter.typeInfo.name;
 			
-			if(index != -1) {
-				decl = TypeInfo.LocalizeName(decl, parameter.genericParameterDeclarations);
-			}
-			decl = QuickTypeInfo.DeleteNamespaceFromType(QuickTypeInfo.MakeNameFriendly(decl));
 			if(parameter.modifier != "") {
 				decl = parameter.modifier + " " + decl;
 			}

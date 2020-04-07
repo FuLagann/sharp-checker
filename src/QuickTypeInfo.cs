@@ -27,7 +27,7 @@ namespace SharpChecker {
 		/// <summary>The list of generic parameters that the type contains</summary>
 		public GenericParametersInfo[] genericParameters;
 		// The pattern for removing the unlocalized generic parameters
-		private const string pattern = @"`\d+";
+		private const string pattern = @"\u0060\d+";
 		// The hash map of the changes from the managed types to primitives to make it easier to read for type
 		private static readonly Dictionary<string, string> changes = new Dictionary<string, string>(new KeyValuePair<string, string>[] {
 			new KeyValuePair<string, string>("System.Boolean", "bool"),
@@ -129,10 +129,9 @@ namespace SharpChecker {
 		/// <returns>Returns a string with any namespaces being removed</returns>
 		public static string DeleteNamespaceFromType(string name) {
 			// Variables
-			const string pattern1 = @"(<[a-zA-Z0-9<>]+>)+(?=\.)";
-			const string pattern2 = @"([a-zA-Z0-9]+\.)+";
+			const string pattern1 = @"([a-zA-Z0-9]+\.)+";
 			
-			return Regex.Replace(Regex.Replace(Regex.Replace(name, pattern1, ""), pattern2, ""), @",(\w)", ", $1");
+			return Regex.Replace(Regex.Replace(name, pattern1, ""), @",(\w)", ", $1");
 		}
 		
 		/// <summary>Gets the list of generic parameter names from the full name of the type</summary>
@@ -170,9 +169,13 @@ namespace SharpChecker {
 			int scope = 0;
 			int curr = lt + 1;
 			
-			for(int i = curr; i < gt; i++) {
+			for(int i = curr; i < fullName.Length; i++) {
 				if(fullName[i] == '<') { scope++; }
 				else if(fullName[i] == '>') { scope--; }
+				if(scope < 0) {
+					gt = i;
+					break;
+				}
 				else if(fullName[i] == ',' && scope == 0) {
 					// Variables
 					info = new GenericParametersInfo();

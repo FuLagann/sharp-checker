@@ -271,25 +271,19 @@ namespace SharpChecker {
 		public static string[] GetGenerics(string name) {
 			// Variables
 			int left = name.IndexOf("<");
-			int right = name.LastIndexOf(">");
 			int scope = 0;
 			string temp = "";
 			List<string> generics = new List<string>();
 			
-			for(int i = left + 1; i < right; i++) {
-				if(name[i] == '<') {
-					scope++;
-				}
-				else if(name[i] == '>') {
-					scope--;
-				}
-				else if(scope == 0 && name[i] == ',') {
+			for(int i = left + 1; i < name.Length; i++) {
+				if(name[i] == '<') { scope++; }
+				else if(name[i] == '>') { scope--; }
+				if(scope < 0) { break; }
+				if(scope == 0 && name[i] == ',') {
 					generics.Add(temp);
 					temp = "";
 				}
-				else {
-					temp += name[i];
-				}
+				else { temp += name[i]; }
 			}
 			
 			generics.Add(temp);
