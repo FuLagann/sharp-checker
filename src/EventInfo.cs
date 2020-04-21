@@ -17,6 +17,8 @@ namespace SharpChecker {
 		public string accessor;
 		/// <summary>Any modifiers of the event (such as static, virtual, override, etc.)</summary>
 		public string modifier;
+		/// <summary>The attributes associated with the event</summary>
+		public AttributeInfo[] attributes;
 		/// <summary>The information of the event's type</summary>
 		public QuickTypeInfo typeInfo;
 		/// <summary>The type the event is implemented in</summary>
@@ -107,6 +109,7 @@ namespace SharpChecker {
 			info.accessor = info.adder.accessor;
 			info.modifier = info.adder.modifier;
 			info.isStatic = info.adder.isStatic;
+			info.attributes = AttributeInfo.GenerateInfoArray(ev.CustomAttributes);
 			info.fullDeclaration = (
 				info.accessor + " " +
 				(info.modifier != "" ? info.modifier + " " : "") +

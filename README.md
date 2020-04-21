@@ -1386,7 +1386,7 @@ All the information relevant to fields.
 
 **`implementedType` as ([QuickTypeInfo](#quicktypeinfo)):** The type the field is implemented in.
 
-**`declaration` as (string):** The declaration of the field as it is found witihn the code.
+**`fullDeclaration` as (string):** The declaration of the field as it is found witihn the code.
 
 <details>
 <summary>Example JSON</summary>
@@ -1552,6 +1552,8 @@ All the information relevant to events.
 **`accessor` as (string):** The accessor of the event (such as internal, private, protected, public).
 
 **`modifier` as (string):** Any modifiers of the event (such as static, virtual, override, etc.).
+
+**`attributes` as ([AttributeInfo](#attributeinfo)[]):** The attributes associated with the event.
 
 **`typeInfo` as ([QuickTypeInfo](#quicktypeinfo)):** The information of the event's type.
 
