@@ -185,7 +185,7 @@ namespace SharpChecker {
 			foreach(ParameterInfo parameter in info.parameters) {
 				parameter.typeInfo = GetGenericInstanceTypeInfo(hash, parameter.typeInfo, ninfo, out isGeneric);
 				if(isGeneric) {
-					parameter.typeInfo.genericParameters = ninfo.genericParameters;
+					parameter.typeInfo.genericParameters = GenericParametersInfo.GenerateInfoArray(methodRef.Resolve().DeclaringType.GenericParameters);
 					parameter.genericParameterDeclarations = QuickTypeInfo.GetGenericParametersAsStrings(parameter.typeInfo.fullName);
 					parameter.fullDeclaration = ParameterInfo.GetFullDeclaration(parameter);
 				}

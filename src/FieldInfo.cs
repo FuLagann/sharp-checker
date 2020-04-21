@@ -31,7 +31,7 @@ namespace SharpChecker {
 		/// <summary>The type the field is implemented in</summary>
 		public QuickTypeInfo implementedType;
 		/// <summary>The declaration of the field as it is found witihn the code</summary>
-		public string declaration;
+		public string fullDeclaration;
 		/// <summary>If it's true then the info should not be printed out and should be deleted</summary>
 		internal bool shouldDelete = false;
 		
@@ -138,14 +138,14 @@ namespace SharpChecker {
 			else if(field.IsStatic) { info.modifier = "static"; }
 			else if(field.IsInitOnly) { info.modifier = "readonly"; }
 			else { info.modifier = ""; }
-			info.declaration = (
+			info.fullDeclaration = (
 				$"{ info.accessor } " +
 				(info.modifier != "" ? info.modifier + " " : "") +
 				$"{ info.typeInfo.name } " +
 				info.name
 			);
 			if(info.isConstant) {
-				info.declaration += $" = { info.value }";
+				info.fullDeclaration += $" = { info.value }";
 			}
 			
 			return info;
