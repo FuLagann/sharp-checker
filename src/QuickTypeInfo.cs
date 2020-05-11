@@ -28,6 +28,8 @@ namespace SharpChecker {
 		public string namespaceName;
 		/// <summary>The list of generic parameters that the type contains</summary>
 		public GenericParametersInfo[] genericParameters;
+		/// <summary>Set to true if the type is a generic type</summary>
+		public bool isGenericType;
 		// The pattern for removing the unlocalized generic parameters
 		private const string pattern = @"\u0060\d+";
 		// The hash map of the changes from the managed types to primitives to make it easier to read for type
@@ -79,6 +81,7 @@ namespace SharpChecker {
 			if(info.genericParameters.Length == 0) {
 				info.genericParameters = GetGenericParameters(type.FullName);
 			}
+			info.isGenericType = type.IsGenericParameter && (info.unlocalizedName == info.nonInstancedFullName);
 			
 			return info;
 		}
@@ -107,6 +110,7 @@ namespace SharpChecker {
 			if(info.genericParameters.Length == 0) {
 				info.genericParameters = GetGenericParameters(type.FullName);
 			}
+			info.isGenericType = type.IsGenericParameter && (info.unlocalizedName == info.nonInstancedFullName);
 			
 			return info;
 		}
@@ -228,8 +232,13 @@ namespace SharpChecker {
 			unlocalizedName = (index == -1 ? typeFullName : typeFullName.Substring(0, index)).Replace("[]", "");
 			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName.Replace("/", "."), generics), pattern, "");
 			nonInstancedFullName = fullName;
-			namespaceName = typeNamespace;
 			name = DeleteNamespaceFromType(MakeNameFriendly(fullName));
+			if(unlocalizedName.Contains('.')) {
+				namespaceName = Regex.Replace(unlocalizedName, @"(.*)\..*$", "$1");
+			}
+			else {
+				namespaceName = "";
+			}
 		}
 		
 		/// <summary>Gets the namespace from the type</summary>

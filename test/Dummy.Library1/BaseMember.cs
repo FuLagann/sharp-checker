@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 
 namespace SchoolSys {
-	public abstract class BaseMember : List<string> {
+	public abstract class BaseMember<T> : List<System.Text.RegularExpressions.Regex> {
+		public T item;
 		public abstract string Id { get; }
 		
 		public event System.EventHandler OnMesseged;
@@ -12,7 +13,7 @@ namespace SchoolSys {
 		public bool SignOut() { return true; }
 		public ISchedule[] GetSchedule() { return new ISchedule[0]; }
 		public void Talk(string message) {}
-		public void SendMessage<T, K>(T message, K data) where K : struct {}
+		public void SendMessage<J, K>(J message, K data) where K : struct {}
 		private class HiddenBaseMember {}
 		public class PublicBaseMember {}
 	}

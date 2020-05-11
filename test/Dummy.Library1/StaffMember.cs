@@ -1,6 +1,6 @@
 
 namespace SchoolSys {
-	public class StaffMember : BaseMember {
+	public class StaffMember : BaseMember<int> {
 		protected string id;
 		protected StudentMember studentHistory;
 		private GuestStaffMember member;
@@ -12,7 +12,7 @@ namespace SchoolSys {
 			this.studentHistory = history;
 		}
 		
-		private class GuestStaffMember : BaseMember {
+		private class GuestStaffMember : BaseMember<int> {
 			public override string Id { get { return "1"; } }
 		}
 	}

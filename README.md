@@ -138,6 +138,8 @@ A quick look into the information of the type.
 
 **`genericParameters` as ([GenericParametersInfo](#genericparametersinfo)[]):** The list of generic parameters that the type contains.
 
+**`isGenericType` as (boolean):** Set to true if the type is a generic type.
+
 <details>
 <summary>Example JSON</summary>
 

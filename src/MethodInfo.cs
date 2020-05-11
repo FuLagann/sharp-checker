@@ -177,7 +177,12 @@ namespace SharpChecker {
 				temp.unlocalizedName = ninfo.genericParameters[i].unlocalizedName;
 				temp.fullName = ninfo.genericParameters[i].name;
 				temp.name = QuickTypeInfo.DeleteNamespaceFromType(QuickTypeInfo.MakeNameFriendly(temp.fullName));
-				temp.namespaceName = methodRef.DeclaringType.Namespace;
+				if(temp.unlocalizedName.Contains('.')) {
+					temp.namespaceName = Regex.Replace(temp.unlocalizedName, @"(.*)\..*$", "$1");
+				}
+				else {
+					temp.namespaceName = "";
+				}
 				
 				hash.Add(generic.name, temp);
 				i++;
@@ -237,6 +242,12 @@ namespace SharpChecker {
 				if(info.unlocalizedName == key) {
 					info.unlocalizedName = hash[key].unlocalizedName;
 				}
+				if(info.unlocalizedName.Contains('.')) {
+					info.namespaceName = Regex.Replace(info.unlocalizedName, @"(.*)\..*$", "$1");
+				}
+				else {
+					info.namespaceName = "";
+				}
 				if(info.fullName == key) {
 					info.fullName = hash[key].fullName;
 					isGeneric = true;
@@ -275,6 +286,7 @@ namespace SharpChecker {
 					$"{ info.unlocalizedName }$1"
 				);
 			}
+			info.isGenericType = isGeneric && (info.unlocalizedName == info.nonInstancedFullName);
 			
 			return info;
 		}
