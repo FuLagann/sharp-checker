@@ -230,9 +230,11 @@ namespace SharpChecker {
 			int index = typeFullName.IndexOf('<');
 			
 			unlocalizedName = (index == -1 ? typeFullName : typeFullName.Substring(0, index)).Replace("[]", "");
-			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName.Replace("/", "."), generics), pattern, "");
-			nonInstancedFullName = fullName;
+			fullName = Regex.Replace(TypeInfo.LocalizeName(typeFullName, generics), pattern, "");
 			name = DeleteNamespaceFromType(MakeNameFriendly(fullName));
+			name = name.Replace("/", ".");
+			fullName = fullName.Replace("/", ".");
+			nonInstancedFullName = fullName;
 			if(unlocalizedName.Contains('.')) {
 				namespaceName = Regex.Replace(unlocalizedName, @"(.*)\..*$", "$1");
 			}

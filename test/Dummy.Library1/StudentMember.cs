@@ -17,5 +17,9 @@ namespace SchoolSys {
 		public static implicit operator StaffMember(StudentMember obj) {
 			return new StaffMember(obj, "0");
 		}
+		
+		public class StudentMemberB{
+			public class Test {}
+		}
 	}
 }
