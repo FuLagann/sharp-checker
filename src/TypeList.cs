@@ -51,6 +51,7 @@ namespace SharpChecker {
 							if(nestedType.IsNotPublic) { continue; }
 						}
 						list.types[asmName].Add(type.FullName);
+						list.types[asmName].Sort();
 					}
 				}
 			}
